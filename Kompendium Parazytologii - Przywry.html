@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kompendium Parazytologii Medycznej: Przywry (Trematoda)</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --accent-blue: #0284c7;
+      --accent-teal: #0d9488;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --accent-indigo: #4f46e5;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --text-main: #334155;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Pasek nawigacyjny i akcji */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-bar h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #f1f5f9;
+      border-color: var(--border-focus);
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: 1px solid var(--accent-blue);
+    }
+
+    .btn-primary:hover {
+      background: #0369a1;
+    }
+
+    /* Główny kontener */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Nagłówek główny */
+    .hero-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 3rem 2.5rem;
+      border-radius: 16px;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(2,132,199,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: rgba(2, 132, 199, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .hero-header p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      max-width: 850px;
+    }
+
+    /* Siatka szybkiego skoku */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .nav-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      border-left: 5px solid transparent;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-card.fasciola { border-left-color: var(--accent-amber); }
+    .nav-card.opisthorchis { border-left-color: var(--accent-teal); }
+    .nav-card.dicrocoelium { border-left-color: var(--accent-indigo); }
+    .nav-card.schistosoma { border-left-color: var(--accent-rose); }
+
+    .nav-card .species-name {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      font-style: italic;
+    }
+
+    .nav-card .common-name {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-card .meta-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      background: #f1f5f9;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
+    /* Karta sekcji */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.25rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .section-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #ffffff;
+      background: var(--primary);
+    }
+
+    .fasciola-num { background: linear-gradient(135deg, #d97706, #f59e0b); }
+    .opisthorchis-num { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+    .dicrocoelium-num { background: linear-gradient(135deg, #4f46e5, #6366f1); }
+    .schistosoma-num { background: linear-gradient(135deg, #e11d48, #f43f5e); }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Kolumny treści */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Pudełka diagnostyczne i wyróżnienia */
+    .callout {
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      border-left: 4px solid;
+      background: #f8fafc;
+      margin-bottom: 1.25rem;
+    }
+
+    .callout.info {
+      border-color: var(--accent-blue);
+      background: #f0f9ff;
+    }
+
+    .callout.warning {
+      border-color: var(--accent-amber);
+      background: #fffbeb;
+    }
+
+    .callout.danger {
+      border-color: var(--accent-rose);
+      background: #fff1f2;
+    }
+
+    .callout.success {
+      border-color: var(--accent-teal);
+      background: #f0fdf4;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .callout.info .callout-title { color: #0369a1; }
+    .callout.warning .callout-title { color: #b45309; }
+    .callout.danger .callout-title { color: #be123c; }
+    .callout.success .callout-title { color: #047857; }
+
+    /* Pudełka kluczowych parametrów (Metric Boxes) */
+    .metric-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric-val {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .metric-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Schematy procesowe (Kroki cyklu) */
+    .step-list {
+      list-style: none;
+      position: relative;
+      padding-left: 1.75rem;
+      margin: 1.25rem 0;
+    }
+
+    .step-list::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: #cbd5e1;
+    }
+
+    .step-item {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-badge {
+      position: absolute;
+      left: -1.75rem;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      background: var(--card-bg);
+      border: 2px solid var(--accent-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+    }
+
+    .step-content strong {
+      display: block;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-content p {
+      font-size: 0.875rem;
+      color: var(--text-main);
+    }
+
+    /* Tabele */
+    .table-responsive {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+      background: #ffffff;
+    }
+
+    thead {
+      background: #f8fafc;
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fcfdfe;
+    }
+
+    /* Odznaki i pigułki */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 6px;
+      margin-right: 0.35rem;
+    }
+
+    .badge-blue { background: #e0f2fe; color: #0369a1; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+    .badge-teal { background: #ccfbf1; color: #115e59; }
+    .badge-rose { background: #ffe4e6; color: #9f1239; }
+    .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* Sekcje rycin SVG */
+    .figure-container {
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .figure-container svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .figure-caption {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 0.85rem;
+      font-style: italic;
+    }
+
+    /* Stylizacja wydruku (PDF) */
+    @media print {
+      body {
+        background: #ffffff;
+        color: #000000;
+        font-size: 10pt;
+      }
+
+      .top-bar {
+        display: none !important;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .hero-header {
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+        border: 1px solid #cbd5e1;
+        box-shadow: none;
+        padding: 1.5rem;
+        page-break-after: avoid;
+      }
+
+      .hero-header h2 {
+        color: #000000;
+        font-size: 1.8rem;
+      }
+
+      .hero-header p {
+        color: #334155;
+      }
+
+      .nav-grid {
+        display: none !important;
+      }
+
+      .section-card {
+        border: 1px solid #e2e8f0;
+        box-shadow: none;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+        page-break-inside: avoid;
+      }
+
+      .figure-container {
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        page-break-inside: avoid;
+      }
+
+      table {
+        font-size: 8.5pt;
+      }
+
+      th, td {
+        padding: 0.5rem 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Górny pasek narzędziowy -->
+  <header class="top-bar">
+    <h1>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      Parazytologia Lekarska: Przywry (Digenea)
+    </h1>
+    <div class="top-actions">
+      <button class="btn btn-primary" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Drukuj / Eksportuj do PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Baner Główny -->
+    <div class="hero-header">
+      <div class="hero-badge">Kompendium Helmintologiczne • Zeszyt Specjalny</div>
+      <h2>Morfologia i Cykle Rozwojowe Wybranych Przywr</h2>
+      <p>Szczegółowe opracowanie porównawcze czterech kluczowych przywr człowieka i zwierząt: <em>Schistosoma mansoni</em>, <em>Opisthorchis felineus</em>, <em>Fasciola hepatica</em> oraz <em>Dicrocoelium dendriticum</em>, uzupełnione o schematy narządów, diagnostykę różnicową jaj i blokowe diagramy transmisyjne.</p>
+    </div>
+
+    <!-- Nawigacja szybkiego skoku -->
+    <div class="nav-grid">
+      <a href="#fasciola" class="nav-card fasciola">
+        <div class="species-name">Fasciola hepatica</div>
+        <div class="common-name">Motylica wątrobowa</div>
+        <div class="meta-tag">Żywiciel pośredni: Błotniarka moczarowa</div>
+      </a>
+      <a href="#opisthorchis" class="nav-card opisthorchis">
+        <div class="species-name">Opisthorchis felineus</div>
+        <div class="common-name">Przywra kocia</div>
+        <div class="meta-tag">2 żyw. pośr.: Ślimak Bithynia + Ryby karpiowate</div>
+      </a>
+      <a href="#dicrocoelium" class="nav-card dicrocoelium">
+        <div class="species-name">Dicrocoelium dendriticum</div>
+        <div class="common-name">Motyliczka wątrobowa</div>
+        <div class="meta-tag">Cykl lądowy: Ślimak + Mrówka (Hirnwurm)</div>
+      </a>
+      <a href="#schistosoma" class="nav-card schistosoma">
+        <div class="species-name">Schistosoma mansoni</div>
+        <div class="common-name">Przywra krwi (żyłna Mansona)</div>
+        <div class="meta-tag">Dymorfizm płciowy • Czynna penetracja skóry</div>
+      </a>
+    </div>
+
+    <!-- SEKCJA I: MOTYLICA WĄTROBOWA -->
+    <section id="fasciola" class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num fasciola-num">1</div>
+          <div>
+            <h3 class="section-title">Motylica wątrobowa (<em>Fasciola hepatica</em>)</h3>
+            <div class="section-subtitle">Linnaeus, 1758 • Gromada: Trematoda • Podgromada: Digenea</div>
+          </div>
+        </div>
+        <div>
+          <span class="badge badge-amber">Kosmopolityczna</span>
+          <span class="badge badge-blue">Zoonoza</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">1. Budowa morfologiczna</h4>
+          <p style="margin-bottom: 0.75rem;">
+            Dojrzała przywra osiąga <strong>18–50 mm długości</strong> oraz <strong>3–13 mm szerokości</strong>. Charakteryzuje się spłaszczonym, <strong>listkowatym kształtem</strong> ciała o barwie szarej z brunatnordzawymi plamami w centrum (pochodzącymi od macicy wypełnionej jajami).
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;">
+            <li><strong>Stożek głowowy (przedni):</strong> Wyraźnie odgraniczony od reszty ciała, nadający przywrze charakterystyczny „ramieniasty” wygląd.</li>
+            <li><strong>Aparat czepny:</strong> Dwie silne przyssawki umieszczone blisko siebie na przednim biegunie — mniejsza <em>przyssawka gębowa</em> otaczająca otwór gębowy oraz większa <em>przyssawka brzuszna (acetabulum)</em>.</li>
+            <li><strong>Tegument (wór powłokowo-mięśniowy):</strong> Pokryty gęsto drobnymi kolcami skierowanymi ku tyłowi, ułatwiającymi ruch w przewodach żółciowych pod prąd żółci oraz kotwiczenie w tkance.</li>
+            <li><strong>Układ pokarmowy:</strong> Gardziel, krótki przełyk i <strong>silnie drzewkowato rozgałęzione dwa ślepe pnie jelitowe</strong>, sięgające samego końca ciała.</li>
+            <li><strong>Układ rozrodczy (obojnaczy):</strong> Rozgałęziony pojedynczy jajnik po prawej stronie, <strong>dwa potężne, silnie rozgałęzione jądra</strong> zajmujące całe środkowe i tylne pole ciała, obfite żółtniki po obu brzegach oraz zwinięta w pętle macica w przedniej części.</li>
+          </ul>
+
+          <div class="callout warning">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Morfologia Jaja (Cecha Kluczowa)
+            </div>
+            Duże, owalne jaja o wymiarach <strong>130–150 × 63–90 µm</strong>, o cienkiej, gładkiej skorupce barwy złocistożółtej do bursztynowej. Na jednym z biegunów znajduje się wyraźne <strong>wieczko (operculum)</strong>, a na przeciwległym mały guziczek. W momencie składania jaja zawierają nierozwiniętą zygotę i liczne komórki żółtkowe.
+          </div>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">2. Parametry Biologiczne & Wektory</h4>
+          <div class="grid-2" style="margin-bottom: 1rem;">
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Ostateczny</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Owce, bydło, konie, świnie, człowiek</div>
+              <div class="metric-desc">Pasożytuje w dużych przewodach żółciowych i pęcherzyku.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Ślimak wodny</div>
+              <div class="metric-desc"><em>Galba truncatula</em> (błotniarka moczarowa), dawniej <em>Lymnaea truncatula</em>.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Forma Inwazyjna</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Metacerkaria</div>
+              <div class="metric-desc">Otorbiona na roślinach wodnych (rzeżucha wodna, trawy zalewowe) lub w wodzie.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Wrota Inwazji</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Droga pokarmowa</div>
+              <div class="metric-desc">Spożycie surowych roślin wodnych, picie nieprzegotowanej wody ze stawów/rowów.</div>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">3. Przebieg Cyklu Rozwojowego</h4>
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-badge">1</div>
+              <div class="step-content">
+                <strong>Wydalenie jaj z kałem:</strong> Nierozwinięte jaja wraz z żółcią trafiają do jelita i środowiska wodnego.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">2</div>
+              <div class="step-content">
+                <strong>Embriogeneza i miracydium:</strong> W wodzie (temp. 15–25°C) w ciągu 2–4 tygodni rozwija się urzęsiona larwa — <em>miracydium</em>, która otwiera wieczko i aktywnie poszukuje błotniarki (ma na to max. 24 h).
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">3</div>
+              <div class="step-content">
+                <strong>Rozmnażanie partenogenetyczne w ślimaku:</strong> W tkankach ślimaka miracydium zrzuca rzęski i kolejno przechodzi stadia: <em>sporocysta macierzysta &rarr; redie I i II generacji &rarr; cerkarie</em> (z prostym, pojedynczym ogonkiem).
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">4</div>
+              <div class="step-content">
+                <strong>Encystacja w środowisku zewnętrznym:</strong> Cerkarie opuszczają ślimaka, pływają w wodzie, tracą ogon i otorbiają się na roślinach wodnych jako odporne <em>metacerkarie</em>.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">5</div>
+              <div class="step-content">
+                <strong>Wędrówka w żywicielu ostatecznym:</strong> W dwunastnicy otoczka metacerkarii ulega strawieniu &rarr; uwalnia się młodociana przywra (marita), która <strong>przebija ścianę jelita do jamy otrzewnej</strong>, wędruje po torebce Glissona, <strong>przebija miąższ wątroby</strong> i po ok. 6–8 tygodniach dociera do przewodów żółciowych, gdzie osiąga dojrzałość płciową.
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Schemat procesu biologicznego -->
+      <div class="figure-container">
+        <svg viewBox="0 0 900 280" width="100%" height="280">
+          <defs>
+            <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef3c7" />
+              <stop offset="100%" stop-color="#fde68a" />
+            </linearGradient>
+            <linearGradient id="liverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fee2e2" />
+              <stop offset="100%" stop-color="#fca5a5" />
+            </linearGradient>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 8 5 L 0 9 z" fill="#b45309"/>
+            </marker>
+          </defs>
+
+          <!-- Tło schematu -->
+          <rect x="10" y="10" width="880" height="260" rx="12" fill="#fffdfa" stroke="#fef3c7" stroke-width="2"/>
+
+          <!-- Węzeł 1: Jajo -->
+          <g transform="translate(30, 40)">
+            <rect width="140" height="85" rx="8" fill="url(#amberGrad)" stroke="#d97706" stroke-width="1.5"/>
+            <text x="70" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#92400e">1. JAJO Z WIECZKIEM</text>
+            <text x="70" y="44" text-anchor="middle" font-size="10.5" fill="#78350f">Wydalane z kałem</text>
+            <text x="70" y="60" text-anchor="middle" font-size="9.5" fill="#b45309">130-150 µm • woda</text>
+            <!-- Rysunek miniatury jaja -->
+            <ellipse cx="70" cy="74" rx="14" ry="7" fill="#fbbf24" stroke="#92400e"/>
+            <line x1="82" y1="70" x2="84" y2="78" stroke="#78350f" stroke-width="1.5"/>
+          </g>
+
+          <line x1="170" y1="82" x2="205" y2="82" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Węzeł 2: Miracydium -->
+          <g transform="translate(210, 40)">
+            <rect width="140" height="85" rx="8" fill="url(#amberGrad)" stroke="#d97706" stroke-width="1.5"/>
+            <text x="70" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#92400e">2. MIRACYDIUM</text>
+            <text x="70" y="44" text-anchor="middle" font-size="10.5" fill="#78350f">Urzęsiona larwa</text>
+            <text x="70" y="60" text-anchor="middle" font-size="9.5" fill="#b45309">Pływa aktywnie &lt;24h</text>
+            <polygon points="62,75 78,75 70,68" fill="#d97706"/>
+          </g>
+
+          <line x1="350" y1="82" x2="385" y2="82" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Węzeł 3: Żywiciel pośredni (Galba) -->
+          <g transform="translate(390, 30)">
+            <rect width="160" height="105" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="80" y="22" text-anchor="middle" font-weight="700" font-size="12" fill="#0369a1">3. ŚLIMAK WODNY</text>
+            <text x="80" y="38" text-anchor="middle" font-style="italic" font-size="10" fill="#075985">Galba truncatula</text>
+            <text x="80" y="58" text-anchor="middle" font-size="9.5" fill="#0c4a6e">Sporocysta macierzysta</text>
+            <text x="80" y="73" text-anchor="middle" font-size="9.5" fill="#0c4a6e">&darr; Redie (I i II gen.)</text>
+            <text x="80" y="88" text-anchor="middle" font-size="9.5" fill="#0c4a6e">&darr; Cerkarie (z ogonkiem)</text>
+          </g>
+
+          <line x1="550" y1="82" x2="585" y2="82" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Węzeł 4: Metacerkaria -->
+          <g transform="translate(590, 40)">
+            <rect width="140" height="85" rx="8" fill="url(#amberGrad)" stroke="#d97706" stroke-width="1.5"/>
+            <text x="70" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#92400e">4. METACERKARIA</text>
+            <text x="70" y="44" text-anchor="middle" font-size="10.5" fill="#78350f">Stadium Inwazyjne</text>
+            <text x="70" y="60" text-anchor="middle" font-size="9.5" fill="#b45309">Otorbiona na trawach</text>
+            <circle cx="70" cy="74" r="7" fill="#f59e0b" stroke="#78350f" stroke-width="1.5"/>
+          </g>
+
+          <line x1="730" y1="82" x2="765" y2="82" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Węzeł 5: Żywiciel Ostateczny -->
+          <g transform="translate(770, 30)">
+            <rect width="105" height="105" rx="8" fill="url(#liverGrad)" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="52" y="24" text-anchor="middle" font-weight="700" font-size="11.5" fill="#9f1239">5. ŻYWICIEL</text>
+            <text x="52" y="42" text-anchor="middle" font-size="10" fill="#881337">Ssaki roślinożerne</text>
+            <text x="52" y="58" text-anchor="middle" font-size="10" fill="#881337">oraz człowiek</text>
+            <text x="52" y="78" text-anchor="middle" font-size="9" font-weight="700" fill="#be123c">DWUNASTNICA</text>
+            <text x="52" y="92" text-anchor="middle" font-size="9" fill="#9f1239">&rarr; Ekscystacja</text>
+          </g>
+
+          <!-- Pętla migracji wewnętrznej (dolna gałąź) -->
+          <path d="M 822 135 L 822 205 L 100 205 L 100 135" fill="none" stroke="#e11d48" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+          <text x="460" y="195" text-anchor="middle" font-weight="600" font-size="11" fill="#be123c">
+            Unikalna droga inwazji: Przebicie ściany jelita &rarr; Jama otrzewnej &rarr; Przebicie torebki i miąższu wątroby &rarr; Przewody żółciowe (marita)
+          </text>
+          <text x="460" y="225" text-anchor="middle" font-size="10" fill="#64748b">
+            (Dorosła przywra składa jaja, które z żółcią powracają do dwunastnicy i są wydalane z kałem, zamykając cykl)
+          </text>
+        </svg>
+        <div class="figure-caption">Ryc. 1.1: Schemat blokowy cyklu życiowego Fasciola hepatica z uwzględnieniem etapów środowiskowych i wędrówki tkankowej.</div>
+      </div>
+
+      <!-- Obraz kliniczny i diagnostyka -->
+      <div class="grid-2">
+        <div class="callout danger">
+          <div class="callout-title">Znaczenie Medyczne & Patogeneza</div>
+          <p style="font-size: 0.875rem;">
+            Wywołuje <strong>fascjolozę (fasciolosis)</strong>. Przebiega w dwóch fazach:
+          </p>
+          <ul style="padding-left: 1.1rem; font-size: 0.85rem; margin-top: 0.4rem;">
+            <li><strong>Faza ostra (migracyjna, 6–12 tyg.):</strong> Wędrówka młodych przywr niszczy miąższ wątroby powodując krwawienia, mikroropnie, silną eozynofilię (nawet do 60–80%), gorączkę, powiększenie wątroby, bóle w prawym podżebrzu, pokrzywkę.</li>
+            <li><strong>Faza przewlekła (żółciowa):</strong> Bytowanie dorosłych przywr powoduje mechaniczne zatykanie i rozszerzenie przewodów żółciowych, przerost nabłonka, włóknienie ścian i żółtaczkę mechaniczną.</li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">Diagnostyka & Leczenie</div>
+          <ul style="padding-left: 1.1rem; font-size: 0.85rem;">
+            <li><strong>Koproskopia:</strong> Wykrywanie charakterystycznych jaj z wieczkiem w kale (metody sedymentacji) lub w treści dwunastniczej. <em>Uwaga na fasciolosis spuria (jaja tranzytowe po spożyciu wątroby zarażonych zwierząt)!</em></li>
+            <li><strong>Serologia:</strong> ELISA wykrywa przeciwciała w fazie ostrej (przed pojawieniem się jaj).</li>
+            <li><strong>Leczenie z wyboru:</strong> <strong>Triklobendazol</strong> (Triclabendazole) w dawce 10 mg/kg m.c. jednorazowo. <em>Uwaga: Prazikwantel wykazuje niską skuteczność w fascjolozie ze względu na odmienną budowę powłok F. hepatica!</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA II: PRZYWRA KOCIA -->
+    <section id="opisthorchis" class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num opisthorchis-num">2</div>
+          <div>
+            <h3 class="section-title">Przywra kocia (<em>Opisthorchis felineus</em>)</h3>
+            <div class="section-subtitle">Rivolta, 1884 • Rodzina: Opisthorchiidae • Przywra wątrobowa i trzustkowa</div>
+          </div>
+        </div>
+        <div>
+          <span class="badge badge-teal">Endemiczna (Europa Wsch., Syberia)</span>
+          <span class="badge badge-purple">Onkogenna (IARC Gr. 1)</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">1. Budowa morfologiczna</h4>
+          <p style="margin-bottom: 0.75rem;">
+            Ciało jest małe, wąskie, <strong>lancetowate</strong>, spłaszczone grzbieto-brzusznie, o długości <strong>8–12 mm</strong> i szerokości <strong>1,2–2,5 mm</strong>. Żywy pasożyt jest niemal całkowicie <strong>przezroczysty</strong> z widocznymi narządami wewnętrznymi o barwie żółtawobrunatnej.
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;">
+            <li><strong>Tegument:</strong> Całkowicie gładki, pozbawiony kolców (w przeciwieństwie do <em>Fasciola</em>).</li>
+            <li><strong>Aparat czepny:</strong> Słabo rozwinięty — przyssawka gębowa na przednim końcu, przyssawka brzuszna w 1/4–1/5 długości ciała.</li>
+            <li><strong>Układ pokarmowy:</strong> Dwa proste, <strong>nierozgałęzione</strong> pnie jelita ślepo zakończone przy tylnym biegunie.</li>
+            <li><strong>Układ rozrodczy (cecha kluczowa):</strong> W tylnej części ciała leżą <strong>dwa charakterystyczne, 4–5-płatowate jądra ułożone skośnie jedno za drugim</strong>. Przed jądrami znajduje się mały, zaokrąglony jajnik, a całą środkową część ciała wypełniają brązowe pętle macicy. Żółtniki leżą po bokach w środkowej tercji.</li>
+          </ul>
+
+          <div class="callout warning">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Morfologia Jaja
+            </div>
+            Jaja są <strong>bardzo drobne (26–30 × 11–15 µm)</strong>, asymetrycznie owalne, barwy jasnobrązowej/żółtozłotej. Posiadają wyraźne <strong>wieczko z pogrubionym kołnierzykiem (rąbkiem)</strong> na jednym biegunie oraz mały guzek/kolec (apiculum) na przeciwległym biegunie. W kale zawierają już w pełni uformowane miracydium.
+          </div>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">2. Dwużywicielowy Wodny Cykl Rozwojowy</h4>
+          <div class="grid-2" style="margin-bottom: 1rem;">
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Ostateczny</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Kot, pies, lis, człowiek</div>
+              <div class="metric-desc">Pasożytuje w wewnątrzwątrobowych przewodach żółciowych i trzustkowych.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni I</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Ślimak skrzelodyszny</div>
+              <div class="metric-desc"><em>Bithynia leachi</em> lub <em>Bithynia tentaculata</em> (wody słodkie).</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni II</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Ryby karpiowate (Cyprinidae)</div>
+              <div class="metric-desc">Płoć, jazgarz, leszcz, lin, karp, wzdręga. Metacerkarie w mięśniach.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Forma Inwazyjna</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Metacerkaria w rybie</div>
+              <div class="metric-desc">Spożycie surowej, wędzonej na zimno lub niedogotowanej ryby (np. potrawa „stroganina”).</div>
+            </div>
+          </div>
+
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-badge">1</div>
+              <div class="step-content">
+                <strong>Wydalenie jaj:</strong> Jaja z uformowanym miracydium wydalane są z kałem do wody. <em>Miracydium nie wykluwa się samoistnie w wodzie!</em>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">2</div>
+              <div class="step-content">
+                <strong>Zjedzenie przez ślimaka:</strong> Ślimak <em>Bithynia</em> zjada jajo &rarr; miracydium wnika przez jelito do wątrobotrzustki i przekształca się w: <em>sporocystę &rarr; redie &rarr; cerkarie (z fałdem płetwowym na ogonie)</em>.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">3</div>
+              <div class="step-content">
+                <strong>Wniknięcie do ryby:</strong> Cerkarie opuszczają ślimaka, pływają w toni wodnej i <strong>aktywnie przebijają skórę ryb karpiowatych</strong>, lokując się w mięśniach poprzecznie prążkowanych i tworząc otorbione <em>metacerkarie</em> (po ok. 6 tyg.).
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">4</div>
+              <div class="step-content">
+                <strong>Zarażenie żywiciela ostatecznego:</strong> Po zjedzeniu zakażonej ryby, w dwunastnicy metacerkarie ulegają ekscystacji i <strong>wstępują bezpośrednio przez brodawkę Vatera</strong> (brodawkę większą dwunastnicy) oraz przewód żółciowy wspólny do przewodów żółciowych wątroby (bez penetracji otrzewnej!). Dojrzałość w ciągu 3–4 tygodni.
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Karta onkologiczna -->
+      <div class="callout danger" style="margin-top: 1rem;">
+        <div class="callout-title">Znaczenie Kliniczne & Kancerogeneza (Cholangiocarcinoma)</div>
+        <p style="font-size: 0.9rem;">
+          Inwazja wywołuje <strong>opistorchozę (opisthorchosis)</strong>. Przewlekłe drażnienie nabłonka przewodów żółciowych i trzustkowych przez przyssawki oraz wydzielane antygeny i metabolity prowadzi do:
+        </p>
+        <div class="grid-3" style="margin-top: 0.75rem;">
+          <div style="background: #ffffff; padding: 0.75rem; border-radius: 8px; border: 1px solid #fecdd3;">
+            <strong style="color: #9f1239; font-size: 0.85rem;">Przewlekły stan zapalny</strong>
+            <p style="font-size: 0.8rem; color: var(--text-main); margin-top: 0.2rem;">Włóknienie okołoprzewodowe, zapalenie dróg żółciowych i pęcherzyka.</p>
+          </div>
+          <div style="background: #ffffff; padding: 0.75rem; border-radius: 8px; border: 1px solid #fecdd3;">
+            <strong style="color: #9f1239; font-size: 0.85rem;">Kamica żółciowa</strong>
+            <p style="font-size: 0.8rem; color: var(--text-main); margin-top: 0.2rem;">Zastój żółci, tworzenie czopów z martwych pasożytów i złuszczonych komórek.</p>
+          </div>
+          <div style="background: #ffffff; padding: 0.75rem; border-radius: 8px; border: 1px solid #fecdd3;">
+            <strong style="color: #9f1239; font-size: 0.85rem;">Rak dróg żółciowych</strong>
+            <p style="font-size: 0.8rem; color: var(--text-main); margin-top: 0.2rem;">Główny czynnik etiologiczny <em>cholangiocarcinoma</em> w rejonach endemicznych.</p>
+          </div>
+        </div>
+        <div style="margin-top: 0.75rem; font-size: 0.85rem;">
+          <strong>Leczenie:</strong> <strong>Prazykwantel</strong> w dawce 25 mg/kg m.c. 3 razy na dobę przez 1–2 dni (wysoka skuteczność >90%). Alternatywnie albendazol.
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA III: MOTYLICZKA WĄTROBOWA -->
+    <section id="dicrocoelium" class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num dicrocoelium-num">3</div>
+          <div>
+            <h3 class="section-title">Motyliczka (<em>Dicrocoelium dendriticum</em>)</h3>
+            <div class="section-subtitle">Rudolphi, 1819 • Synonim: <em>Dicrocoelium lanceatum</em> • Przywra lancetowata</div>
+          </div>
+        </div>
+        <div>
+          <span class="badge badge-indigo">Cykl Całkowicie Lądowy</span>
+          <span class="badge badge-amber">Manipulacja Pasożytnicza</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">1. Budowa morfologiczna</h4>
+          <p style="margin-bottom: 0.75rem;">
+            Niewielka, smukła przywra o długości <strong>6–12 mm</strong> i szerokości <strong>1,5–2,5 mm</strong>, o wyraźnie <strong>lancetowatym pokroju</strong>. Ciało jest półprzezroczyste, z gładkim tegumentem (brak kolców).
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;">
+            <li><strong>Aparat pokarmowy:</strong> Przyssawka gębowa mniejsza od brzusznej, gardziel, przełyk i dwa <strong>proste, nierozgałęzione pnie jelitowe</strong> sięgające do około 3/4 długości ciała.</li>
+            <li><strong>Odwrócony układ narządów rozrodczych (cecha diagnostyczna różniąca od innych przywr!):</strong>
+              <br>Dwa duże, lekko płatowate <strong>jądra leżą w PRZEDNIEJ części ciała, tuż za przyssawką brzuszną, PRZED jajnikiem</strong>. Jajnik jest mały, leży za tylnym jądrem, natomiast całą tylną połowę ciała wypełnia silnie skręcona, brunatna macica. Żółtniki leżą wąsko w bocznych polach środkowej części.
+            </li>
+          </ul>
+
+          <div class="callout warning">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Morfologia Jaja
+            </div>
+            Jaja są małe <strong>(35–45 × 22–30 µm)</strong>, asymetryczne (z jednej strony silniej wypukłe), barwy <strong>ciemnobrązowej do smolistej</strong> z grubą, dwuwarstwową skorupką. Posiadają skośnie ścięte wieczko na węższym biegunie. W momencie składania zawierają w pełni rozwinięte miracydium.
+          </div>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">2. Trójżywicielowy Cykl Lądowy (Bez Udziału Wody!)</h4>
+          <div class="grid-2" style="margin-bottom: 1rem;">
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Ostateczny</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Owce, kozy, bydło, człowiek</div>
+              <div class="metric-desc">Pasożyt przewodów żółciowych i pęcherzyka żółciowego.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni I</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Ślimaki lądowe</div>
+              <div class="metric-desc"><em>Zebrina detrita</em>, <em>Helicella candicans</em>, <em>Cochlicopa lubrica</em>.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni II</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Mrówki (rodzaj Formica)</div>
+              <div class="metric-desc">Głównie <em>Formica fusca</em>, <em>Formica rufibarbis</em>.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Droga Zarażenia Człowieka</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Przypadkowe połknięcie mrówki</div>
+              <div class="metric-desc">Z nieumytymi jagodami, ziołami, źdźbłami traw na pastwisku.</div>
+            </div>
+          </div>
+
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-badge">1</div>
+              <div class="step-content">
+                <strong>Zjedzenie jaj przez ślimaka lądowego:</strong> Jaja wydalone na suchym pastwisku są zjadane przez ślimaki. W jelicie wykluwa się miracydium &rarr; wątrobotrzustka &rarr; <em>sporocysty I i II generacji</em> (brak stadium redii!).
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">2</div>
+              <div class="step-content">
+                <strong>Wydalanie „kulek śluzowych” (slime-balls):</strong> Cerkarie grupują się w jamie płucnej ślimaka po 100–400 sztuk i są zlepiane śluzem, po czym wydalane na trawę podczas oddychania ślimaka.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">3</div>
+              <div class="step-content">
+                <strong>Zakażenie mrówki i mechanizm „Hirnwurm”:</strong> Mrówki zjadają bogate w białko kulki śluzu. Większość cerkarii wędruje do odwłoka mrówki i otorbia się jako <em>metacerkarie</em>. Lecz <strong>dokładnie 1 lub 2 larwy wędrują do zwoju podprzełykowego mózgu mrówki</strong>, gdzie stają się tzw. „robakiem mózgowym” (<em>Hirnwurm</em>).
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Schemat manipulacji behawioralnej mrówki -->
+      <div class="figure-container">
+        <svg viewBox="0 0 920 320" width="100%" height="320">
+          <defs>
+            <linearGradient id="antGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ede9fe"/>
+              <stop offset="100%" stop-color="#ddd6fe"/>
+            </linearGradient>
+            <linearGradient id="nightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1e1b4b"/>
+              <stop offset="100%" stop-color="#312e81"/>
+            </linearGradient>
+            <linearGradient id="dayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef9c3"/>
+              <stop offset="100%" stop-color="#fef08a"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Tło -->
+          <rect x="10" y="10" width="900" height="300" rx="12" fill="#faf5ff" stroke="#e9d5ff" stroke-width="2"/>
+
+          <!-- Blok 1: Ślimak lądowy -->
+          <g transform="translate(30, 35)">
+            <rect width="180" height="110" rx="8" fill="#ffffff" stroke="#a855f7" stroke-width="1.5"/>
+            <text x="90" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#6b21a8">ŻYWICIEL POŚREDNI I</text>
+            <text x="90" y="42" text-anchor="middle" font-style="italic" font-size="10.5" fill="#581c87">Ślimak lądowy (Zebrina)</text>
+            <text x="90" y="62" text-anchor="middle" font-size="9.5" fill="#4c1d95">Połyka jaja z suchych traw</text>
+            <text x="90" y="78" text-anchor="middle" font-size="9.5" fill="#4c1d95">&darr; Sporocysty I &amp; II</text>
+            <text x="90" y="96" text-anchor="middle" font-weight="700" font-size="10" fill="#c026d3">KULKI ŚLUZOWE (200 cerkarii)</text>
+          </g>
+
+          <line x1="210" y1="90" x2="250" y2="90" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Blok 2: Wniknięcie do mrówki -->
+          <g transform="translate(255, 35)">
+            <rect width="210" height="110" rx="8" fill="url(#antGrad)" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="105" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#5b21b6">ŻYWICIEL POŚREDNI II</text>
+            <text x="105" y="42" text-anchor="middle" font-style="italic" font-size="10.5" fill="#4c1d95">Mrówka (Formica fusca)</text>
+            <text x="105" y="64" text-anchor="middle" font-size="9.5" fill="#3b0764">Zjada kulki śluzowe</text>
+            <rect x="15" y="74" width="180" height="24" rx="4" fill="#ffffff" stroke="#8b5cf6"/>
+            <text x="105" y="90" text-anchor="middle" font-weight="700" font-size="9" fill="#6d28d9">ROZDZIAŁ LARW W MRÓWCE</text>
+          </g>
+
+          <!-- Rozdzielenie losów w ciele mrówki -->
+          <!-- Ścieżka A: Odwłok -->
+          <path d="M 465 70 L 510 70 L 510 50 L 540 50" fill="none" stroke="#7c3aed" stroke-width="1.5"/>
+          <g transform="translate(545, 25)">
+            <rect width="160" height="50" rx="6" fill="#f5f3ff" stroke="#8b5cf6"/>
+            <text x="80" y="20" text-anchor="middle" font-weight="700" font-size="10.5" fill="#5b21b6">Jamcia ciała / Odwłok</text>
+            <text x="80" y="38" text-anchor="middle" font-size="9" fill="#4c1d95">Otorbienie ~50 metacerkarii</text>
+          </g>
+
+          <!-- Ścieżka B: Mózg (Hirnwurm) -->
+          <path d="M 465 105 L 510 105 L 510 125 L 540 125" fill="none" stroke="#dc2626" stroke-width="2"/>
+          <g transform="translate(545, 95)">
+            <rect width="160" height="60" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+            <text x="80" y="20" text-anchor="middle" font-weight="800" font-size="10.5" fill="#b91c1c">HIRNWURM (Robak Mózgowy)</text>
+            <text x="80" y="36" text-anchor="middle" font-size="9" fill="#7f1d1d">1 larwa w zwoju podprzełykowym</text>
+            <text x="80" y="50" text-anchor="middle" font-weight="700" font-size="8.5" fill="#dc2626">MANIPULACJA UKŁADEM NERWOWYM</text>
+          </g>
+
+          <!-- Blok Behawioralny Dzień / Noc -->
+          <g transform="translate(255, 175)">
+            <rect width="300" height="115" rx="8" fill="url(#nightGrad)" stroke="#1e1b4b"/>
+            <text x="150" y="26" text-anchor="middle" font-weight="700" font-size="11.5" fill="#a5b4fc">NOC &amp; CHŁÓD (&lt;15°C)</text>
+            <text x="150" y="48" text-anchor="middle" font-size="10" fill="#e0e7ff">Spadek temperatury aktywuje skurcz żuwaczek</text>
+            <rect x="20" y="60" width="260" height="42" rx="6" fill="rgba(255,255,255,0.1)"/>
+            <text x="150" y="78" text-anchor="middle" font-weight="700" font-size="9.5" fill="#fbbf24">KATATONIA NA CZUBKU ŹDŹBŁA TRAWY</text>
+            <text x="150" y="93" text-anchor="middle" font-size="8.5" fill="#c7d2fe">Mrówka nie może puścić trawy &rarr; zjadana przez owcę!</text>
+          </g>
+
+          <g transform="translate(585, 175)">
+            <rect width="300" height="115" rx="8" fill="url(#dayGrad)" stroke="#ca8a04"/>
+            <text x="150" y="26" text-anchor="middle" font-weight="700" font-size="11.5" fill="#854d0e">DZIEŃ &amp; SŁOŃCE (&gt;18°C)</text>
+            <text x="150" y="48" text-anchor="middle" font-size="10" fill="#713f12">Wzrost temperatury rozluźnia aparat żuchwowy</text>
+            <rect x="20" y="60" width="260" height="42" rx="6" fill="rgba(255,255,255,0.7)"/>
+            <text x="150" y="78" text-anchor="middle" font-weight="700" font-size="9.5" fill="#a16207">POWRÓT DO MROWISKA</text>
+            <text x="150" y="93" text-anchor="middle" font-size="8.5" fill="#854d0e">Chroni mrówkę i pasożyta przed przegrzaniem i śmiercią</text>
+          </g>
+
+          <!-- Połączenie z żywicielem ostatecznym -->
+          <path d="M 555 230 L 585 230" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <path d="M 405 290 L 405 305 L 120 305 L 120 185" fill="none" stroke="#6b21a8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="260" y="302" font-size="9" font-weight="600" fill="#6b21a8">Wypas owiec o świcie &rarr; pożarcie mrówki na trawie</text>
+        </svg>
+        <div class="figure-caption">Ryc. 1.2: Behawioralny mechanizm sterowania żywicielem przez „robaka mózgowego” (Hirnwurm) u Dicrocoelium dendriticum.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="callout success">
+          <div class="callout-title">Brak Fazy Wątrobowej Tkankowej</div>
+          <p style="font-size: 0.875rem;">
+            W przeciwieństwie do motylicy wątrobowej, uwolnione w jelicie młodociane motyliczki <strong>nie przebijają ściany jelita ani torebki wątroby</strong>. Wędrują do przewodów żółciowych <strong>drogą wstępującą przez brodawkę Vatera</strong>. Dzięki temu w dikroceliozie nie występuje ostra, destrukcyjna faza miąższowa, a objawy są zazwyczaj łagodniejsze (przewlekłe zapalenie dróg żółciowych, niestrawność, zaburzenia trawienia tłuszczów).
+          </p>
+        </div>
+        <div class="callout info">
+          <div class="callout-title">Diagnostyka & Terapia</div>
+          <p style="font-size: 0.875rem;">
+            Wykrycie charakterystycznych, ciemnobrązowych, asymetrycznych jaj w kale (metody flotacji lub sedymentacji). Należy wykluczyć rzekomą inwazję (spożycie wątroby zakażonych owiec). 
+            <br><strong>Leczenie:</strong> <strong>Prazykwantel</strong> w dawce 25 mg/kg m.c. w 3 dawkach podzielonych przez 1–2 dni.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA IV: PRZYWRA KRWI -->
+    <section id="schistosoma" class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num schistosoma-num">4</div>
+          <div>
+            <h3 class="section-title">Przywra krwi (<em>Schistosoma mansoni</em>)</h3>
+            <div class="section-subtitle">Sambon, 1907 • Przywra żylna Mansona • Schistosomatoza jelitowa</div>
+          </div>
+        </div>
+        <div>
+          <span class="badge badge-rose">Dymorfizm Płciowy</span>
+          <span class="badge badge-blue">Penetracja Przez Skórę</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">1. Budowa morfologiczna & Dymorfizm Płciowy</h4>
+          <p style="margin-bottom: 0.75rem;">
+            Rodzina Schistosomatidae wyróżnia się na tle innych przywr <strong>rozdzielnopłciowością i skrajnym dymorfizmem płciowym</strong>. Dorosłe osobniki bytują złączone na stałe w parach w świetle naczyń krwionośnych.
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;">
+            <li><strong>Samiec:</strong> Krótszy i masywniejszy (długość <strong>6,4–12 mm</strong>, szerokość 1 mm), spłaszczony grzbieto-brzusznie. Jego boczne krawędzie zaginają się do wewnątrz, tworząc głęboką <strong>rynienkę płciową (canalis gynaecophorus)</strong>, w której spoczywa samica. Posiada <strong>6–9 kulistych jąder</strong> oraz silne przyssawki (gębową i brzuszną).</li>
+            <li><strong>Samica:</strong> Dłuższa i nitkowato smukła (długość <strong>7,2–17 mm</strong>, grubość zaledwie 0,25 mm), o cylindrycznym kształcie ciała umożliwiającym wnikanie do najdrobniejszych naczyń żylnych ściany jelita. Pojedynczy jajnik leży w przedniej połowie ciała; w macicy znajduje się jednocześnie tylko <strong>1–4 dużych jaj</strong>.</li>
+            <li><strong>Tegument:</strong> U samca pokryty drobnymi guzkami (tuberculae) z kolcami, co ułatwia kotwiczenie w ścianie naczynia krwionośnego wbrew prądowi krwi wrotnej.</li>
+          </ul>
+
+          <div class="callout danger">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Jajo Schistosoma mansoni (Znak Rozpoznawczy)
+            </div>
+            Jaja są bardzo duże <strong>(114–180 × 45–73 µm)</strong>, wydłużone, o przezroczystej skorupce. Posiadają <strong>potężny, ostry kolec umieszczony z boku (lateral spine)</strong> w pobliżu jednego z biegunów. W momencie wydalania zawierają żywe, w pełni uformowane miracydium wydzielające enzymy lityczne.
+          </div>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.75rem; color: var(--text-dark);">2. Wektory & Penetracja Przeznaskórkowa</h4>
+          <div class="grid-2" style="margin-bottom: 1rem;">
+            <div class="metric-box">
+              <div class="metric-label">Lokalizacja w Człowieku</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Żyły krezkowe dolne</div>
+              <div class="metric-desc">Sploty żylne jelita grubego (odbytnicy i esicy) układu wrotnego.</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Żywiciel Pośredni</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Ślimak słodkowodny</div>
+              <div class="metric-desc">Rodzaj <em>Biomphalaria</em> (np. <em>B. glabrata</em> w Afryce i Ameryce Płd.).</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Stadium Inwazyjne</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Furkocerkaria</div>
+              <div class="metric-desc">Cerkaria z <strong>rozwidlonym ogonkiem</strong>; brak stadium redii!</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Droga Wniknięcia</div>
+              <div class="metric-val" style="font-size: 0.95rem;">Czynne przebicie skóry</div>
+              <div class="metric-desc">Podczas kąpieli, brodzenia w wodzie, pracy na polach ryżowych.</div>
+            </div>
+          </div>
+
+          <ol class="step-list">
+            <li class="step-item">
+              <div class="step-badge">1</div>
+              <div class="step-content">
+                <strong>Penetracja i przeobrażenie:</strong> Furkocerkaria przyczepia się do skóry człowieka, wydziela enzymy proteolityczne z gruczołów penetracyjnych, <strong>odrzuca ogonek</strong> i przekształca się w tkance podskórnej w <em>schistosomulę</em>.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">2</div>
+              <div class="step-content">
+                <strong>Złożona wędrówka naczyniowa:</strong> Schistosomula wnika do naczyń żylnych &rarr; prawy przedsionek i komora serca &rarr; <strong>krążenie płucne</strong> &rarr; lewe serce &rarr; krążenie układowe &rarr; tętnice krezkowe &rarr; <strong>żyła wrotna wątroby</strong>.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">3</div>
+              <div class="step-content">
+                <strong>Dojrzewanie i migracja do splotów:</strong> W naczyniach wrotnych przywry dojrzewają, dobierają się w pary (samiec obejmuje samicę) i wędrują <strong>pod prąd krwi do żył krezkowych dolnych</strong>.
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-badge">4</div>
+              <div class="step-content">
+                <strong>Składanie jaj i przebijanie ścian naczyń:</strong> Samica wysuwa się z rynienki do drobnych naczyń podśluzówkowych jelita i składa jaja. Dzięki bocznym kolcom oraz enzymom litycznym wydzielanym przez miracydium, <strong>jaja przebijają ścianę naczynia i błonę śluzową jelita</strong>, po czym wpadają do światła kału.
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Schemat penetracji i patomechanizmu Schistosoma -->
+      <div class="figure-container">
+        <svg viewBox="0 0 920 280" width="100%" height="280">
+          <defs>
+            <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fed7aa"/>
+              <stop offset="100%" stop-color="#fdba74"/>
+            </linearGradient>
+            <linearGradient id="bloodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f43f5e"/>
+              <stop offset="100%" stop-color="#be123c"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="10" y="10" width="900" height="260" rx="12" fill="#fff5f5" stroke="#fed7aa" stroke-width="2"/>
+
+          <!-- 1. Furkocerkaria w wodzie -->
+          <g transform="translate(30, 40)">
+            <rect width="180" height="90" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="90" y="24" text-anchor="middle" font-weight="700" font-size="11.5" fill="#0369a1">1. FURKOCERKARIA</text>
+            <text x="90" y="42" text-anchor="middle" font-size="10" fill="#0284c7">Uwolniona ze ślimaka</text>
+            <text x="90" y="58" text-anchor="middle" font-style="italic" font-size="9.5" fill="#075985">Biomphalaria glabrata</text>
+            <!-- Rysunek cerkarii z rozwidlonym ogonem -->
+            <path d="M 65 72 C 75 72 85 70 95 72 C 105 74 115 72 125 72" stroke="#0284c7" stroke-width="2" fill="none"/>
+            <path d="M 125 72 L 135 66 M 125 72 L 135 78" stroke="#0284c7" stroke-width="2"/>
+            <circle cx="65" cy="72" r="4" fill="#0284c7"/>
+          </g>
+
+          <line x1="210" y1="85" x2="250" y2="85" stroke="#e11d48" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- 2. Wnikanie przez skórę -->
+          <g transform="translate(255, 30)">
+            <rect width="190" height="110" rx="8" fill="url(#skinGrad)" stroke="#f97316" stroke-width="1.5"/>
+            <text x="95" y="22" text-anchor="middle" font-weight="700" font-size="11.5" fill="#9a3412">2. PENETRACJA SKÓRY</text>
+            <text x="95" y="40" text-anchor="middle" font-size="9.5" fill="#7c2d12">Wydzielanie elastaz &amp; lityn</text>
+            <text x="95" y="56" text-anchor="middle" font-size="9.5" fill="#7c2d12">Odrzucenie ogonka</text>
+            <rect x="15" y="66" width="160" height="32" rx="6" fill="#ffffff" stroke="#ea580c"/>
+            <text x="95" y="82" text-anchor="middle" font-weight="800" font-size="9.5" fill="#c2410c">SCHISTOSOMULA</text>
+            <text x="95" y="94" text-anchor="middle" font-size="8" fill="#9a3412">Obrzęk, świąd pływaków</text>
+          </g>
+
+          <line x1="445" y1="85" x2="485" y2="85" stroke="#e11d48" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- 3. Naczynia & Wątroba -->
+          <g transform="translate(490, 30)">
+            <rect width="200" height="110" rx="8" fill="url(#bloodGrad)" stroke="#9f1239" stroke-width="1.5"/>
+            <text x="100" y="22" text-anchor="middle" font-weight="700" font-size="11.5" fill="#ffffff">3. WĘDRÓWKA I PAROWANIE</text>
+            <text x="100" y="40" text-anchor="middle" font-size="9.5" fill="#ffe4e6">Płuca &rarr; Serce &rarr; Żyła wrotna</text>
+            <text x="100" y="56" text-anchor="middle" font-size="9.5" fill="#ffe4e6">Dojrzewanie płciowe</text>
+            <rect x="15" y="66" width="170" height="32" rx="6" fill="#ffffff" stroke="#be123c"/>
+            <text x="100" y="82" text-anchor="middle" font-weight="800" font-size="9.5" fill="#be123c">ŁĄCZENIE W PARY</text>
+            <text x="100" y="94" text-anchor="middle" font-size="8" fill="#881337">Samica w rynience samca</text>
+          </g>
+
+          <line x1="690" y1="85" x2="725" y2="85" stroke="#e11d48" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- 4. Siedlisko: Splot krezkowy dolny -->
+          <g transform="translate(730, 30)">
+            <rect width="160" height="110" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="2"/>
+            <text x="80" y="22" text-anchor="middle" font-weight="700" font-size="11.5" fill="#be123c">4. ŻYŁY KREZKOWE</text>
+            <text x="80" y="40" text-anchor="middle" font-size="9.5" fill="#4c0519">Naczynia jelita grubego</text>
+            <text x="80" y="60" text-anchor="middle" font-weight="700" font-size="9" fill="#9f1239">JAJA Z KOLCEM BOCZNYM</text>
+            <text x="80" y="76" text-anchor="middle" font-size="8.5" fill="#881337">Przebijanie ściany jelita</text>
+            <text x="80" y="92" text-anchor="middle" font-size="8.5" font-weight="700" fill="#059669">&rarr; Z KAŁEM DO WODY</text>
+          </g>
+
+          <!-- Patomechanizm zawleczenia jaj (dolny pas) -->
+          <g transform="translate(50, 165)">
+            <rect width="820" height="85" rx="8" fill="#ffffff" stroke="#fda4af" stroke-width="1.5"/>
+            <text x="410" y="22" text-anchor="middle" font-weight="800" font-size="11" fill="#9f1239">
+              GŁÓWNY MECHANIZM PATOLOGICZNY: ZIARNINIAKI WOKÓŁ JAJ (GRANULOMA FORMATION)
+            </text>
+            <text x="410" y="42" text-anchor="middle" font-size="9.5" fill="#334155">
+              Około 50% jaj nie przedostaje się do jelita, lecz zostaje porwana z prądem krwi wrotnej wstecznie do wątroby!
+            </text>
+            <text x="410" y="60" text-anchor="middle" font-size="9.5" font-weight="600" fill="#be123c">
+              Antygeny jaja (SEA) wywołują odpowiedź typu Th2 &rarr; Włóknienie okołonaczyniowe Symmersa (tzw. "rura fajkowa") &rarr; Nadciśnienie wrotne &rarr; Żylaki przełyku &rarr; Zgon z krwawienia
+            </text>
+          </g>
+        </svg>
+        <div class="figure-caption">Ryc. 1.3: Droga wniknięcia przez skórę, migracja naczyniowa oraz patogeneza powikłań wątrobowych Schistosoma mansoni.</div>
+      </div>
+
+      <!-- Obraz kliniczny i diagnostyka Schistosoma -->
+      <div class="grid-2">
+        <div class="callout danger">
+          <div class="callout-title">Fazy Kliniczne Schistosomatozy Jelitowej</div>
+          <ul style="padding-left: 1.1rem; font-size: 0.85rem;">
+            <li><strong>Faza skórna (świąd pływaków):</strong> Rumień, grudki i świąd w miejscu wniknięcia cerkarii (do 36–48 h).</li>
+            <li><strong>Faza ostra (Gorączka Katayama):</strong> Występuje 3–8 tyg. po zakażeniu; reakcja immunologiczna na antygeny migrujących larw i składanych jaj — wysoka gorączka, dreszcze, suchy kaszel, powiększenie wątroby i śledziony, eozynofilia, bóle mięśni i brzucha.</li>
+            <li><strong>Faza przewlekła narządowa:</strong> Polipowate i owrzodziałe zmiany w jelicie grubym, krwiste biegunki; w wątrobie włóknienie okołoportalne Symmersa (<em>pipestem fibrosis</em>), nadciśnienie wrotne, wodobrzusze, żylaki przełyku grożące krwotokiem.</li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">Diagnostyka & Leczenie</div>
+          <ul style="padding-left: 1.1rem; font-size: 0.85rem;">
+            <li><strong>Badanie mikroskopowe kału:</strong> Wykrywanie dużych jaj z charakterystycznym <strong>bocznym kolcem</strong> (metoda rozmazu grubego Kato-Miura, sedymentacja).</li>
+            <li><strong>Biopsja błony śluzowej odbytnicy:</strong> Niezwykle czuła metoda przy niskiej intensywności inwazji (rozgnieciony wycinek błony śluzowej oglądany pod mikroskopem).</li>
+            <li><strong>Test wykluwania miracydiów:</strong> Rozcieńczenie kału wodą odchlorowaną i obserwacja wyklutych larw pod lupą.</li>
+            <li><strong>Lek z wyboru:</strong> <strong>Prazykwantel (Praziquantel)</strong> w dawce 40 mg/kg m.c. w dwóch dawkach podzielonych w ciągu jednego dnia.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA V: PORÓWNAWCZY ATLAS ANATOMICZNY (SVG) -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num" style="background: linear-gradient(135deg, #0284c7, #0ea5e9);">5</div>
+          <div>
+            <h3 class="section-title">Anatomiczny Atlas Porównawczy Przywr</h3>
+            <div class="section-subtitle">Wektorowe schematy budowy wewnętrznej oraz diagnostyka różnicowa jaj</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Poniższa rycina przedstawia zestawienie schematów anatomicznych postaci dojrzałych czterech omawianych gatunków przywr z uwzględnieniem <strong>kluczowych cech różnicowych układu pokarmowego i rozrodczego</strong>, decydujących o identyfikacji na preparatach mikroskopowych.
+      </p>
+
+      <!-- Duży schemat SVG: 4 Postacie dorosłe -->
+      <div class="figure-container">
+        <svg viewBox="0 0 1000 480" width="100%" height="480">
+          <defs>
+            <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+            </filter>
+          </defs>
+
+          <!-- Tło -->
+          <rect width="1000" height="480" fill="#ffffff" rx="10"/>
+
+          <!-- ================= 1. FASCIOLA HEPATICA ================= -->
+          <g transform="translate(30, 20)">
+            <rect width="210" height="440" rx="8" fill="#fffdfa" stroke="#fde68a" stroke-width="1.5"/>
+            <text x="105" y="26" text-anchor="middle" font-weight="800" font-size="12.5" fill="#92400e">Fasciola hepatica</text>
+            <text x="105" y="42" text-anchor="middle" font-size="10" fill="#78350f">18-50 mm • Kształt liściasty</text>
+
+            <!-- Kształt ciała: stożek głowowy + rozszerzenie -->
+            <path d="M 105 55 
+                     C 112 55, 118 68, 125 78 
+                     C 145 88, 175 110, 175 190 
+                     C 175 280, 140 370, 105 395 
+                     C 70 370, 35 280, 35 190 
+                     C 35 110, 65 88, 85 78 
+                     C 92 68, 98 55, 105 55 Z" 
+                  fill="#fef3c7" stroke="#b45309" stroke-width="1.8"/>
+
+            <!-- Przyssawka gębowa i brzuszna -->
+            <circle cx="105" cy="62" r="5" fill="#b45309"/>
+            <circle cx="105" cy="98" r="8" fill="#d97706" stroke="#92400e" stroke-width="1.2"/>
+
+            <!-- Rozgałęzione jelito (drzewkowate pnie) -->
+            <path d="M 105 70 L 105 85 M 105 85 L 80 110 L 60 130 M 80 110 L 70 160 L 50 180 M 70 160 L 65 230 L 45 250 M 65 230 L 60 310 L 48 340 M 60 310 L 80 360
+                     M 105 85 L 130 110 L 150 130 M 130 110 L 140 160 L 160 180 M 140 160 L 145 230 L 165 250 M 145 230 L 150 310 L 162 340 M 150 310 L 130 360"
+                  stroke="#78350f" stroke-width="1.2" fill="none"/>
+
+            <!-- Rozgałęzione jądra w centrum i tyle -->
+            <path d="M 90 220 Q 75 240 100 250 Q 120 230 110 270 Q 80 280 95 300 Q 120 310 105 340
+                     M 120 220 Q 135 240 110 250 Q 130 270 115 300 Q 135 320 110 340"
+                  stroke="#dc2626" stroke-width="1.2" fill="none"/>
+
+            <!-- Macica zwinięta -->
+            <circle cx="105" cy="135" r="14" fill="#fbbf24" stroke="#d97706" opacity="0.8"/>
+
+            <!-- Podpisy kluczowe -->
+            <text x="105" y="415" text-anchor="middle" font-size="9.5" font-weight="700" fill="#92400e">CECHA DIAGNOSTYCZNA:</text>
+            <text x="105" y="428" text-anchor="middle" font-size="8.5" fill="#78350f">Drzewkowate jelito &amp; jądra</text>
+          </g>
+
+          <!-- ================= 2. OPISTHORCHIS FELINEUS ================= -->
+          <g transform="translate(265, 20)">
+            <rect width="210" height="440" rx="8" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.5"/>
+            <text x="105" y="26" text-anchor="middle" font-weight="800" font-size="12.5" fill="#0f766e">Opisthorchis felineus</text>
+            <text x="105" y="42" text-anchor="middle" font-size="10" fill="#115e59">8-12 mm • Smukła, przezroczysta</text>
+
+            <!-- Kształt ciała lancetowaty, wąski -->
+            <path d="M 105 60 
+                     C 112 75, 125 120, 130 200 
+                     C 135 290, 130 360, 105 390 
+                     C 80 360, 75 290, 80 200 
+                     C 85 120, 98 75, 105 60 Z" 
+                  fill="#f0fdf4" stroke="#0d9488" stroke-width="1.8"/>
+
+            <!-- Przyssawki -->
+            <circle cx="105" cy="65" r="4.5" fill="#0d9488"/>
+            <circle cx="105" cy="115" r="5" fill="#14b8a6" stroke="#0f766e"/>
+
+            <!-- Dwa proste, nierozgałęzione pnie jelita -->
+            <path d="M 105 72 L 105 85 L 90 100 L 90 360
+                     M 105 85 L 120 100 L 120 360" 
+                  stroke="#0f766e" stroke-width="1.2" fill="none"/>
+
+            <!-- Macica w środku -->
+            <path d="M 95 140 Q 115 145 95 160 Q 115 175 95 190 Q 115 205 95 220 Q 115 235 105 250"
+                  stroke="#b45309" stroke-width="2.5" fill="none"/>
+
+            <!-- Jajnik -->
+            <circle cx="105" cy="270" r="6" fill="#f43f5e"/>
+
+            <!-- DWA PŁATOWATE JĄDRA W TYLNEJ CZĘŚCI (UKOŚNIE) -->
+            <g transform="translate(0, 0)">
+              <!-- Przednie jądro (4 płaty) -->
+              <path d="M 105 300 C 95 295, 95 315, 105 310 C 115 315, 115 295, 105 300 Z" fill="#f87171" stroke="#dc2626"/>
+              <!-- Tylne jądro (5 płatów) -->
+              <path d="M 105 340 C 92 335, 92 355, 105 350 C 118 355, 118 335, 105 340 Z" fill="#f87171" stroke="#dc2626"/>
+            </g>
+
+            <!-- Podpisy -->
+            <text x="105" y="415" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f766e">CECHA DIAGNOSTYCZNA:</text>
+            <text x="105" y="428" text-anchor="middle" font-size="8.5" fill="#115e59">Płatowate jądra W TYLE ciała</text>
+          </g>
+
+          <!-- ================= 3. DICROCOELIUM DENDRITICUM ================= -->
+          <g transform="translate(500, 20)">
+            <rect width="210" height="440" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1.5"/>
+            <text x="105" y="26" text-anchor="middle" font-weight="800" font-size="12.5" fill="#6b21a8">Dicrocoelium dendriticum</text>
+            <text x="105" y="42" text-anchor="middle" font-size="10" fill="#581c87">6-12 mm • Przywra lancetowata</text>
+
+            <!-- Kształt ciała lancetowaty, rozszerzający się ku tyłowi -->
+            <path d="M 105 60 
+                     C 112 80, 122 130, 132 210 
+                     C 140 300, 132 360, 105 388 
+                     C 78 360, 70 300, 78 210 
+                     C 88 130, 98 80, 105 60 Z" 
+                  fill="#faf5ff" stroke="#7c3aed" stroke-width="1.8"/>
+
+            <!-- Przyssawki -->
+            <circle cx="105" cy="66" r="4.5" fill="#6d28d9"/>
+            <circle cx="105" cy="110" r="6" fill="#8b5cf6" stroke="#5b21b6"/>
+
+            <!-- Proste jelita sięgające 3/4 ciała -->
+            <path d="M 105 73 L 105 88 L 92 105 L 92 310
+                     M 105 88 L 118 105 L 118 310" 
+                  stroke="#581c87" stroke-width="1.2" fill="none"/>
+
+            <!-- DWA PŁATOWATE JĄDRA W PRZEDNIEJ CZĘŚCI (ZA PRZYSSAWKĄ BRZUSZNĄ!) -->
+            <circle cx="98" cy="132" r="9" fill="#fca5a5" stroke="#ef4444" stroke-width="1.2"/>
+            <circle cx="112" cy="155" r="9" fill="#fca5a5" stroke="#ef4444" stroke-width="1.2"/>
+
+            <!-- Jajnik ZA jądrami -->
+            <circle cx="98" cy="178" r="5.5" fill="#f43f5e"/>
+
+            <!-- Macica w CAŁEJ TYLNEJ CZĘŚCI CIAŁA -->
+            <path d="M 105 195 Q 120 210 90 225 Q 120 240 90 255 Q 120 270 90 285 Q 120 300 95 320 Q 115 340 105 365"
+                  stroke="#78350f" stroke-width="3" fill="none"/>
+
+            <!-- Podpisy -->
+            <text x="105" y="415" text-anchor="middle" font-size="9.5" font-weight="700" fill="#6b21a8">CECHA DIAGNOSTYCZNA:</text>
+            <text x="105" y="428" text-anchor="middle" font-size="8.5" fill="#581c87">Jądra PRZED jajnikiem (w przodzie)</text>
+          </g>
+
+          <!-- ================= 4. SCHISTOSOMA MANSONI (PARA) ================= -->
+          <g transform="translate(735, 20)">
+            <rect width="235" height="440" rx="8" fill="#fff5f5" stroke="#fecdd3" stroke-width="1.5"/>
+            <text x="117" y="26" text-anchor="middle" font-weight="800" font-size="12.5" fill="#9f1239">Schistosoma mansoni</text>
+            <text x="117" y="42" text-anchor="middle" font-size="10" fill="#881337">Dymorfizm płciowy • Para in copula</text>
+
+            <!-- Samiec: gruby, zagięty w rynienkę (canalis gynaecophorus) -->
+            <path d="M 80 65 
+                     C 95 62, 110 70, 120 85 
+                     C 130 105, 140 160, 145 220 
+                     C 150 290, 140 350, 115 385 
+                     C 95 380, 105 340, 110 290 
+                     C 115 220, 105 150, 85 110 
+                     C 70 85, 70 70, 80 65 Z" 
+                  fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+
+            <!-- Przyssawki samca -->
+            <circle cx="85" cy="70" r="5" fill="#be123c"/>
+            <circle cx="102" cy="88" r="7" fill="#e11d48" stroke="#9f1239"/>
+
+            <!-- Jądra samca (6-9) -->
+            <g transform="translate(105, 105)">
+              <circle cx="0" cy="0" r="2.5" fill="#881337"/>
+              <circle cx="5" cy="5" r="2.5" fill="#881337"/>
+              <circle cx="2" cy="11" r="2.5" fill="#881337"/>
+              <circle cx="6" cy="17" r="2.5" fill="#881337"/>
+              <circle cx="3" cy="23" r="2.5" fill="#881337"/>
+              <circle cx="7" cy="29" r="2.5" fill="#881337"/>
+            </g>
+
+            <!-- Samica w rynience: bardzo cienka, długa, ciemniejsza -->
+            <path d="M 98 78 
+                     C 105 95, 118 140, 124 200 
+                     C 130 270, 125 340, 118 395" 
+                  fill="none" stroke="#4c0519" stroke-width="2.6" stroke-linecap="round"/>
+
+            <circle cx="98" cy="78" r="3" fill="#4c0519"/>
+
+            <!-- Etykiety anatomiczne w rycince -->
+            <line x1="145" y1="210" x2="185" y2="210" stroke="#be123c" stroke-width="1"/>
+            <text x="190" y="213" font-size="8.5" fill="#be123c">Samiec (♂)</text>
+
+            <line x1="124" y1="235" x2="185" y2="255" stroke="#4c0519" stroke-width="1"/>
+            <text x="190" y="258" font-size="8.5" fill="#4c0519">Samica (♀)</text>
+
+            <line x1="110" y1="310" x2="185" y2="310" stroke="#e11d48" stroke-width="1"/>
+            <text x="190" y="308" font-size="8" fill="#9f1239">Rynienka</text>
+            <text x="190" y="318" font-size="8" fill="#9f1239">płciowa</text>
+
+            <!-- Podpisy -->
+            <text x="117" y="415" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9f1239">CECHA DIAGNOSTYCZNA:</text>
+            <text x="117" y="428" text-anchor="middle" font-size="8.5" fill="#881337">Rozdzielnopłciowość &amp; Rynienka</text>
+          </g>
+        </svg>
+        <div class="figure-caption">Ryc. 1.4: Porównanie planów budowy anatomicznej przywr. Zwróć uwagę na relację położenia jąder i jajnika u D. dendriticum vs O. felineus.</div>
+      </div>
+
+      <!-- Mikroskopowe porównanie jaj (SVG) -->
+      <h4 style="margin: 2rem 0 0.75rem 0; color: var(--text-dark);">Atlas Diagnostyczny Jaj (Skala i Morfologia Różnicowa)</h4>
+      <div class="figure-container">
+        <svg viewBox="0 0 920 220" width="100%" height="220">
+          <!-- Tło -->
+          <rect width="920" height="220" fill="#ffffff" rx="8" stroke="#e2e8f0"/>
+
+          <!-- 1. Jajo Schistosoma mansoni -->
+          <g transform="translate(40, 20)">
+            <rect width="180" height="180" rx="6" fill="#fff5f5" stroke="#fecdd3"/>
+            <text x="90" y="22" text-anchor="middle" font-weight="800" font-size="11" fill="#9f1239">S. mansoni</text>
+            <text x="90" y="36" text-anchor="middle" font-size="9" fill="#881337">114-180 × 45-73 µm</text>
+            <!-- Rysunek jaja z wielkim kolcem bocznym -->
+            <g transform="translate(90, 105)">
+              <ellipse cx="0" cy="0" rx="42" ry="24" fill="#fff1f2" stroke="#e11d48" stroke-width="2" transform="rotate(-15)"/>
+              <!-- Boczny kolec ostry -->
+              <polygon points="18,-15 42,-32 26,-2" fill="#e11d48"/>
+              <!-- Miracydium w środku -->
+              <ellipse cx="0" cy="0" rx="28" ry="14" fill="#fda4af" opacity="0.6" transform="rotate(-15)"/>
+            </g>
+            <text x="90" y="165" text-anchor="middle" font-weight="700" font-size="9.5" fill="#e11d48">WIELKI KOLEC BOCZNY</text>
+          </g>
+
+          <!-- 2. Jajo Fasciola hepatica -->
+          <g transform="translate(260, 20)">
+            <rect width="180" height="180" rx="6" fill="#fffbeb" stroke="#fde68a"/>
+            <text x="90" y="22" text-anchor="middle" font-weight="800" font-size="11" fill="#92400e">Fasciola hepatica</text>
+            <text x="90" y="36" text-anchor="middle" font-size="9" fill="#78350f">130-150 × 63-90 µm</text>
+            <!-- Rysunek wielkiego jaja z wieczkiem -->
+            <g transform="translate(90, 105)">
+              <ellipse cx="0" cy="0" rx="48" ry="28" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+              <!-- Wieczko na biegunie prawym -->
+              <path d="M 44 -12 C 48 -5, 48 5, 44 12" stroke="#78350f" stroke-width="2.5" fill="none"/>
+              <!-- Ziarnista zawartość żółtkowa -->
+              <circle cx="-15" cy="0" r="5" fill="#f59e0b" opacity="0.6"/>
+              <circle cx="0" cy="-6" r="6" fill="#f59e0b" opacity="0.6"/>
+              <circle cx="10" cy="5" r="5" fill="#f59e0b" opacity="0.6"/>
+              <circle cx="-5" cy="8" r="4" fill="#f59e0b" opacity="0.6"/>
+            </g>
+            <text x="90" y="165" text-anchor="middle" font-weight="700" font-size="9.5" fill="#b45309">WIELKIE, ŻÓŁTE, WIECZKO</text>
+          </g>
+
+          <!-- 3. Jajo Opisthorchis felineus -->
+          <g transform="translate(480, 20)">
+            <rect width="180" height="180" rx="6" fill="#f0fdfa" stroke="#99f6e4"/>
+            <text x="90" y="22" text-anchor="middle" font-weight="800" font-size="11" fill="#0f766e">Opisthorchis felineus</text>
+            <text x="90" y="36" text-anchor="middle" font-size="9" fill="#115e59">26-30 × 11-15 µm (bardzo małe!)</text>
+            <!-- Rysunek drobnego jajeczka -->
+            <g transform="translate(90, 105)">
+              <!-- Narysowane proporcjonalnie mniejsze lub powiększone w ramce -->
+              <ellipse cx="0" cy="0" rx="22" ry="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.8"/>
+              <!-- Wyraźny kołnierzyk i wieczko -->
+              <path d="M 20 -6 L 22 -7 L 22 7 L 20 6" stroke="#0f766e" stroke-width="1.8" fill="none"/>
+              <!-- Guziczek na tylnym biegunie -->
+              <circle cx="-22" cy="0" r="1.8" fill="#0f766e"/>
+            </g>
+            <text x="90" y="158" text-anchor="middle" font-weight="700" font-size="9.5" fill="#0d9488">KOŁNIERZYK Z WIECZKIEM</text>
+            <text x="90" y="172" text-anchor="middle" font-size="8.5" fill="#0f766e">+ guzek na biegunie (knob)</text>
+          </g>
+
+          <!-- 4. Jajo Dicrocoelium dendriticum -->
+          <g transform="translate(700, 20)">
+            <rect width="180" height="180" rx="6" fill="#faf5ff" stroke="#e9d5ff"/>
+            <text x="90" y="22" text-anchor="middle" font-weight="800" font-size="11" fill="#6b21a8">Dicrocoelium dendriticum</text>
+            <text x="90" y="36" text-anchor="middle" font-size="9" fill="#581c87">35-45 × 22-30 µm</text>
+            <!-- Rysunek ciemnego asymetrycznego jaja -->
+            <g transform="translate(90, 105)">
+              <!-- Asymetryczny profil -->
+              <path d="M -24 -2 
+                       C -24 -14, 16 -16, 22 -4 
+                       C 24 3, 20 15, -4 16 
+                       C -18 16, -24 8, -24 -2 Z" 
+                    fill="#78350f" stroke="#451a03" stroke-width="2"/>
+              <!-- Skośne wieczko -->
+              <line x1="18" y1="-9" x2="21" y2="7" stroke="#fbbf24" stroke-width="1.8"/>
+              <!-- Miracydium w środku widoczne jako 2 plamki -->
+              <circle cx="-4" cy="0" r="3" fill="#fbbf24" opacity="0.8"/>
+              <circle cx="6" cy="1" r="3" fill="#fbbf24" opacity="0.8"/>
+            </g>
+            <text x="90" y="158" text-anchor="middle" font-weight="700" font-size="9.5" fill="#581c87">CIEMNOBRĄZOWE, SKOŚNE</text>
+            <text x="90" y="172" text-anchor="middle" font-size="8.5" fill="#6b21a8">Asymetryczne, z wieczkiem</text>
+          </g>
+        </svg>
+        <div class="figure-caption">Ryc. 1.5: Cechy morfologiczne jaj o znaczeniu mikroskopowym. Zwróć uwagę na boczny kolec u S. mansoni oraz kołnierzyk u O. felineus.</div>
+      </div>
+    </section>
+
+    <!-- SEKCJA VI: WIELKA TABELA PORÓWNAWCZA -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <div class="section-num" style="background: var(--primary);">6</div>
+          <div>
+            <h3 class="section-title">Zbiorcze Zestawienie Parazytologiczne</h3>
+            <div class="section-subtitle">Kompletna synteza taksonomiczna, ekologiczna i kliniczna czterech przywr</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Cecha Porównawcza</th>
+              <th><em>Fasciola hepatica</em></th>
+              <th><em>Opisthorchis felineus</em></th>
+              <th><em>Dicrocoelium dendriticum</em></th>
+              <th><em>Schistosoma mansoni</em></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Polska nazwa</strong></td>
+              <td>Motylica wątrobowa</td>
+              <td>Przywra kocia</td>
+              <td>Motyliczka (przywra lancetowata)</td>
+              <td>Przywra krwi (żyłna Mansona)</td>
+            </tr>
+            <tr>
+              <td><strong>Wymiary dojrzałego pasożyta</strong></td>
+              <td>18–50 × 3–13 mm (bardzo duża)</td>
+              <td>8–12 × 1,2–2,5 mm</td>
+              <td>6–12 × 1,5–2,5 mm</td>
+              <td>Samiec: 6–12 mm<br>Samica: 7–17 mm</td>
+            </tr>
+            <tr>
+              <td><strong>Typ płciowości</strong></td>
+              <td>Obojnactwo (hermafrodytyzm)</td>
+              <td>Obojnactwo</td>
+              <td>Obojnactwo</td>
+              <td><strong>Rozdzielnopłciowość</strong> (dymorfizm)</td>
+            </tr>
+            <tr>
+              <td><strong>Powłoka ciała (tegument)</strong></td>
+              <td>Pokryta gęsto kolcami</td>
+              <td>Całkowicie gładka</td>
+              <td>Gładka</td>
+              <td>Guzki z kolcami u samca</td>
+            </tr>
+            <tr>
+              <td><strong>Układ pokarmowy (jelito)</strong></td>
+              <td>Silnie <strong>drzewkowato rozgałęzione</strong></td>
+              <td>Dwa proste, ślepe pnie</td>
+              <td>Dwa proste pnie (do 3/4 ciała)</td>
+              <td>Dwa pnie łączące się w jeden wspólny</td>
+            </tr>
+            <tr>
+              <td><strong>Lokalizacja jąder i jajnika</strong></td>
+              <td>Jądra silnie rozgałęzione w centrum i tyle</td>
+              <td>Jądra 4–5-płatowate <strong>W TYLE</strong> ciała, za jajnikiem</td>
+              <td>Jądra płatowate <strong>W PRZODZIE</strong> ciała, <strong>PRZED</strong> jajnikiem!</td>
+              <td>6–9 jąder w przodzie u samca; jajnik w przedniej połowie u samicy</td>
+            </tr>
+            <tr>
+              <td><strong>Środowisko cyklu</strong></td>
+              <td>Wodne</td>
+              <td>Wodne (2 żywicieli pośr.)</td>
+              <td><strong>Całkowicie lądowe</strong></td>
+              <td>Wodne</td>
+            </tr>
+            <tr>
+              <td><strong>Żywiciel pośredni I</strong></td>
+              <td>Ślimak wodny (<em>Galba truncatula</em>)</td>
+              <td>Ślimak wodny (<em>Bithynia leachi</em>)</td>
+              <td>Ślimak lądowy (<em>Zebrina, Helicella</em>)</td>
+              <td>Ślimak wodny (<em>Biomphalaria glabrata</em>)</td>
+            </tr>
+            <tr>
+              <td><strong>Żywiciel pośredni II</strong></td>
+              <td>Brak (metacerkaria na roślinie)</td>
+              <td><strong>Ryby karpiowate</strong> (<em>Cyprinidae</em>)</td>
+              <td><strong>Mrówki</strong> (<em>Formica</em> spp.)</td>
+              <td><strong>Brak</strong> (furkocerkaria wnika wprost)</td>
+            </tr>
+            <tr>
+              <td><strong>Stadia w ślimaku</strong></td>
+              <td>Sporocysta &rarr; Redie &rarr; Cerkaria</td>
+              <td>Sporocysta &rarr; Redie &rarr; Cerkaria</td>
+              <td>Sporocysta I &rarr; Sporocysta II (<strong>brak redii!</strong>)</td>
+              <td>Sporocysta I &rarr; Sporocysta II (<strong>brak redii!</strong>)</td>
+            </tr>
+            <tr>
+              <td><strong>Postać inwazyjna dla człowieka</strong></td>
+              <td>Otorbiona <strong>metacerkaria</strong> na roślinach wodnych</td>
+              <td>Otorbiona <strong>metacerkaria</strong> w mięśniach ryby</td>
+              <td>Otorbiona <strong>metacerkaria</strong> w ciele mrówki</td>
+              <td>Wolno pływająca <strong>furkocerkaria</strong> w wodzie</td>
+            </tr>
+            <tr>
+              <td><strong>Droga zarażenia</strong></td>
+              <td>Pokarmowa (zjedzenie rzeżuchy/trawy, woda)</td>
+              <td>Pokarmowa (surowa/niedogotowana ryba)</td>
+              <td>Pokarmowa (przypadkowe połknięcie mrówki)</td>
+              <td><strong>Przeznaskórkowa</strong> (czynne wkłucie w skórę)</td>
+            </tr>
+            <tr>
+              <td><strong>Docelowe miejsce pasożytowania</strong></td>
+              <td>Duże przewody żółciowe, pęcherzyk</td>
+              <td>Przewody żółciowe i trzustkowe</td>
+              <td>Drobniejsze przewody żółciowe</td>
+              <td><strong>Żyły krezkowe dolne</strong> (sploty jelita grubego)</td>
+            </tr>
+            <tr>
+              <td><strong>Wędrówka w ciele człowieka</strong></td>
+              <td>Przebicie ściany jelita &rarr; jama otrzewnej &rarr; miąższ wątroby</td>
+              <td>Wstępująco z dwunastnicy przez brodawkę Vatera</td>
+              <td>Wstępująco z dwunastnicy przez brodawkę Vatera</td>
+              <td>Żyły &rarr; serce &rarr; krążenie płucne &rarr; wątroba &rarr; sploty krezkowe</td>
+            </tr>
+            <tr>
+              <td><strong>Cechy diagnostyczne jaj</strong></td>
+              <td>130–150 µm, żółtobrązowe, z wieczkiem, zawartość ziarnista</td>
+              <td>26–30 µm, jasnobrązowe, <strong>kołnierzyk + wieczko</strong> + guzek</td>
+              <td>35–45 µm, <strong>ciemnobrązowe, asymetryczne</strong>, wieczko skośne</td>
+              <td>114–180 µm, przezroczyste, <strong>duży boczny kolec</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Główne powikłanie kliniczne</strong></td>
+              <td>Marskość żółciowa, uszkodzenie miąższu wątroby w fazie ostrej</td>
+              <td><strong>Cholangiocarcinoma</strong> (rak dróg żółciowych)</td>
+              <td>Przewlekły nieżyt dróg żółciowych</td>
+              <td>Włóknienie Symmersa, nadciśnienie wrotne, żylaki przełyku</td>
+            </tr>
+            <tr>
+              <td><strong>Lek z wyboru</strong></td>
+              <td><strong>Triklobendazol</strong> (Prazikwantel nieskuteczny!)</td>
+              <td><strong>Prazykwantel</strong></td>
+              <td><strong>Prazykwantel</strong></td>
+              <td><strong>Prazykwantel</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEKCJA VII: KLINICZNE PEREŁKI EGZAMINACYJNE -->
+    <section class="section-card" style="border-left: 6px solid var(--accent-rose);">
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-dark); margin-bottom: 1rem;">
+        Kluczowe Pułapki Egzaminacyjne (High-Yield Parasitology)
+      </h3>
+      <div class="grid-2">
+        <div>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.7;">
+            <li><strong>Dlaczego w fasciolozie nie stosuje się prazykwantelu?</strong> Tegument motylicy wątrobowej wykazuje naturalną oporność na prazykwantel (lek nie indukuje u niej paraliżu spastycznego ani wakuolizacji powłok). Jedynym wysoce skutecznym lekiem jest <strong>triklobendazol</strong>.</li>
+            <li><strong>Zjawisko Fasciolosis / Dicrocoeliosis Spuria:</strong> Wykrycie jaj motylicy lub motyliczki w kale nie musi świadczyć o inwazji! Może być wynikiem zjedzenia pasztetu lub wątroby zakażonych zwierząt rzeźnych (tzw. jaja tranzytowe). Wymagane jest powtórzenie badania po 3 dniach diety bezwątrobowej.</li>
+            <li><strong>Brak stadium redii:</strong> Pamiętaj, że stadium redii <strong>NIE występuje</strong> ani u <em>Schistosoma</em> spp., ani u <em>Dicrocoelium dendriticum</em>! U obu tych gatunków występuje stadium sporocysty potomnej (II generacji).</li>
+          </ul>
+        </div>
+        <div>
+          <ul style="padding-left: 1.25rem; font-size: 0.9rem; line-height: 1.7;">
+            <li><strong>Różnicowanie Schistosoma po kolcach jaj:</strong> 
+              <br>• <em>S. mansoni:</em> <strong>Duży kolec boczny</strong> (kał).
+              <br>• <em>S. haematobium:</em> <strong>Kolec końcowy / terminalny</strong> (mocz).
+              <br>• <em>S. japonicum:</em> <strong>Mały, szczątkowy kolec boczny</strong> (kał).
+            </li>
+            <li><strong>Dlaczego Schistosoma nie wywołuje fasciolozy dróg żółciowych?</strong> Ponieważ dorosłe przywry krwi żyją wyłącznie w układzie naczyniowym (wewnątrz naczynia krwionośnego), odżywiając się bezpośrednio erytrocytami, a nie żółcią czy nabłonkiem przewodów!</li>
+            <li><strong>Rola eozynofilii:</strong> Masywna hipereozynofilia towarzyszy fazom tkankowym: migracji marity <em>F. hepatica</em> przez miąższ oraz ostrej schistosomatozie (Katayama syndrome).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
