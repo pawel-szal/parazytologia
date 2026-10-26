@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medyczne Kompendium Cestodologii | Tasiemce Człowieka</title>
+  <style>
+    :root {
+      --primary: #0f2d59;
+      --primary-light: #1e5ba8;
+      --accent: #0284c7;
+      --bg-body: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      
+      --analogy-bg: #f0fdf4;
+      --analogy-border: #86efac;
+      --analogy-text: #166534;
+      --analogy-accent: #22c55e;
+      
+      --warning-bg: #fff1f2;
+      --warning-border: #fecdd3;
+      --warning-text: #9f1239;
+      --warning-accent: #e11d48;
+
+      --info-bg: #eff6ff;
+      --info-border: #bfdbfe;
+      --info-text: #1e40af;
+
+      --badge-saginata: #0284c7;
+      --badge-solium: #b91c1c;
+      --badge-nana: #7c3aed;
+      --badge-caninum: #ea580c;
+      --badge-diminuta: #059669;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+
+    /* Pasek postępu czytania na samej górze okna */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #0284c7, #22c55e);
+      width: 0%;
+      z-index: 1100;
+      transition: width 0.1s ease-out;
+    }
+
+    /* Inteligentny, dyskretny pasek nawigacji (Auto-hide on scroll) */
+    .smart-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(15, 45, 89, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 16px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* Klasa ukrywająca pasek przy scrollu w dół */
+    .smart-nav.nav-hidden {
+      transform: translateY(-105%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .smart-nav-brand {
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .smart-nav-links {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE */
+    }
+
+    .smart-nav-links::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+
+    .smart-nav-links a {
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      padding: 5px 11px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .smart-nav-links a:hover {
+      background: rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .smart-nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-toggle-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Pływająca, dyskretna pigułka otwierająca menu, gdy pasek jest całkowicie zminimalizowany */
+    .nav-float-pill {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 999;
+      background: var(--primary);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 30px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease, background 0.2s;
+    }
+
+    .nav-float-pill:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    /* Odczepiony, statyczny banner tytułowy (NIE przysłania tekstu przy przewijaniu!) */
+    header.hero-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 60px 20px 45px 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      position: relative; /* Statyczny - odjeżdża w górę podczas scrollowania */
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    header.hero-banner h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    header.hero-banner p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      max-width: 860px;
+      margin: 0 auto 20px auto;
+      line-height: 1.55;
+    }
+
+    .hero-quick-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .hero-quick-links a {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.18);
+      text-decoration: none;
+      padding: 7px 15px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-quick-links a:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* Główny kontener */
+    .container {
+      max-width: 1160px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    /* Karty zagadnień z marginesem pod płynne linki kotwiczne */
+    .card {
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      margin-bottom: 36px;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      scroll-margin-top: 65px; /* Zapobiega przykrywaniu nagłówka sekcji */
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-header {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      background-color: #fcfdfe;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .card-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .card-subtitle {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 2px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-body {
+      padding: 28px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3:first-of-type {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: #334155;
+    }
+
+    /* Komponenty dedykowane (Feynman & Callouts) */
+    .callout-analogy {
+      background-color: var(--analogy-bg);
+      border-left: 5px solid var(--analogy-accent);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+      color: var(--analogy-text);
+    }
+
+    .callout-analogy .label {
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .callout-warning {
+      background-color: var(--warning-bg);
+      border-left: 5px solid var(--warning-accent);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+      color: var(--warning-text);
+    }
+
+    .callout-warning .label {
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .callout-info {
+      background-color: var(--info-bg);
+      border-left: 5px solid var(--accent);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 20px 0;
+      color: var(--info-text);
+    }
+
+    .callout-info .label {
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Schematy przepływu cyklu (Flexbox) */
+    .process-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 24px 0;
+      background: #f1f5f9;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .flow-step {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 14px 18px;
+      flex: 1 1 190px;
+      min-width: 175px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      position: relative;
+    }
+
+    .flow-step-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .flow-step-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .flow-step-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .flow-arrow {
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 900;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .process-flow {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .flow-arrow {
+        transform: rotate(90deg);
+        padding: 4px 0;
+      }
+    }
+
+    /* Morfologia - siatka parametrów */
+    .morpho-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .morpho-box {
+      background: #fafafa;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .morpho-box-title {
+      font-weight: 700;
+      color: var(--primary-light);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    .morpho-box ul {
+      list-style-type: none;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    .morpho-box ul li {
+      margin-bottom: 6px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .morpho-box ul li::before {
+      content: "•";
+      color: var(--accent);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    /* Tabele porównawcze */
+    .table-responsive {
+      overflow-x: auto;
+      margin: 25px 0;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+      background: #ffffff;
+    }
+
+    .comparison-table th {
+      background-color: #0f2d59;
+      color: #ffffff;
+      padding: 13px 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      border: 1px solid #1e3a8a;
+    }
+
+    .comparison-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    .comparison-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .comparison-table tr:hover td {
+      background-color: #f1f5f9;
+    }
+
+    /* Interaktywne sekcje sprawdzające (<details>) */
+    .quiz-container {
+      margin-top: 26px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px dashed #cbd5e1;
+      padding: 18px;
+    }
+
+    .quiz-container h4 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+
+    details[open] {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+    }
+
+    summary {
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.92rem;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "➕";
+      font-size: 0.82rem;
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      content: "➖";
+    }
+
+    .quiz-answer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 0.88rem;
+      color: #334155;
+    }
+
+    .quiz-answer strong {
+      color: #059669;
+    }
+
+    .quiz-rationale {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      background: #f0fdf4;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 3px solid #22c55e;
+    }
+
+    /* Pływający przycisk powrotu do góry */
+    .btn-scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 990;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .btn-scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .btn-scroll-top:hover {
+      background-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Stopka */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pasek postępu czytania u góry strony -->
+  <div id="progress-bar"></div>
+
+  <!-- Pływająca, dyskretna pigułka otwierająca menu, gdy pasek jest zminimalizowany -->
+  <button id="floatPill" class="nav-float-pill" onclick="restoreNav()">
+    <span>🧭 Nawigacja</span>
+  </button>
+
+  <!-- INTELIGENTNY, CHOWAJĄCY SIĘ PASEK NAWIGACJI -->
+  <nav id="smartNav" class="smart-nav">
+    <a href="#hero" class="smart-nav-brand">
+      <span>🔬 Cestodologia</span>
+    </a>
+    
+    <div class="smart-nav-links">
+      <a href="#podstawy">Fundamenty</a>
+      <a href="#saginata">1. T. saginata</a>
+      <a href="#solium">2. T. solium</a>
+      <a href="#nana">3. R. nana</a>
+      <a href="#caninum">4. D. caninum</a>
+      <a href="#diminuta">5. H. diminuta</a>
+      <a href="#master-table">Wielka Tabela</a>
+      <a href="#klinika">Przypadki & Farmakoterapia</a>
+    </div>
+
+    <div class="smart-nav-controls">
+      <button class="nav-toggle-btn" title="Zwiń pasek całkowicie do małej pigułki" onclick="minimizeNav()">
+        Zwiń ✕
+      </button>
+    </div>
+  </nav>
+
+  <!-- PRZYCISK POWROTU DO GÓRY -->
+  <button id="scrollTopBtn" class="btn-scroll-top" title="Do góry" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    ↑
+  </button>
+
+  <!-- GŁÓWNY BANNER TYTUŁOWY - W PEŁNI STATYCZNY (PŁYNNIE ODJEŻDŻA PRZY CZYTANIU) -->
+  <header id="hero" class="hero-banner">
+    <div class="hero-badge">Parazytologia Medyczna & Diagnostyka Laboratoryjna</div>
+    <h1>ARCHITEKTURA I BIOLOGIA TASIEMCÓW MEDYCZNYCH</h1>
+    <p>Kompleksowe, dydaktyczne opracowanie anatomii, ontogenezy i kliniki 5 kluczowych tasiemców człowieka wg metody Feynmana.</p>
+    
+    <div class="hero-quick-links">
+      <a href="#podstawy">Fundamenty Budowy</a>
+      <a href="#saginata">Taenia saginata</a>
+      <a href="#solium">Taenia solium</a>
+      <a href="#nana">Rodentolepis nana</a>
+      <a href="#caninum">Dipylidium caninum</a>
+      <a href="#diminuta">Hymenolepis diminuta</a>
+      <a href="#master-table">Wielka Tabela Egzaminacyjna</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- SEKCJA WSTĘPNA: FUNDAMENTY CESTODOLOGII -->
+    <section id="podstawy" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">Fundamenty Architektury Tasiemców (Cestoda)</div>
+            <div class="card-subtitle">Pojęcia bazowe: jak zbudowany jest tasiemiec i jak operuje w jelicie</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--primary);">PROPEDEUTYKA</span>
+      </div>
+      <div class="card-body">
+        
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: Tasiemiec jako Pociąg Towarowy</div>
+          Wyobraź sobie pociąg towarowy:
+          <ol style="margin-left: 20px; margin-top: 8px;">
+            <li><strong>Skoleks (lokomotywa z kotwicą):</strong> Nie je, nie trawi – jego jedynym zadaniem jest utrzymać pociąg na stacji (w ścianie jelita cienkiego), aby prąd treści pokarmowej go nie zmył. Ma przyssawki i czasem haki.</li>
+            <li><strong>Szyjka (fabryka wagonów):</strong> Wąska strefa tuż za lokomotywą. To tam nieustannie, przez całe życie pasożyta, „odlewane” są nowe wagony (strobirylizacja).</li>
+            <li><strong>Strobila (skład wagonów - proglotydów):</strong> Im dalej od lokomotywy, tym wagony są starsze. Początkowo są puste (młodociane), potem montuje się w nich aparaturę rozrodczą (hermafrodytyczne), a na samym końcu pociągu stają się wielkimi cysternami wypchanymi wyłącznie jajami (maciczne). Ostatni wagon po prostu się odpina i wylatuje na tory (do kału).</li>
+          </ol>
+        </div>
+
+        <h3>1. Trzy anatomiczne segmenty ciała tasiemca</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">🪝 Skoleks (Główka)</div>
+            <ul>
+              <li><strong>Narząd czepny:</strong> Utrzymuje pasożyta wbrew perystaltyce.</li>
+              <li>Wyposażony w <strong>4 przyssawki</strong> (wszystkie 5 badanych gatunków).</li>
+              <li>Może posiadać <strong>ryjek (rostellum)</strong>:
+                <ul>
+                  <li><strong>Uzbrojony:</strong> z wieńcem chitynowych haków (<em>T. solium</em>, <em>R. nana</em>, <em>D. caninum</em>).</li>
+                  <li><strong>Nieuzbrojony:</strong> brak haków (<em>T. saginata</em>, <em>H. diminuta</em>).</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">🌱 Szyjka (Collum)</div>
+            <ul>
+              <li>Krótki, nieczłonowany odcinek o wysokiej aktywności mitotycznej.</li>
+              <li><strong>Strefa pączkowania (proliferacji):</strong> Tu powstają młode proglotydy.</li>
+              <li><strong>Znaczenie kliniczne:</strong> Jeśli leczenie przeciwpasożytnicze oderwie proglotydy, ale szyjka i skoleks przeżyją, tasiemiec <em>w pełni odrośnie</em> w ciągu kilkunastu tygodni!</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">⛓️ Strobila (Łańcuch członów)</div>
+            <ul>
+              <li>Składa się z członów zwanych <strong>proglotydami</strong>.</li>
+              <li><strong>Młodociane:</strong> męskie i żeńskie narządy nie są jeszcze wykształcone.</li>
+              <li><strong>Hermafrodytyczne:</strong> w pełni rozwinięty obojnaczy układ rozrodczy (samozapłodnienie lub zapłodnienie krzyżowe między członami).</li>
+              <li><strong>Maciczne (dojrzałe):</strong> zanik większości narządów; całe wnętrze wypełnia rozgałęziona macica z jajami.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout-info">
+          <div class="label">ℹ️ Fizjologia Pokarmowa Tasiemców: Brak Przewodu Pokarmowego!</div>
+          Tasiemce nie mają jamy ustnej, gardzieli ani jelita! Ich całe ciało pokrywa <strong>tegument (syncytium)</strong> z mikrokosmkami (mikrotrychami). Tasiemiec dosłownie „kąpie się” w już strawionym przez żywiciela pokarmie jelita cienkiego i wchłania aminokwasy, glukozę i lipidy całą powierzchnią ciała.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GATUNEK 1: TAENIA SAGINATA -->
+    <section id="saginata" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">1. Taenia saginata</div>
+            <div class="card-subtitle">Tasiemiec nieuzbrojony | Wywołuje: Tasiemczycę (Taeniosis saginata)</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--badge-saginata);">Bydło ➔ Człowiek</span>
+      </div>
+      <div class="card-body">
+
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: „Kulturalny Olbrzym z Przyssawkami”</div>
+          <em>Taenia saginata</em> to gigant (może mierzyć nawet 10 metrów!), ale jest „dżentelmenem” w porównaniu ze swoim uzbrojonym bratem. Nie ma żadnych haków – trzyma się jelita wyłącznie za pomocą 4 mięśniowych „przyssawek próżniowych”. Co najważniejsze: jego wagony są tak silne, że potrafią same, jak gąsienice, <strong>aktywnie wyczołgać się przez odbyt</strong> pacjenta, co często doprowadza zszokowanego gospodarza do natychmiastowej wizyty u lekarza.
+        </div>
+
+        <h3>Morfologia precyzyjna</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">Główka (Skoleks)</div>
+            <ul>
+              <li>Kształt: gruszkowaty / czwórboczny, średnica 1,5–2 mm.</li>
+              <li>Aparat czepny: <strong>4 silne przyssawki</strong>.</li>
+              <li><strong>Brak ryjka i BRAK HAKÓW</strong> (stąd nazwa „nieuzbrojony”).</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Strobila i Proglotydy</div>
+            <ul>
+              <li>Długość tasiemca: <strong>4–10 metrów</strong> (nawet do 12 m).</li>
+              <li>Liczba członów: <strong>1000 – 2000</strong>.</li>
+              <li>Człon maciczny: długi (16–20 mm), wąski (5–7 mm).</li>
+              <li><strong>Macica: 15–35 bocznych odgałęzień</strong> po każdej stronie, rozgałęziających się dychotomicznie (drzewkowato).</li>
+              <li>Zatoka płciowa: nieregularnie naprzemienna.</li>
+              <li><strong>Aktywna ruchliwość:</strong> pojedyncze człony maciczne aktywnie wypełzają przez zwieracz odbytu poza defekacją!</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Jajo i Postać Larwalna</div>
+            <ul>
+              <li><strong>Jajo:</strong> kuliste, 30–40 µm, z grubą, poprzecznie prążkowaną żółtawo-brunatną otoczką (embriofor). Wewnątrz zarodek z 3 parami haków (<strong>onkosfera</strong>). Identyczne jak u <em>T. solium</em>!</li>
+              <li><strong>Larwa:</strong> <em>Cysticercus bovis</em> (wągier bydlęcy). Pęcherzyk (ok. 5–10 mm) wypełniony płynem, z wpuklonym pojedynczym skoleksem bez haków.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Cykl Rozwojowy: Ciąg przyczynowo-skutkowy</h3>
+        <div class="process-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 1: Wydalenie</div>
+            <div class="flow-step-title">Człony / Jaja w środowisku</div>
+            <div class="flow-step-desc">Aktywnie wypełzające z odbytu człowieka człony uwalniają miliony jaj na pastwiska.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 2: Żywiciel Pośredni</div>
+            <div class="flow-step-title">Bydło zjada jajo</div>
+            <div class="flow-step-desc">W trawie krowa połyka onkosferę. Enzymy trawienne uwalniają zarodek, który przebija ścianę jelita.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 3: Enkapsulacja</div>
+            <div class="flow-step-title">Wągier (Cysticercus bovis)</div>
+            <div class="flow-step-desc">Przez krew onkosfera trafia do mięśni poprzecznie prążkowanych (serce, żwacze, język) bydła i tworzy wągry.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 4: Infekcja Człowieka</div>
+            <div class="flow-step-title">Spożycie Tatara / Wołowiny</div>
+            <div class="flow-step-desc">Człowiek (jedyny żywiciel ostateczny) zjada surowe/niedogotowane mięso z żywymi wągrami.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 5: Dojrzałość</div>
+            <div class="flow-step-title">Jelito cienkie człowieka</div>
+            <div class="flow-step-desc">Wągier wynicowuje skoleks pod wpływem żółci, przyczepia się do ściany jelita i w 2-3 miesiące osiąga dojrzałość.</div>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="label">⚠️ Złota Reguła Egzaminacyjna & Pułapka nr 1!</div>
+          <strong>CZY CZŁOWIEK MOŻE MIEĆ WĄGRZYCĘ WYWOŁANĄ PRZEZ <em>TAENIA SAGINATA</em>?</strong><br>
+          <strong>ABSOLUTNIE NIE!</strong> Człowiek dla <em>Taenia saginata</em> jest <strong>WYŁĄCZNIE żywicielem ostatecznym</strong>. Połknięcie jaj <em>T. saginata</em> przez człowieka NIE prowadzi do wągrzycy – nasze enzymy i środowisko tkanek nie aktywują rozwoju wągra bydlęcego w ludzkich narządach. Wągrzyca człowieka grozi wyłącznie przy <em>Taenia solium</em>!
+        </div>
+
+        <div class="quiz-container">
+          <h4>Sprawdź swoją wiedzę: Taenia saginata</h4>
+          <details>
+            <summary>Pytanie 1: Pacjent przynosi w słoiku białawy, płaski twór, który samoczynnie wypełzł z odbytu. Ile odgałęzień macicy zobaczysz w mikroskopie po uciśnięciu preparatu?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Od 15 do 35 bocznych odgałęzień po każdej stronie.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Zdolność aktywnego pełzania i opuszczania odbytu poza aktem defekacji jest typowa dla <em>Taenia saginata</em>. Morfologicznie potwierdza to liczna (powyżej 15, typowo 18–30) liczba cienkich, dychotomicznych odgałęzień macicy.
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Pytanie 2: Czy znalezienie jaj rodzaju Taenia w kale pozwala na jednoznaczne rozpoznanie Taenia saginata?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> NIE. Jaja <em>Taenia saginata</em> i <em>Taenia solium</em> są morfologicznie identyczne.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> W mikroskopie świetlnym jajo obu tych tasiemców ma taką samą średnicę (ok. 30–40 µm), promienistą otoczkę embrioforu i zawiera onkosferę. Diagnostyka gatunkowa wymaga zbadania odgałęzień macicy w proglotydzie macicznym lub skoleksa.
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GATUNEK 2: TAENIA SOLIUM -->
+    <section id="solium" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">2. Taenia solium</div>
+            <div class="card-subtitle">Tasiemiec uzbrojony | Wywołuje: Tasiemczycę (Taeniosis) ORAZ Wągrzycę (Cysticercosis)</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--badge-solium);">Świnia ➔ Człowiek (i Człowiek ➔ Człowiek!)</span>
+      </div>
+      <div class="card-body">
+
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: „Piracka Kotwica i Śmiertelna Podwójna Rola”</div>
+          W przeciwieństwie do „kulturalnego” tasiemca nieuzbrojonego, <em>Taenia solium</em> ma na szczycie główki <strong>podwójny wieniec ostrych haków</strong> niczym piracka kotwica wbijająca się w śluzówkę. Ale to nie jest jego najgroźniejsza cecha. Ten tasiemiec ma mroczną zdolność: jeśli zjesz niedogotowaną wieprzowinę z wągrem – masz po prostu pasożyta w jelicie (taeniozę). Ale jeśli przypadkiem <strong>połkniesz jego mikroskopijne jaja</strong> (np. na niemytych truskawkach lub przez brudne ręce), twój organizm zostanie potraktowany jak świnia! W mózgu, oku i mięśniach wyrosną pęcherze larwalne (wągry), wywołując drgawki lub ślepotę.
+        </div>
+
+        <h3>Morfologia precyzyjna</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">Główka (Skoleks)</div>
+            <ul>
+              <li>Kształt: kulisty, średnica ok. 0,6–1 mm.</li>
+              <li>Aparat czepny: <strong>4 przyssawki ORAZ wysuwalny ryjek (rostellum)</strong>.</li>
+              <li><strong>Podwójny wieniec haków:</strong> 22–32 haki chitynowe ułożone naprzemiennie (dłuższe i krótsze).</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Strobila i Proglotydy</div>
+            <ul>
+              <li>Długość tasiemca: <strong>2–4 metry</strong> (rzadziej do 8 m – wyraźnie krótszy niż <em>T. saginata</em>).</li>
+              <li>Liczba członów: <strong>800 – 1000</strong>.</li>
+              <li>Człon hermafrodytyczny: <strong>trójdzielny jajnik</strong> (posiada dodatkowy trzeci płat jajnika – cecha kluczowa!).</li>
+              <li>Człon maciczny: <strong>7–13 grubych bocznych odgałęzień macicy</strong> (odgałęzienia rzadkie, drzewkowate).</li>
+              <li><strong>Brak aktywnego ruchu:</strong> człony są wydalane biernie z kałem, często w pasmach po 3–5 członów naraz.</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Postać Larwalna (Wągier)</div>
+            <ul>
+              <li><strong>Nazwa larwy:</strong> <em>Cysticercus cellulosae</em> (wągier świński).</li>
+              <li>Wielkość: owalny pęcherzyk 5–15 mm z wpuklonym skoleksem wyposażonym w haki!</li>
+              <li>Lokalizacja w wągrzycy: ośrodkowy układ nerwowy (neurocysticercosis), gałka oczna, mięśnie poprzecznie prążkowane, tkanka podskórna.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Mechanizm Krok po Kroku: Dwie Zupełnie Różne Drogi Inwazji</h3>
+        
+        <div style="margin: 15px 0 8px 0; font-weight: 700; color: var(--primary);">SCENARIUSZ A: Człowiek zjada WĄGRA w mięsie wieprzowym ➔ TASIEMCZYCA JELITOWA (Taeniosis)</div>
+        <div class="process-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">A1: Spożycie</div>
+            <div class="flow-step-title">Niedogotowana wieprzowina</div>
+            <div class="flow-step-desc">Człowiek zjada mięso wieprzowe zawierające żywe <em>Cysticercus cellulosae</em>.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">A2: Wynicowanie</div>
+            <div class="flow-step-title">Soki żołądkowe & żółć</div>
+            <div class="flow-step-desc">Skoleks z wieńcem haków wynicowuje się i czepia ściany jelita cienkiego.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">A3: Skutek</div>
+            <div class="flow-step-title">Dorosły tasiemiec w jelicie</div>
+            <div class="flow-step-desc">Wzrost strobili. Człowiek wydala człony i jaja z kałem. Zwykle łagodne objawy brzuszne.</div>
+          </div>
+        </div>
+
+        <div style="margin: 20px 0 8px 0; font-weight: 700; color: var(--warning-text);">SCENARIUSZ B: Człowiek połyka JAJA Taenia solium ➔ WĄGRZYCA TKANKOWA (Cysticercosis)</div>
+        <div class="process-flow" style="background: #fff1f2; border-color: #fecdd3;">
+          <div class="flow-step">
+            <div class="flow-step-num" style="color: var(--warning-accent);">B1: Wrota</div>
+            <div class="flow-step-title">Połknięcie jaj (brudne ręce/woda)</div>
+            <div class="flow-step-desc">Droga fekalno-oralna LUB autoinwazja (retroperystaltyka przy wymiotach u nosiciela tasiemca).</div>
+          </div>
+          <div class="flow-arrow" style="color: var(--warning-accent);">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num" style="color: var(--warning-accent);">B2: Penetracja</div>
+            <div class="flow-step-title">Onkosfera do naczyń krwionośnych</div>
+            <div class="flow-step-desc">Larwa uwalnia się w jelicie, przebija ścianę naczyń i wchodzi do dużego krwioobiegu.</div>
+          </div>
+          <div class="flow-arrow" style="color: var(--warning-accent);">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num" style="color: var(--warning-accent);">B3: Narządy</div>
+            <div class="flow-step-title">Neurocysticerkoza / Wągrzyca oka</div>
+            <div class="flow-step-desc">Powstają cysty w mózgowiu (drgawki, padaczka ogniskowa, wodogłowie) lub w siatkówce oka (utrata wzroku).</div>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="label">⚠️ Złota Reguła Egzaminacyjna: Autoinwazja i Leki Przeciwwymiotne</div>
+          U pacjenta z tasiemczycą jelitową wywołaną przez <em>Taenia solium</em> wymioty mogą cofnąć proglotydy maciczne do żołądka (<strong>autoinwazja wewnętrzna</strong>). Kwas żołądkowy strawi ścianę proglotydu, uwalniając tysiące jaj, które natychmiast wyklują się w dwunastnicy i spenetrują naczynia krwionośne, powodując masywną, śmiertelną <strong>neurocysticerkozę</strong>! Dlatego w eradykacji <em>T. solium</em> bezwzględnie unika się wywoływania nudności i wymiotów.
+        </div>
+
+        <div class="quiz-container">
+          <h4>Sprawdź swoją wiedzę: Taenia solium</h4>
+          <details>
+            <summary>Pytanie 1: W badaniu histopatologicznym usuniętego proglotydu macicznego naliczono 9 bocznych odgałęzień macicy. Jaki to gatunek i jakie stanowi zagrożenie dla otoczenia?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Jest to <em>Taenia solium</em> (tasiemiec uzbrojony).
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Zakres 7–13 odgałęzień macicy jest patognomoniczny dla <em>T. solium</em>. Zagrożenie dla domowników jest olbrzymie: pacjent wydala jaja inwazyjne dla człowieka drogą pokarmową. Kontakt z jego kałem może wywołać u innych wągrzycę mózgu (neurocysticercosis).
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Pytanie 2: Kim jest człowiek w cyklu Taenia solium w przypadku wągrzycy (cysticercosis), a kim w tasiemczycy (taeniosis)?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> W wągrzycy – żywicielem pośrednim; w tasiemczycy – żywicielem ostatecznym.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Jeśli człowiek nosi w jelicie dorosłego tasiemca rozmnażającego się płciowo – jest żywicielem ostatecznym. Jeśli w jego tkankach zagnieździły się larwy (wągry) – zastępuje świnię i staje się żywicielem pośrednim (często ślepym zaułkiem ewolucyjnym dla pasożyta).
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GATUNEK 3: RODENTOLEPIS NANA (= HYMENOLEPIS NANA) -->
+    <section id="nana" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">3. Rodentolepis nana (= Hymenolepis nana)</div>
+            <div class="card-subtitle">Tasiemiec karłowaty | Wywołuje: Hymenolepidozę (Hymenolepidosis)</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--badge-nana);">Cykl bezpośredni / Autoinwazja</span>
+      </div>
+      <div class="card-body">
+
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: „Karzeł, Który Nie Potrzebuje Nikogo Z Zewnątrz”</div>
+          Większość tasiemców potrzebuje skomplikowanej podróży przez krowę, świnię czy rybę. Tasiemiec karłowaty (<em>Rodentolepis nana</em>) to samotny wilk: ma zaledwie 2–4 centymetry długości (jest maleńki!) i potrafi zamknąć <strong>cały swój cykl życiowy w jelicie jednego człowieka</strong>. Co gorsza, potrafi mnożyć się w tobie bez wychodzenia na zewnątrz (tzw. autoinwazja wewnętrzna) – jajo złożone w jelicie natychmiast wnika w twój kosmek jelitowy, zamienia się w larwę, wychodzi z powrotem do światła jelita i staje się nowym tasiemcem. Z jednego połkniętego jaja pacjent może po kilku miesiącach mieć tysiące tasiemców!
+        </div>
+
+        <h3>Morfologia precyzyjna</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">Główka (Skoleks)</div>
+            <ul>
+              <li>Kształt: kulisty, miniaturowy (średnica ok. 0,25–0,3 mm).</li>
+              <li>Aparat czepny: <strong>4 przyssawki</strong>.</li>
+              <li><strong>Krótki, wysuwalny ryjek z pojedynczym wieńcem 20–30 drobnych haków</strong> (tasiemiec jest uzbrojony!).</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Strobila i Proglotydy</div>
+            <ul>
+              <li>Długość tasiemca: zaledwie <strong>1,5 – 4 cm</strong> (maks. 6 cm), szerokość do 1 mm.</li>
+              <li>Liczba członów: <strong>100 – 200</strong> (do kilkuset).</li>
+              <li>Kształt członów: <strong>zawsze wyraźnie szersze niż dłuższe</strong>!</li>
+              <li>Proglotyd hermafrodytyczny: <strong>3 okrągłe jądra</strong> ułożone w poprzecznym szeregu i trójłatowy jajnik.</li>
+              <li>Proglotydy maciczne: bardzo delikatne, ulegają strawieniu/lizie już w świetle jelita – <em>w kale NIE spotyka się całych członów</em>, a jedynie uwolnione jaja!</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Jajo Diagnostyczne (Klucz Mikroskopowy!)</div>
+            <ul>
+              <li>Kształt i wymiary: owalne, bezbarwne, <strong>30–45 × 40–50 µm</strong>.</li>
+              <li>Otoczka zewnętrzna: cienka, gładka, przezroczysta.</li>
+              <li>Wewnętrzna błona onkosfery: zaopatrzona na obu biegunach w <strong>charakterystyczne guziczki (brodawki biegunowe)</strong>.</li>
+              <li><strong>4–8 nitkowatych, polarnych filamentów (witek)</strong> odchodzących od biegunów onkosfery i falujących w przestrzeni między otoczkami! Onkosfera z 3 parami haków.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Cykl Rozwojowy: Cykl Prosty (Monokseniczny) vs Autoinwazja</h3>
+        <div class="process-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">Faza 1: Wrota</div>
+            <div class="flow-step-title">Połknięcie Jaja</div>
+            <div class="flow-step-desc">Droga pokarmowa (brudne ręce u dzieci, skażony pokarm) LUB endogenne jajo w jelicie.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Faza 2: Tkanka</div>
+            <div class="flow-step-title">Cystikerkoid w Kosmku Jelitowym</div>
+            <div class="flow-step-desc">Onkosfera wnika do wnętrza kosmka jelita czczego/krętego i po 4–7 dniach tworzy larwę (cystikerkoid).</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Faza 3: Pęknięcie</div>
+            <div class="flow-step-title">Powrót do Światła Jelita</div>
+            <div class="flow-step-desc">Kosmek pęka, cystikerkoid uwalnia się do światła jelita, wysuwa skoleks i czepia się śluzówki.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Faza 4: Zamknięcie</div>
+            <div class="flow-step-title">Dojrzały Tasiemiec (po 2–3 tyg.)</div>
+            <div class="flow-step-desc">Pasożyt produkuje jaja. Jaja mogą wyjść z kałem LUB wniknąć w kolejny kosmek (<strong>autoinwazja wewnętrzna</strong>).</div>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="label">⚠️ Pułapka Egzaminacyjna: Rola Żywiciela Pośredniego w Rodentolepis nana</div>
+          Pytanie egzaminacyjne: <em>„Czy Rodentolepis nana wymaga do swojego cyklu owadów jako żywicieli pośrednich?”</em><br>
+          <strong>Odpowiedź poprawna:</strong> <strong>NIE WYMAGA.</strong> Może rozwijać się z pominięciem jakiegokolwiek żywiciela pośredniego (człowiek jest jednocześnie żywicielem pośrednim – w fazie larwy w kosmkach – i ostatecznym – w fazie jelitowej). Co prawda cykl pośredni z udziałem chrząszczy (np. mącznika) jest biologicznie możliwy, ale u ludzi występuje niemal wyłącznie cykl bezpośredni!
+        </div>
+
+        <div class="quiz-container">
+          <h4>Sprawdź swoją wiedzę: Rodentolepis nana</h4>
+          <details>
+            <summary>Pytanie 1: Dlaczego u małych dzieci hymenolepidoza może przybierać postać hiperinwazji z tysiącami tasiemców, mimo że dziecko nie miało kontaktu ze zwierzętami?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Zjawisko autoinwazji wewnętrznej (hiperinfekcji endogennej).
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Jaja składane przez dojrzałe osobniki uwalniają się z członów w jelicie i natychmiast wykluwają się bez opuszczania przewodu pokarmowego gospodarza, wnikając w kolejne kosmki. U dzieci o niedojrzałym układzie odpornościowym prowadzi to do lawinowego namnażania pasożytów.
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Pytanie 2: Po czym pod mikroskopem odróżnisz jajo Rodentolepis nana od jaja Hymenolepis diminuta?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Po obecności polarnych nitek (filamentów) i wielkości jaja.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Jajo <em>R. nana</em> jest mniejsze (ok. 40 µm) i posiada 4–8 polarnych witek (filamentów) wychodzących z guziczków wewnętrznej otoczki. Jajo <em>H. diminuta</em> jest znacznie większe (60–80 µm) i jest całkowicie POZBAWIONE polarnych filamentów!
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GATUNEK 4: DIPYLIDIUM CANINUM -->
+    <section id="caninum" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">4. Dipylidium caninum</div>
+            <div class="card-subtitle">Tasiemiec psi | Wywołuje: Dipylidozę (Dipylidiosis)</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--badge-caninum);">Pchła ➔ Pies / Kot / Dziecko</span>
+      </div>
+      <div class="card-body">
+
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: „Pestka Ogórka, Podwójne Drzwi i Autostop w Pchle”</div>
+          Człony tego tasiemca wyglądają wypisz-wymaluj jak <strong>nasiona ogórka lub pestki dyni</strong>. Posiadają unikatową anatomicznie cechę: każdy proglotyd ma zdublowany, podwójny zestaw narządów rozrodczych z dwoma otworami płciowymi po obu stronach – jak wagon z drzwiami wyjściowymi na lewy i prawy peron (stąd nazwa <em>Di-pylidium</em> = dwoje drzwi). Człowiek (najczęściej małe dziecko bawiące się ze szczeniakiem) zaraża się nim, połykając przypadkowo... <strong>całą pchłę</strong> przenoszącą w swoim ciele larwę (cystikerkoid)!
+        </div>
+
+        <h3>Morfologia precyzyjna</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">Główka (Skoleks)</div>
+            <ul>
+              <li>Kształt: mały, romboidalny (średnica ok. 0,3–0,5 mm).</li>
+              <li>Aparat czepny: <strong>4 owalne przyssawki</strong>.</li>
+              <li><strong>Wysuwalny, maczugowaty ryjek z 4–7 rzędami drobnych haków</strong> przypominających kształtem kolce róży.</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Strobila i Człony Maciczne</div>
+            <ul>
+              <li>Długość tasiemca: <strong>15–50 cm</strong> (rzadziej do 70 cm). Liczba członów: 60–175.</li>
+              <li>Kształt członów: baryłkowaty, eliptyczny, zwężony na obu końcach – <strong>wygląd nasion ogórka lub pestek dyni</strong>.</li>
+              <li><strong>Podwójny układ rozrodczy:</strong> każdy człon hermafrodytyczny posiada 2 komplety narządów płciowych i <strong>DWIE symetryczne zatoki płciowe</strong> na obu bocznych krawędziach.</li>
+              <li>Aktywne pełzanie: świeże człony maciczne dynamicznie wypełzają przez odbyt psa lub człowieka, wywołując intensywny świąd (tzw. saneczkowanie u psów).</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Pakiety Jaj (Kokony Embrionalne)</div>
+            <ul>
+              <li>Jaja nie występują w kale pojedynczo!</li>
+              <li>Są zgrupowane w <strong>torebkach embrionalnych (pakietach jaj)</strong> po <strong>8 do 15–30 sztuk</strong> w każdym pakiecie.</li>
+              <li>Pojedyncze jajo: kuliste, 35–40 µm, z onkosferą zaopatrzoną w 6 haków.</li>
+              <li>Larwa: <strong>cystikerkoid</strong> rozwijający się w jamie ciała owada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Cykl Rozwojowy: Ciąg przyczynowo-skutkowy</h3>
+        <div class="process-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 1: Wylot</div>
+            <div class="flow-step-title">Człony pełzające</div>
+            <div class="flow-step-desc">Człony o wyglądzie pestek ogórka wypełzają z odbytu psa/kota na sierść i posłanie, uwalniając pakiety jaj.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 2: Pośrednik</div>
+            <div class="flow-step-title">Larwa Pchły / Wszoł zjada jaja</div>
+            <div class="flow-step-desc">Larwy pcheł (<em>Ctenocephalides canis/felis</em>) mają aparat gryzący i połykają jaja z posłania.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 3: Przeobrażenie</div>
+            <div class="flow-step-title">Cystikerkoid w Pchle</div>
+            <div class="flow-step-desc">Onkosfera przekształca się w larwę (cystikerkoid) wewnątrz dojrzewającej pchły. Dorosła pchła nosi w sobie inwazyjną larwę.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 4: Wrota</div>
+            <div class="flow-step-title">Przypadkowe połknięcie owada</div>
+            <div class="flow-step-desc">Dziecko całujące psa lub liżące brudne dłonie połyka zgniecioną, zakażoną pchłę.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Krok 5: Jelito</div>
+            <div class="flow-step-title">Dojrzałość w jelicie cienkim</div>
+            <div class="flow-step-desc">W świetle jelita uwalnia się cystikerkoid, skoleks czepia się śluzówki i po ok. 3–4 tygodniach powstają nowe człony.</div>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="label">⚠️ Pułapka Egzaminacyjna: Kto zjada jaja Dipylidium caninum?</div>
+          Egzaminatorzy pytają: <em>„Czy dorosła pchła zaraża się Dipylidium caninum ssąc krew psa?”</em><br>
+          <strong>BŁĄD!</strong> Dorosła pchła ma aparat kłująco-ssący – nie jest fizycznie w stanie pobrać pakietu jaj tasiemca! Jaja zjadają wyłącznie <strong>LARWY pcheł</strong>, które mają aparat gębowy gryzący i żywią się resztkami organicznymi w legowisku. Tasiemiec czeka w ciele owada aż pchła osiągnie postać dorosłą (imago).
+        </div>
+
+        <div class="quiz-container">
+          <h4>Sprawdź swoją wiedzę: Dipylidium caninum</h4>
+          <details>
+            <summary>Pytanie 1: Matka zgłasza, że w pieluszce 2-letniego dziecka widziała małe, ruszające się białawe twory przypominające nasiona ogórka. Jaki to pasożyt i jak doszło do zakażenia?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> <em>Dipylidium caninum</em> (tasiemiec psi). Dziecko zaraziło się przez przypadkowe połknięcie pchły.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Kształt nasion ogórka i aktywna ruchliwość członów są charakterystyczne dla tego gatunku. Transmisja następuje przez połknięcie żywiciela pośredniego – pchły psiej/kociej lub wszoła zawierającego cystikerkoid (np. podczas zabawy ze zwierzęciem domowym).
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Pytanie 2: Co zobaczysz pod mikroskopem po roztarciu dojrzałego członu Dipylidium caninum?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Pakiety (kokony) zawierające po kilkanaście jaj w torebkach embrionalnych.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Jaja <em>D. caninum</em> nie leżą luźno w macicy, lecz są spakowane w wielojajowe torebki maciczne (po 8–30 jaj w pakiecie).
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GATUNEK 5: HYMENOLEPIS DIMINUTA -->
+    <section id="diminuta" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">5. Hymenolepis diminuta</div>
+            <div class="card-subtitle">Tasiemiec szczurzy | Wywołuje: Hymenolepidozę szczurzą (Hymenolepidosis diminuta)</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--badge-diminuta);">Gryzonie / Owady Mączne ➔ Człowiek</span>
+      </div>
+      <div class="card-body">
+
+        <div class="callout-analogy">
+          <div class="label">💡 Intuicyjna Analogia: „Większy Brat Bez Broni i Mączny Pasażer na Gapę”</div>
+          Mimo nazwy gatunkowej „<em>diminuta</em>” (co po łacinie znaczy maleńki), tasiemiec ten jest <strong>znacznie większy</strong> od tasiemca karłowatego – dorasta nawet do 60 cm! Jego kluczowa cecha to absolutny brak uzbrojenia: jego ryjek jest uwsteczniony i <strong>nie ma żadnych haków</strong>. W przeciwieństwie do <em>R. nana</em>, ten tasiemiec <strong>MUSI</strong> mieć żywiciela pośredniego. Człowiek zaraża się nim, połykając chrząszcza spichrzowego (np. mącznika młynarka) kryjącego się w zanieczyszczonej mące, płatkach owsianych lub suszonych owocach.
+        </div>
+
+        <h3>Morfologia precyzyjna</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box">
+            <div class="morpho-box-title">Główka (Skoleks)</div>
+            <ul>
+              <li>Kształt: mały, maczugowaty lub kulisty (średnica 0,2–0,4 mm).</li>
+              <li>Aparat czepny: <strong>4 przyssawki</strong>.</li>
+              <li><strong>Ryjek szczątkowy (rudymentarny), BEZ HAKÓW</strong> – tasiemiec jest całkowicie <strong>nieuzbrojony</strong>!</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Strobila i Człony</div>
+            <ul>
+              <li>Długość tasiemca: <strong>20–60 cm</strong> (zdecydowanie dłuższy niż <em>R. nana</em>!). Szerokość do 3–5 mm.</li>
+              <li>Liczba członów: <strong>800 – 1000</strong>.</li>
+              <li>Kształt: wszystkie proglotydy są wyraźnie <strong>krótkie i szerokie</strong> (znacznie szersze niż dłuższe).</li>
+              <li>Podobnie jak u <em>R. nana</em>, w proglotydzie hermafrodytycznym występują 3 okrągłe jądra i jednostronna zatoka płciowa.</li>
+            </ul>
+          </div>
+
+          <div class="morpho-box">
+            <div class="morpho-box-title">Jajo Diagnostyczne (Klucz Różnicowy!)</div>
+            <ul>
+              <li>Kształt: kuliste do lekko owalnego, <strong>duże: 60–80 µm</strong> (prawie dwukrotnie większe od jaja <em>R. nana</em>!).</li>
+              <li>Barwa otoczki: żółtawo-brunatna, gruba, zewnętrznie delikatnie prążkowana.</li>
+              <li>Onkosfera: średnica ok. 30 µm z 6 hakami.</li>
+              <li><strong>BEZWZGLĘDNY BRAK POLARNYCH FILAMENTÓW (NITEK)!</strong> Przestrzeń między otoczką a onkosferą jest pusta i jednorodna.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Cykl Rozwojowy: Ciąg przyczynowo-skutkowy</h3>
+        <div class="process-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">Etap 1: Rezerwuar</div>
+            <div class="flow-step-title">Szczur wydala jaja</div>
+            <div class="flow-step-desc">Głównym żywicielem ostatecznym są szczury i myszy, wydalające jaja z kałem w spiżarniach i magazynach zbożowych.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Etap 2: Owad Spichrzowy</div>
+            <div class="flow-step-title">Mącznik / Wołek połyka jajo</div>
+            <div class="flow-step-desc">Stawonogi magazynowe (larwy i dorosłe chrząszcze <em>Tenebrio molitor</em>, <em>Tribolium</em>, pchły szczurze) zjadają jaja.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Etap 3: Larwa</div>
+            <div class="flow-step-title">Cystikerkoid w jamie owada</div>
+            <div class="flow-step-desc">W jamie ciała chrząszcza rozwija się postać larwalna – inwazyjny cystikerkoid.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Etap 4: Transmisja</div>
+            <div class="flow-step-title">Człowiek zjada owada w mące</div>
+            <div class="flow-step-desc">Przypadkowe spożycie zanieczyszczonych zbóż, płatków, niedopieczonego pieczywa z martwym chrząszczem.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <div class="flow-step-num">Etap 5: Finał</div>
+            <div class="flow-step-title">Tasiemiec w jelicie cienkim</div>
+            <div class="flow-step-desc">Cystikerkoid przyczepia się do śluzówki jelita. Po ok. 20 dniach tasiemiec zaczyna wydalać jaja. <strong>Brak autoinwazji!</strong></div>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="label">⚠️ Pułapka Egzaminacyjna: H. nana vs H. diminuta – Kluczowe Różnice Biologiczne</div>
+          1. <strong>Skoleks:</strong> <em>R. nana</em> ma ryjek <strong>UZBROJONY</strong> w wieniec haków; <em>H. diminuta</em> ma ryjek <strong>NIEUZBROJONY</strong> (bez haków).<br>
+          2. <strong>Żywiciel pośredni:</strong> U <em>R. nana</em> jest <strong>fakultatywny/zbędny</strong> (cykl prosty); u <em>H. diminuta</em> jest <strong>BEZWZGLĘDNIE OBOWIĄZKOWY</strong> (owad magazynowy lub pchła).<br>
+          3. <strong>Autoinwazja:</strong> U <em>R. nana</em> – TAK (groźna hiperinfekcja); u <em>H. diminuta</em> – <strong>NIE MA AUTOINWAZJI</strong>! Połknięcie samego jaja <em>H. diminuta</em> NIE zarazi człowieka!
+        </div>
+
+        <div class="quiz-container">
+          <h4>Sprawdź swoją wiedzę: Hymenolepis diminuta</h4>
+          <details>
+            <summary>Pytanie 1: Pracownik elewatora zbożowego połknął jajo Hymenolepis diminuta obecne w kurzu zbożowym. Czy rozwinie się u niego tasiemczyca?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> NIE.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> <em>Hymenolepis diminuta</em> jest pasożytem bezwzględnie heteroksenicznym (wymaga żywiciela pośredniego). Jajo musi zostać najpierw zjedzone przez owada (np. chrząszcza mącznego), w którym powstanie cystikerkoid. Połknięcie samego jaja nie prowadzi do rozwoju tasiemca w jelicie człowieka.
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Pytanie 2: W badaniu koproskopowym znaleziono duże (75 µm), brązowawe jaja z onkosferą, bez żadnych nitek biegunowych. Jaka jest diagnoza?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Inwazja <em>Hymenolepis diminuta</em>.
+              <div class="quiz-rationale">
+                <strong>Uzasadnienie:</strong> Duży rozmiar (>60 µm) oraz całkowity brak polarnych filamentów jednoznacznie wyklucza <em>Rodentolepis nana</em> i wskazuje na <em>Hymenolepis diminuta</em>.
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WIELKA TABELA PORÓWNAWCZA: MASTER SHEET EGZAMINACYJNY -->
+    <section id="master-table" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">Wielka Syntetyczna Tabela Różnicowa</div>
+            <div class="card-subtitle">Kluczowe parametry diagnostyczne i biologiczne 5 tasiemców w jednym zestawieniu</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: #0f172a;">MASTER SHEET</span>
+      </div>
+      <div class="card-body">
+        
+        <p>Poniższa tabela stanowi absolutną esencję wymagań egzaminacyjnych z parazytologii medycznej w zakresie cestodologii:</p>
+
+        <div class="table-responsive">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Cecha / Gatunek</th>
+                <th>Taenia saginata</th>
+                <th>Taenia solium</th>
+                <th>Rodentolepis nana</th>
+                <th>Dipylidium caninum</th>
+                <th>Hymenolepis diminuta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Nazwa polska</strong></td>
+                <td>Tasiemiec nieuzbrojony</td>
+                <td>Tasiemiec uzbrojony</td>
+                <td>Tasiemiec karłowaty</td>
+                <td>Tasiemiec psi</td>
+                <td>Tasiemiec szczurzy</td>
+              </tr>
+              <tr>
+                <td><strong>Długość ciała</strong></td>
+                <td>4 – 10 metrów</td>
+                <td>2 – 4 metry</td>
+                <td>1,5 – 4 cm (karłowaty!)</td>
+                <td>15 – 50 cm</td>
+                <td>20 – 60 cm</td>
+              </tr>
+              <tr>
+                <td><strong>Aparat czepny na Skoleksie</strong></td>
+                <td>4 przyssawki; <strong>BRAK haków i ryjka</strong></td>
+                <td>4 przyssawki + <strong>ryjek z podwójnym wieńcem haków</strong> (22–32)</td>
+                <td>4 przyssawki + <strong>ryjek z 1 wieńcem haków</strong> (20–30)</td>
+                <td>4 przyssawki + <strong>ryjek z 4–7 rzędami haków</strong> (kolce róży)</td>
+                <td>4 przyssawki; <strong>rudymentarny ryjek BEZ haków</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Cecha proglotydu macicznego</strong></td>
+                <td>15–35 cienkich, drzewkowatych odgałęzień macicy</td>
+                <td>7–13 grubych, rzadkich odgałęzień macicy</td>
+                <td>Człony bardzo krótkie i szerokie; rozpadają się w jelicie</td>
+                <td>Kształt nasion ogórka/pestek dyni; <strong>podwójne zatoki płciowe</strong></td>
+                <td>Człony znacznie szersze niż dłuższe; rozpadają się w jelicie</td>
+              </tr>
+              <tr>
+                <td><strong>Wydalanie członów</strong></td>
+                <td><strong>Aktywne wypełzanie</strong> pojedynczych członów przez odbyt</td>
+                <td><strong>Bierne wydalanie</strong> w kale (często pasma po 3–5)</td>
+                <td>Brak całych członów w kale (ulegają lizie w jelicie)</td>
+                <td><strong>Aktywne pełzanie</strong> członów w okolicy odbytu/pościeli</td>
+                <td>Brak całych członów w kale (liza w jelicie)</td>
+              </tr>
+              <tr>
+                <td><strong>Morfologia jaja</strong></td>
+                <td>30–40 µm, gruba prążkowana otoczka, onkosfera z 6 hakami</td>
+                <td>Identyczne jak u <em>T. saginata</em> (morfologicznie nierozróżnialne!)</td>
+                <td>30–50 µm, cienka otoczka, <strong>4–8 polarnych filamentów (witek)</strong></td>
+                <td>Jaja zgrupowane w <strong>pakietach (kokonach) po 8–30 sztuk</strong></td>
+                <td>60–80 µm (duże!), gruba otoczka, <strong>BRAK polarnych witek</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Żywiciel pośredni</strong></td>
+                <td>Bydło domowe</td>
+                <td>Świnia domowa, dzik, a także <strong>CZŁOWIEK!</strong></td>
+                <td><strong>Zbędny</strong> (cykl prosty) lub chrząszcze mączne</td>
+                <td><strong>Larwy pcheł</strong> (<em>Ctenocephalides</em>), wszoł psi</td>
+                <td><strong>Chrząszcze mączne</strong> (<em>Tenebrio</em>), wołki, pchły</td>
+              </tr>
+              <tr>
+                <td><strong>Postać larwalna</strong></td>
+                <td>Wągier bydlęcy (<em>Cysticercus bovis</em>)</td>
+                <td>Wągier świński (<em>Cysticercus cellulosae</em>)</td>
+                <td>Cystikerkoid (w kosmku jelita ssaka lub jamie owada)</td>
+                <td>Cystikerkoid (w jamie ciała dorosłej pchły)</td>
+                <td>Cystikerkoid (w jamie ciała owada magazynowego)</td>
+              </tr>
+              <tr>
+                <td><strong>Wrota i forma inwazyjna dla człowieka</strong></td>
+                <td>Doustnie: <strong>wągier</strong> w surowej wołowinie (tatar)</td>
+                <td>1. <strong>Wągier</strong> w wieprzowinie (taenioza)<br>2. <strong>Jajo</strong> z onkosferą (wągrzyca!)</td>
+                <td>Doustnie: <strong>jajo z onkosferą</strong> (brudne ręce/woda)</td>
+                <td>Doustnie: <strong>przypadkowo połknięta pchła</strong> z cystikerkoidem</td>
+                <td>Doustnie: <strong>owad spichrzowy</strong> z cystikerkoidem (mąka)</td>
+              </tr>
+              <tr>
+                <td><strong>Ryzyko autoinwazji u człowieka</strong></td>
+                <td>BRAK</td>
+                <td><strong>BARDZO WYSOKIE</strong> (wewnętrzna i zewnętrzna ➔ neurocysticerkoza)</td>
+                <td><strong>BARDZO WYSOKIE</strong> (wewnętrzna ➔ masowa hiperinfekcja)</td>
+                <td>BRAK</td>
+                <td>BRAK</td>
+              </tr>
+              <tr>
+                <td><strong>Podstawowa diagnostyka</strong></td>
+                <td>Liczba odgałęzień macicy w członie (15–35); taśma celofanowa</td>
+                <td>Liczba odgałęzień macicy (7–13); w cysticerkozie: TK/MRI mózgu, ELISA</td>
+                <td>Mikroskopia kału: jaja z <strong>polarnymi filamentami</strong></td>
+                <td>Wykrycie członów-pestek ogórka; pakiety jaj pod mikroskopem</td>
+                <td>Mikroskopia kału: duże jaja <strong>bez filamentów</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Leczenie z wyboru</strong></td>
+                <td>Prazykwantel lub Niklozamid</td>
+                <td>Taenioza: Prazykwantel, Niklozamid; Cysticerkoza: Albendazol + GKS</td>
+                <td>Prazykwantel (zwykle powtarzany z uwagi na larwy w kosmkach)</td>
+                <td>Prazykwantel lub Niklozamid (+ odpchlenie zwierząt!)</td>
+                <td>Prazykwantel lub Niklozamid</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- KLINICZNY PANEL I FARMAKOTERAPIA -->
+    <section id="klinika" class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div>
+            <div class="card-title">Kliniczny Panel Egzaminacyjny i Farmakoterapia</div>
+            <div class="card-subtitle">Przypadki kliniczne oraz mechanizmy działania leków przeciwcestodowych</div>
+          </div>
+        </div>
+        <span class="badge" style="background-color: var(--accent);">KLINIKA & TERAPIA</span>
+      </div>
+      <div class="card-body">
+
+        <h3>Mechanizmy działania leków (Farmakologia podręcznikowa)</h3>
+        <div class="morpho-grid">
+          <div class="morpho-box" style="border-left: 4px solid var(--accent);">
+            <div class="morpho-box-title">💊 Prazykwantel (Praziquantel)</div>
+            <p style="font-size: 0.88rem; margin-bottom: 0;"><strong>Mechanizm:</strong> Zwiększa przepuszczalność błony komórkowej pasożyta dla jonów wapnia ($Ca^{2+}$). Skutkuje to natychmiastowym skurczem spastycznym mięśni tasiemca, porażeniem i uszkodzeniem osłony ciała (tegumentu), co ułatwia jego strawienie przez enzymy gospodarza.</p>
+          </div>
+          <div class="morpho-box" style="border-left: 4px solid #ea580c;">
+            <div class="morpho-box-title">💊 Niklozamid (Niclosamide)</div>
+            <p style="font-size: 0.88rem; margin-bottom: 0;"><strong>Mechanizm:</strong> Blokuje fosforylację oksydacyjną w mitochondriach pasożyta, odcinając go od produkcji ATP i hamując wchłanianie glukozy. Tasiemiec obumiera i ulega lizie w świetle jelita. Praktycznie nie wchłania się z przewodu pokarmowego człowieka.</p>
+          </div>
+          <div class="morpho-box" style="border-left: 4px solid #b91c1c;">
+            <div class="morpho-box-title">💊 Albendazol (Albendazole)</div>
+            <p style="font-size: 0.88rem; margin-bottom: 0;"><strong>Mechanizm:</strong> Lek z wyboru w inwazjach tkankowych (wągrzyca / bąblowica). Wiąże się z wolną $\beta$-tubuliną pasożyta, hamując jej polimeryzację w mikrotubule. Znakomicie penetruje przez barierę krew-mózg do płynu mózgowo-rdzeniowego i cyst.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 25px;">Kliniczne przypadki egzaminacyjne</h3>
+
+        <details>
+          <summary>Przypadek 1: 34-letni miłośnik kuchni tradycyjnej zgłasza obecność pojedynczych, białych segmentów w bieliźnie. Twierdzi, że "człony same uciekają z odbytu". W preparacie z uciśniętego członu widać 24 boczne odgałęzienia macicy. Jakie zalecisz leczenie i czy pacjent musi bać się torbieli w mózgu?</summary>
+          <div class="quiz-answer">
+            <strong>Rozpoznanie:</strong> Tasiemczyca wywołana przez <em>Taenia saginata</em> (tasiemiec nieuzbrojony).
+            <div class="quiz-rationale">
+              <strong>Postępowanie i rokowanie:</strong> 
+              1. <strong>Leczenie:</strong> Prazykwantel w jednorazowej dawce (10 mg/kg m.c.) lub alternatywnie niklozamid.<br>
+              2. <strong>Ryzyko mózgowe:</strong> <strong>ZEROWE.</strong> Pacjent nie jest narażony na wągrzycę, ponieważ człowiek nie może być żywicielem pośrednim dla <em>T. saginata</em>. Przypadkowe połknięcie jaj tego tasiemca nie skutkuje neurocysticerkozą.
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Przypadek 2: 7-letni chłopiec z domu dziecka ma nawracające bóle brzucha, biegunkę i postępujący spadek masy ciała. W badaniu kału nie znaleziono żadnych członów tasiemca, ale wykryto liczne owalne jaja o średnicy ok. 40 µm z widocznymi nitkowatymi strukturami odchodzącymi od biegunów wewnętrznej otoczki. Jaki to gatunek i dlaczego w kale nie ma członów?</summary>
+          <div class="quiz-answer">
+            <strong>Rozpoznanie:</strong> Hymenolepidoza wywołana przez <em>Rodentolepis nana</em> (tasiemiec karłowaty).
+            <div class="quiz-rationale">
+              <strong>Mechanizm:</strong> 
+              1. Obecność 4–8 polarnych filamentów przy biegunach onkosfery jest cechą jednoznaczną dla <em>R. nana</em>.<br>
+              2. Człony maciczne tego miniaturowego tasiemca są niezwykle cienkie i delikatne. Ulegają one lizie (rozpadowi enzymatycznemu) bezpośrednio w świetle jelita, dlatego w stolcu nigdy nie obserwuje się makroskopowych proglotydów, a jedynie mikroskopowe jaja.
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Przypadek 3: U pacjenta z napadami padaczkowymi w badaniu rezonansu magnetycznego głowy uwidoczniono liczne drobne zmiany torbielowate z objawem "scolex dot sign" (widoczna główka wewnątrz pęcherzyka) w korze mózgowej. Jak doszło do zakażenia?</summary>
+          <div class="quiz-answer">
+            <strong>Rozpoznanie:</strong> Neurocysticerkoza (wągrzyca ośrodkowego układu nerwowego) w przebiegu inwazji <em>Taenia solium</em>.
+            <div class="quiz-rationale">
+              <strong>Droga zakażenia:</strong> Pacjent <strong>NIE zaraził się przez zjedzenie wągra w wieprzowinie</strong> (to dałoby tasiemca w jelicie!), lecz przez <strong>POŁKNIĘCIE JAJ <em>Taenia solium</em></strong> drogą fekalno-oralną (skażona woda, surowe warzywa nawożone fekaliami, brudne ręce) lub w mechanizmie autoinwazji (jeśli wcześniej miał nieleczonego tasiemca uzbrojonego w jelicie).
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>Projekt i opracowanie dydaktyczne: Katedra Parazytologii Medycznej i Diagnostyki Laboratoryjnej.</p>
+    <p>Materiał zgodny ze standardami nauczania medycyny akademickiej i podręcznikami parazytologii lekarskiej.</p>
+  </footer>
+
+  <!-- SKRYPT OBSŁUGI INTELIGENTNEJ NAWIGACJI -->
+  <script>
+    let lastScrollY = window.scrollY;
+    const smartNav = document.getElementById('smartNav');
+    const floatPill = document.getElementById('floatPill');
+    const progressBar = document.getElementById('progress-bar');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    let isMinimized = false;
+
+    // Funkcja ręcznego minimalizowania paska przez użytkownika
+    function minimizeNav() {
+      isMinimized = true;
+      smartNav.classList.add('nav-hidden');
+      floatPill.style.display = 'flex';
+    }
+
+    // Funkcja przywracania paska po kliknięciu pływającej pigułki
+    function restoreNav() {
+      isMinimized = false;
+      smartNav.classList.remove('nav-hidden');
+      floatPill.style.display = 'none';
+    }
+
+    // Obsługa zdarzenia przewijania strony
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      
+      // 1. Aktualizacja wskaźnika postępu czytania (cienki pasek na samej górze)
+      if (docHeight > 0) {
+        const progressPercent = (currentScrollY / docHeight) * 100;
+        progressBar.style.width = progressPercent + '%';
+      }
+
+      // 2. Pokazywanie/ukrywanie przycisku powrotu do góry
+      if (currentScrollY > 350) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+
+      // 3. Logika auto-chowania paska nawigacyjnego
+      if (!isMinimized) {
+        // Jeśli przewijamy w dół i minęliśmy banner powitalny (>150px) -> schowaj pasek, by nie zasłaniał
+        if (currentScrollY > lastScrollY && currentScrollY > 150) {
+          smartNav.classList.add('nav-hidden');
+        } 
+        // Jeśli cofamy w górę (chcemy nawigować) -> pokaż pasek natychmiast
+        else if (currentScrollY < lastScrollY) {
+          smartNav.classList.remove('nav-hidden');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
