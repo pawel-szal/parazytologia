@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kompendium Parazytologii Medycznej: Wybrane Nicienie Człowieka</title>
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #1e40af;
+      --primary-light: #dbeafe;
+      --primary-hover: #1d4ed8;
+      --accent: #0f766e;
+      --accent-light: #ccfbf1;
+      --warning-border: #f87171;
+      --warning-bg: #fef2f2;
+      --warning-text: #991b1b;
+      --analogy-border: #60a5fa;
+      --analogy-bg: #eff6ff;
+      --analogy-text: #1e3a8a;
+      --border: #e2e8f0;
+      --code-bg: #f1f5f9;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+
+    /* Układ nawigacji i pulpitu */
+    header.hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+      color: white;
+      padding: 48px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    header.hero h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+
+    header.hero p {
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      max-width: 850px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 992px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Pasek boczny / Spis treści */
+    aside.sidebar {
+      position: sticky;
+      top: 24px;
+      height: fit-content;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    aside.sidebar h3 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    aside.sidebar ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    aside.sidebar a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: block;
+      transition: all 0.2s ease;
+    }
+
+    aside.sidebar a:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    /* Główna zawartość */
+    main.content {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* Karty zagadnień (.card) */
+    .card {
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .card-header .latin-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-style: italic;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-geo {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-tissue {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-zoonosis {
+      background-color: #f3e8ff;
+      color: #6b21a8;
+    }
+
+    /* Ramka analogii (.callout-analogy) */
+    .callout-analogy {
+      background-color: var(--analogy-bg);
+      border-left: 5px solid var(--analogy-border);
+      color: var(--analogy-text);
+      padding: 18px 20px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .callout-analogy .callout-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    /* Ramka ostrzegawcza (.callout-warning) */
+    .callout-warning {
+      background-color: var(--warning-bg);
+      border-left: 5px solid var(--warning-border);
+      color: var(--warning-text);
+      padding: 18px 20px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .callout-warning .callout-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    /* Wizualne schematy procesów (.process-flow) */
+    .process-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .flow-step {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+      flex: 1 1 auto;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .flow-step small {
+      display: block;
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+
+    .flow-arrow {
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 1.3rem;
+      user-select: none;
+    }
+
+    /* Ryciny i obrazy */
+    .figure-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin: 24px 0;
+    }
+
+    figure.med-figure {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    figure.med-figure img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background-color: #000;
+      transition: transform 0.2s ease;
+    }
+
+    figure.med-figure img:hover {
+      transform: scale(1.02);
+    }
+
+    figure.med-figure figcaption {
+      padding: 10px 14px;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      background: white;
+      border-top: 1px solid var(--border);
+      flex-grow: 1;
+    }
+
+    /* Tabele syntetyczne (.comparison-table) */
+    .table-container {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    table.comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      text-align: left;
+    }
+
+    table.comparison-table th {
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    table.comparison-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    table.comparison-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    table.comparison-table tr:hover td {
+      background-color: #f1f5f9;
+    }
+
+    /* Interaktywne sekcje sprawdzające (<details><summary>) */
+    .quiz-section {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .quiz-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details.quiz-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      transition: background 0.2s;
+    }
+
+    details.quiz-item[open] {
+      background: #ffffff;
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    details.quiz-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary);
+      outline: none;
+      user-select: none;
+    }
+
+    details.quiz-item .quiz-answer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Podręcznikowe Kompendium Parazytologii Medycznej</h1>
+    <p>Ścisła, akademicka wiedza o najważniejszych nicieniach (Nematoda) pasożytujących u człowieka, wyłożona w bezkompromisowo przejrzysty sposób metodą Feynmana.</p>
+  </header>
+
+  <div class="container">
+    <!-- Nawigacja boczna -->
+    <aside class="sidebar">
+      <h3>Spis pasożytów</h3>
+      <ul>
+        <li><a href="#ancylostoma-necator">1. Tęgoryjce (A. duodenale & N. americanus)</a></li>
+        <li><a href="#strongyloides">2. Węgorek jelitowy (S. stercoralis)</a></li>
+        <li><a href="#trichinella">3. Włosień kręty (T. spiralis)</a></li>
+        <li><a href="#anisakis">4. Nicień śledziowy (A. simplex)</a></li>
+        <li><a href="#toxocara">5. Glisty odzwierzęce (T. canis & T. cati)</a></li>
+        <li><a href="#baylisascaris">6. Glista szopa (B. procyonis)</a></li>
+        <li><a href="#tabela-syntetyczna">7. Zbiorcza tabela różnicowa</a></li>
+      </ul>
+    </aside>
+
+    <!-- Główna zawartość -->
+    <main class="content">
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 1: ANCYLOSTOMA DUODENALE & NECATOR AMERICANUS -->
+      <!-- ========================================================================= -->
+      <section id="ancylostoma-necator" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Tęgoryjec dwunastnicy & Tęgoryjec amerykański (Nekator)</h2>
+            <span class="latin-subtitle">Ancylostoma duodenale (Dubini, 1843) & Necator americanus (Stiles, 1903)</span>
+          </div>
+          <span class="badge badge-geo">Geohelminty / Jelitowe</span>
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Wampiry z kotwicami i pompą próżniową w Twoim jelicie</div>
+          Wyobraź sobie miniaturowy, głodny kran podłączony bezpośrednio do Twoich rur z krwią. Tęgoryjce nie pływają luźno w kale jak owsiki – one <strong>wgryzają się w ścianę dwunastnicy chitynowymi zębami lub płytkami tnącymi</strong> (działają jak kotwice), nacinają naczynia włosowate, wstrzykują antykoagulant (rozrzedzacz krwi, by kran nigdy nie zasechł) i bez przerwy pompują krew do swojego gardła. Co gorsza, marnują większość wyssanej krwi, przepuszczając ją przez jelito, a po nasyceniu odczepiają się, pozostawiając krwawiące wrzody.
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Mechanizm patogenezy krok po kroku:</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Kontakt z glebą
+            <small>Larwa L3 wnika przez nieuszkodzoną skórę stóp</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Świąd ziemny (Ground itch)
+            <small>Odcyn zapalny, rumień, wybroczyny na skórze</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Wędrówka płucna
+            <small>Krew ➔ prawe serce ➔ płuca (zespół Löfflera, eozynofilia)</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Przełknięcie & Jelito
+            <small>Gardło ➔ połykanie ➔ dwunastnica (przyczepienie)</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            5. Ciężka anemia mikrocytarna
+            <small>Wysysanie krwi + hipoproteinemia i obrzęki</small>
+          </div>
+        </div>
+
+        <!-- Ryciny ze źródeł -->
+        <div class="figure-gallery">
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048316.jpg" alt="Porównanie aparatów gębowych tęgoryjców">
+            <figcaption><strong>Ryc. 1: Porównanie aparatów gębowych:</strong> (A) <em>Ancylostoma duodenale</em> – torebka gębowa uzbrojona w chitynowe <strong>zęby</strong> (3 pary); (B) <em>Necator americanus</em> – torebka gębowa wyposażona w półksiężycowate <strong>płytki tnące</strong>.</figcaption>
+          </figure>
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048314.jpg" alt="Ancylostoma duodenale morfologia">
+            <figcaption><strong>Ryc. 2: <em>Ancylostoma duodenale</em>:</strong> Widoczna torebka gębowa z ostrymi zębami oskórkowymi, larwa rabditopodobna oraz zróżnicowanie płciowe (samica z ostrym kolcem, samiec z rozszerzoną torebką kopulacyjną).</figcaption>
+          </figure>
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048315.jpg" alt="Necator americanus morfologia">
+            <figcaption><strong>Ryc. 3: <em>Necator americanus</em>:</strong> Widok skaningowy i mikroskopowy płytek tnących w torebce gębowej, torebka kopulacyjna samca oraz sylwetka samicy i samca.</figcaption>
+          </figure>
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048313.jpg" alt="Diagnostyka tęgoryjców - jaja w kale">
+            <figcaption><strong>Ryc. 4: Diagnostyka koprooskopowa:</strong> Cienkościenne, owalne jajo tęgoryjca w kale zawierające zarodek w stadium od 2 do 8 blastomerów (najczęściej 4–8).</figcaption>
+          </figure>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Systematyka, Morfologia i Różnice Międzygatunkowe</h3>
+        <p>Tęgoryjce należą do geohelmintów. Bytują w dwunastnicy i jelicie czczym człowieka. Szacuje się, że na świecie zarażonych jest nimi niemal 900 milionów ludzi (strefy tropikalne, subtropikalne, kopalnie, tunele o wysokiej wilgotności i temperaturze 23–30°C).</p>
+
+        <div class="table-container">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Cecha różnicowa</th>
+                <th><em>Ancylostoma duodenale</em> (Tęgoryjec dwunastnicy)</th>
+                <th><em>Necator americanus</em> (Nekator / Tęgoryjec amerykański)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Aparat gębowy</strong></td>
+                <td><strong>3 pary chitynowych ząbków</strong> (2 pary brzuszne duże skierowane w głąb, 1 grzbietowa zredukowana).</td>
+                <td>Brak zębów! <strong>2 pary półksiężycowatych płytek tnących</strong> (brzuszna i grzbietowa).</td>
+              </tr>
+              <tr>
+                <td><strong>Wrota i drogi inwazji</strong></td>
+                <td><strong>Skóra</strong> (larwa L3) ORAZ <strong>droga pokarmowa (per os)</strong>, przezłożyskowo i z mlekiem matki! Larwy mogą przejść w stan uśpienia (dormancy) w tkankach.</td>
+                <td><strong>WYŁĄCZNIE penetracja przez skórę</strong>. Wymaga bezwzględnej wędrówki płucnej, by dotrzeć do jelita.</td>
+              </tr>
+              <tr>
+                <td><strong>Utrata krwi / osobnik</strong></td>
+                <td>Bardzo wysoka: <strong>0,15 – 0,25 ml krwi/dobę</strong> na jednego nicienia!</td>
+                <td>Niższa: ok. <strong>0,03 ml krwi/dobę</strong> (ok. 5-krotnie mniej niż u <em>A. duodenale</em>).</td>
+              </tr>
+              <tr>
+                <td><strong>Płodność samicy</strong></td>
+                <td>20 000 – 30 000 jaj na dobę.</td>
+                <td>Ok. 10 000 jaj na dobę.</td>
+              </tr>
+              <tr>
+                <td><strong>Morfologia samca</strong></td>
+                <td>Torebka kopulacyjna: żeberko grzbietowe <strong>rozwidlane na końcach</strong> (trójdzielne). Samica ma kolec na ogonie.</td>
+                <td>Torebka kopulacyjna: ramiona żeberka grzbietowego <strong>nierozgałęzione / dwudzielne</strong>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Cykl życiowy:</strong> Jaja wydalane z kałem na wilgotną glebę ➔ w ciągu 24–48 h wylęgają się larwy rabditopodobne (L1) odżywiające się bakteriami ➔ po 2 linieniach (w 5–10 dniu) powstają inwazyjne, nienasączające się pokarmem larwy filariopodobne (L3), wykazujące termo-, tigmo- i chemotaksję ➔ wnikają przez skórę bosych stóp człowieka ➔ naczynia krwionośne ➔ prawe serce ➔ płuca ➔ pęcherzyki płucne ➔ oskrzela ➔ tchawica ➔ gardło (połknięcie) ➔ jelito cienkie (dojrzałość płciowa po 3. i 4. linieniu).</p>
+
+        <!-- 4. Pułapka egzaminacyjna -->
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Jaja vs Larwy w kale</div>
+          <ul style="padding-left: 20px;">
+            <li><strong>W świeżym kale tęgoryjców wykrywa się JAJA</strong> (owalne, 50–70 µm, cienkościenne, z 2–8 blastomerami), a <strong>NIE larwy</strong>! Larwy rabditopodobne w kale pojawiają się wyłącznie w próbkach starych, zleżałych w cieple (gdzie zdążyły się wyląc). Pomylenie tego z węgorkiem jelitowym (gdzie w świeżym kale od razu są larwy) to klasyczny błąd dyskwalifikujący na egzaminie!</li>
+            <li><strong>Anemia hipochromiczna mikrocytarna + eozynofilia + ubytek białka (obrzęki twarzy i stóp)</strong> u pacjenta powracającego z tropików lub pracującego w kopalni = tęgoryjczyca.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: Dlaczego pacjent z masywną inwazją Ancylostoma duodenale ma nasilone obrzęki obwodowe?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Wynika to z ciężkiej <strong>enteropatii z utratą białka (hipoalbuminemii)</strong>. Tęgoryjce mechanicznie wysysają krew oraz uszkadzają błonę śluzową jelita, prowadząc do masywnej utraty osoczowych albumin. Spadek ciśnienia onkotycznego osocza skutkuje ucieczką płynów do przestrzeni pozanaczyniowej (obrzęki twarzy, stóp i podudzi).
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Preparat mikroskopowy z torebki gębowej nicienia wykazuje obecność dwóch półksiężycowatych chitynowych płytek tnących. Jaki to gatunek?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Jest to <strong><em>Necator americanus</em></strong>. <em>Ancylostoma duodenale</em> posiada chitynowe ząbki, a nie płytki tnące.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 2: STRONGYLOIDES STERCORALIS -->
+      <!-- ========================================================================= -->
+      <section id="strongyloides" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Węgorek jelitowy</h2>
+            <span class="latin-subtitle">Strongyloides stercoralis (Bavay, 1876) Stiles et Hassall, 1902</span>
+          </div>
+          <span class="badge badge-geo">Geohelmint / Autoinwazyjny</span>
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Więzień z patentem na wieczną ucieczkę (Auto-Jailbreak)</div>
+          Większość pasożytów potrzebuje wyjść z Twojego ciała, by ich potomstwo dojrzało w glebie i zaraziło kogoś innego. Węgorek to wyjątek – ma opcję „błędnego koła”. Jeśli cierpisz na zaparcie lub masz osłabioną odporność, larwy wykluwające się w Twoim jelicie <strong>nie czekają na wydalenie z kałem</strong>. Błyskawicznie przepoczwarzają się w formę inwazyjną bezpośrednio w Twoich jelitach, przebijają ścianę odbytnicy lub skórę pośladków i ponownie wnikają do krwi! W ten sposób węgorek może mieszkać w ciele gospodarza przez 30–40 lat bez ponownego kontaktu z zakażoną glebą!
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Mechanizm autoinwazji i hiperinfekcji:</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Samica w śluzówce dwunastnicy
+            <small>Partenogeneza ➔ jaja w kryptach jelitowych</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Natychmiastowy wylęg w jelicie
+            <small>Powstają larwy rabditopodobne (L1)</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Zwolniony pasaż / Immunosupresja
+            <small>L1 przekształca się w inwazyjną L3 w świetle jelita!</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Przebicie ściany jelita / skóry
+            <small>Autoendoinwazja lub autoegzoinwazja okołoodbytowa</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            5. Zespół hiperinfekcji & Sepsa
+            <small>Larwy roznoszą pałeczki jelitowe do mózgu i płuc!</small>
+          </div>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Biologia, Metageneza i Zjawisko Autoinwazji</h3>
+        <p><em>Strongyloides stercoralis</em> to unikalny nicień charakteryzujący się <strong>metagenezą</strong> – czyli zjawiskiem regularnej przemiany pokoleń pasożytniczego i wolnożyjącego:</p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>Pokolenie pasożytnicze:</strong> Stanowią je <strong>WYŁĄCZNIE partenogenetyczne samice</strong> (dł. 2,0–2,5 mm), bytujące w ścianie dwunastnicy i górnego odcinka jelita czczego (zagrzebane w enterocytach i kryptach Lieberkühna). W organizmie człowieka nie ma pasożytniczych samców!</li>
+          <li><strong>Pokolenie wolnożyjące:</strong> Bytuje w glebie bogatej w materię organiczną (ciepły i wilgotny klimat, >25°C). Składa się z rozdzielnopłciowych samic (1,5 mm) i samców (1,2 mm), które rozmnażają się płciowo.</li>
+        </ul>
+
+        <p><strong>Trzy możliwe cykle rozwojowe:</strong></p>
+        <ol style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>Cykl pośredni (heterogoniczny):</strong> W sprzyjających, ciepłych warunkach tropikalnych larwy L1 wydalone z kałem rozwijają się w wolnożyjące dorosłe samce i samice, dając początek kolejnym pokoleniom wolnożyjącym.</li>
+          <li><strong>Cykl bezpośredni (homogoniczny):</strong> W chłodniejszych warunkach klimatu umiarkowanego larwy L1 w glebie od razu po dwóch linieniach przekształcają się w inwazyjne larwy filariopodobne (L3).</li>
+          <li><strong>Cykl z autoinwazją (przyspieszony):</strong>
+            <ul>
+              <li><em>Autoegzoinwazja:</em> Larwy L1 w resztkach kału wokół odbytu przekształcają się w L3 i wnikają przez skórę krocza/pośladków (objaw <em>larva currens</em> – błyskawicznie pełznący rumień).</li>
+              <li><em>Autoendoinwazja:</em> Larwy L1 przekształcają się w L3 bezpośrednio w świetle jelita grubego (szczególnie przy zaparciach) i przebijają ścianę jelita do krwiobiegu.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <!-- 4. Pułapka egzaminacyjna -->
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Co badamy w kale i kim jest pacjent ryzyka?</div>
+          <ul style="padding-left: 20px;">
+            <li><strong>W ŚWIEŻYM KALE SZUKAMY ŻYWYCH, RUCHLIWYCH LARW RABDITOPODOBNYCH (L1), A NIE JAJ!</strong> Jaja węgorka wylęgają się natychmiast w ścianie jelita. Jaja można spotkać w kale jedynie przy gwałtownych, zwalających z nóg biegunkach cholerycznych.</li>
+            <li><strong>Różnicowanie larwy L3 węgorka vs tęgoryjca:</strong> Larwa filariopodobna węgorka ma <strong>długą gardziel (sięgającą 1/2 długości ciała) oraz wcięty/rozwidlony koniec ogona</strong> (brak pochewki). Larwa tęgoryjca ma gardziel do 1/3–1/4 ciała, zaostrzony ogon i zachowaną przezroczystą wylinkę.</li>
+            <li><strong>Podanie sterydów (GKS) u bezobjawowego nosiciela węgorka to wyrok śmierci!</strong> Glikokortykosteroidy pobudzają samice do masowej produkcji jaj i wyzwalają piorunującą <em>hiperinfekcję węgorkową</em> z sepsą gram-ujemną i zapaleniem opon mózgowo-rdzeniowych.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: Dlaczego w rutynowej diagnostyce węgorkowicy nie stosuje się standardowej flotacji jaj, lecz metodę Baermanna lub hodowlę Harada-Mori?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Ponieważ formą diagnostyczną wydalaną z kałem są <strong>żywe larwy rabditopodobne</strong>, a nie jaja. Metoda Baermanna wykorzystuje hydro- i termotropizm larw (wypłukiwanie larw z dużej porcji kału do ciepłej wody), a metoda Harada-Mori to hodowla bibułowa pozwalająca larwom wykluć się i zgromadzić na dnie probówki.
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Pacjent leczony immunosupresyjnie z powodu tocznia rozwija wstrząs septyczny wywołany przez Escherichia coli. W popłuczynach pęcherzykowo-oskrzelowych wykryto larwy nicienia. Jaki to patogen?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> <strong><em>Strongyloides stercoralis</em></strong> (w przebiegu uogólnionej hiperinfekcji węgorkowej). Migrujące z jelita do krwiobiegu i płuc larwy filariopodobne mechanicznie przenoszą na swojej kutykuli florę bakteryjną jelita grubego.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 3: TRICHINELLA SPIRALIS -->
+      <!-- ========================================================================= -->
+      <section id="trichinella" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Włosień kręty</h2>
+            <span class="latin-subtitle">Trichinella spiralis (Owen, 1835) Railliet, 1895</span>
+          </div>
+          <span class="badge badge-tissue">Tkankowy / Mięśniowy</span>
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Pasożytniczy deweloper przejmujący Twoją komórkę mięśniową</div>
+          Wyobraź sobie gangstera, który włamuje się do luksusowego domu jednorodzinnego (komórki mięśniowej poprzecznie prążkowanej). Zamiast go zniszczyć, całkowicie go przebudowuje pod swoje potrzeby: niszczy włókna kurczliwe (by dom przestał pracować jako mięsień), wymusza produkcję substancji odżywczych i doprowadza prywatną instalację zaopatrzeniową – zmusza organizm do wybudowania gęstej sieci nowych naczyń krwionośnych wokół siebie (angiogeneza). W ten sposób komórka mięśniowa staje się jego prywatną „nianią” (nurse-cell), a on sam zamyka się w cytrynowatej torebce z wapnia, czekając latami, aż ktoś zje gospodarza.
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Sekwencja zdarzeń klinicznych w włośnicy:</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Zjedzenie mięsa (dzik/świnia)
+            <small>Trawienie torebek ➔ uwolnienie larw L1 w żołądku</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Faza jelitowa (1–7 dni)
+            <small>Dojrzałość w kosmkach jelita, biegunka, bóle brzucha</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Jajożyworodność
+            <small>Samica rodzi larwy wprost do chłonki i krwi!</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Faza mięśniowa & naczyniowa
+            <small>Gorączka, obrzęk powiek, wybroczyny pod paznokciami</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            5. Komórka opiekuńcza (Nurse Cell)
+            <small>Otorbienie w mięśniach o wysokim metabolizmie</small>
+          </div>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Biologia, Transformacja Miocytu i Obraz Kliniczny</h3>
+        <p><em>Trichinella spiralis</em> to jeden z najmniejszych, a zarazem najbardziej niebezpiecznych nicieni człowieka. Jest pasożytem <strong>autoksenicznym</strong> – ten sam pojedynczy osobnik jest najpierw żywicielem ostatecznym (dorosłe postacie w jelicie cienkim), a następnie żywicielem pośrednim (larwy otorbione w mięśniach poprzecznie prążkowanych).</p>
+
+        <div class="grid-2">
+          <div>
+            <h4 style="color: var(--primary); margin-bottom: 8px;">Cykl jelitowy i jajożyworodność:</h4>
+            <p>Po zjedzeniu surowego mięsa (dzika lub świni) larwy uwalniają się pod wpływem pepsyny i kwasu solnego. Wnikają do nabłonka kosmków jelita cienkiego, gdzie już po <strong>72 godzinach</strong> osiągają dojrzałość płciową. Samice są <strong>jajożyworodne</strong> – po zapłodnieniu rodzą od 200 do 1500 żywych larw (dł. 80–120 µm), które przez naczynia chłonne i przewód piersiowy wnikają do krążenia ogólnego.</p>
+          </div>
+          <div>
+            <h4 style="color: var(--primary); margin-bottom: 8px;">Cykl mięśniowy i Komórka Opiekuńcza:</h4>
+            <p>Od 12–18 dnia larwy wnikają do komórek mięśni poprzecznie prążkowanych o największej zawartości tlenu i glikogenu (przepona, mięśnie międzyżebrowe, język, mięśnie gałkoruchowe, żwacze). Zachodzi <strong>transformacja bazofilna</strong> miocytu, utrata prążkowania i przekształcenie w <strong>komórkę opiekuńczą (nurse cell)</strong> otoczoną siecią naczyń włosowatych. Od 20. dnia powstaje łącznotkankowa torebka o cytrynowatym kształcie (0,4–0,6 mm). Po 6–18 miesiącach torebka ulega zwapnieniu.</p>
+          </div>
+        </div>
+
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Mięsień sercowy a włośnica</div>
+          <ul style="padding-left: 20px;">
+            <li><strong>WŁOSIEŃ NIGDY NIE OTORBIA SIĘ W MIĘŚNIU SERCOWYM!</strong> Larwy mogą migrować przez mięsień sercowy i wywoływać ostre, śmiertelne zapalenie mięśnia sercowego (<em>myocarditis</em> – główna przyczyna zgonu w fazie narządowej!), ale <strong>nigdy nie tworzą w sercu torebek ani komórek opiekuńczych</strong> (brak odpowiednich warunków metabolicznych; otorbiają się wyłącznie w mięśniach szkieletowych).</li>
+            <li><strong>W kale NIE MA ani jaj, ani larw!</strong> Badanie koproskopowe przy podejrzeniu włośnicy jest bezcelowe.</li>
+            <li><strong>Triada objawów włośnicy:</strong> Wysoka gorączka + obustronny obrzęk twarzy i powiek (reakcja naczynioruchowa/alergiczna) + potężna eozynofilia (sięgająca 50–80%) oraz wybroczyny pod paznokciami („drzazgi pod paznokciami”) i w spojówkach.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: Jakie badanie jest złotym standardem bezpośredniego potwierdzenia obecności larw włośnia u pacjenta?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> <strong>Biopsja mięśnia szkieletowego</strong> (z mięśnia naramiennego lub brzuchatego łydki) poddana <strong>trichinoskopii</strong> (kompresorowej ocenie mikroskopowej skrawka mięśnia) lub metodzie <strong>sztucznego wytrawiania</strong> sokiem żołądkowym. W praktyce klinicznej powszechnie stosuje się również serologię (ELISA, Western Blot).
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Dlaczego włośnica nie może rozprzestrzenić się z człowieka na człowieka drogą fekalno-oralną?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Ponieważ człowiek jest dla włośnia „ślepym zaułkiem” biologicznym. Larwy nie wydostają się do środowiska zewnętrznego z odchodami, lecz zostają uwięzione w mięśniach. Aby doszło do transmisji, mięśnie człowieka musiałyby zostać zjedzone przez innego żywiciela (kanibalizm / drapieżnictwo).
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 4: ANISAKIS SIMPLEX -->
+      <!-- ========================================================================= -->
+      <section id="anisakis" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Nicień śledziowy / Anisakis</h2>
+            <span class="latin-subtitle">Anisakis simplex (Rudolphi, 1809) det. Krabbe, 1878</span>
+          </div>
+          <span class="badge badge-zoonosis">Zoonoza Morska / Przypadkowa</span>
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Zagubiony podwodny wiertacz w żołądku konesera sushi</div>
+          Larwa <em>Anisakis</em> jest zaprogramowana na to, by żyć w żołądku wieloryba lub foki. Gdy zjesz ją w surowym śledziu, dorszu czy łososiu (sushi, sashimi, marynaty), trafia do Twojego żołądka i natychmiast orientuje się, że temperatura jest za wysoka, a enzymy inne niż u ssaka morskiego. W ataku paniki próbuje uciec – używa swojego chitynowego zęba larwalnego i <strong>zaczyna wwiercać się w ścianę Twojego żołądka lub jelita niczym żywe wiertło</strong>. Wywołuje to natychmiastowy, potworny ból brzucha przypominający perforację wrzodu lub ostry wyrostek robaczkowy.
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Przebieg kliniczny anizakiozy:</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Spożycie surowej ryby morskiej
+            <small>Śledź, makrela, łosoś z larwą L3 w mięśniach</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Wniknięcie w śluzówkę (1–24 h)
+            <small>Larwa L3 drąży ścianę żołądka chitynowym zębem</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Ziarniniak eozynofilowy & Wrzód
+            <small>Kraterowate owrzodzenie, obrzęk ściany, naciek eozynofilów</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Ostra niedrożność / Reakcja IgE
+            <small>Skurcz jelit, pokrzywka, a nawet wstrząs anafilaktyczny!</small>
+          </div>
+        </div>
+
+        <!-- Rycina ze źródeł -->
+        <div class="figure-gallery">
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048317.jpg" alt="Anisakis simplex w rybach i gastroskopii">
+            <figcaption><strong>Ryc. 5: <em>Anisakis simplex</em>:</strong> (Po lewej) Larwa L3 zwinięta w charakterystyczną płaską spiralę na powierzchni narządów wewnętrznych śledzia; (W środku) Larwy w mięśniach ryby; (Po prawej) Widok endoskopowy: larwa penetrująca błonę śluzową żołądka, usuwana kleszczykami biopsyjnymi.</figcaption>
+          </figure>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Biologia cyklu morskiego i Zagrożenie Alergiczne</h3>
+        <p><strong>Cykl życiowy:</strong></p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>Żywiciel ostateczny:</strong> Walenie i płetwonogie (delfin, foka, morświn, orka, wieloryb), w których żołądku bytują postacie dorosłe.</li>
+          <li><strong>Pierwszy żywiciel pośredni:</strong> Morskie planktonowe skorupiaki (kryl, <em>Euphausiacea</em>), które połykają wolno pływające larwy L2; w nich rozwija się larwa L3.</li>
+          <li><strong>Drugi żywiciel pośredni / parateniczny:</strong> Ryby morskie (śledziowate, makrelowate, dorszowate, łososiowate) oraz głowonogi (kałamarnice). U żywych ryb larwy L3 bytują głównie w jamie otrzewnej, lecz po śmierci ryby szybko <strong>przenikają do tkanki mięśniowej</strong>!</li>
+          <li><strong>Człowiek:</strong> Wyłącznie przypadkowy, ślepy żywiciel (larwa L3 nigdy nie osiąga dojrzałości u człowieka).</li>
+        </ul>
+
+        <p><strong>Formy kliniczne anizakiozy:</strong></p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>Postać żołądkowa (najczęstsza):</strong> Występuje gwałtownie w ciągu 1–12 godzin od spożycia ryby: silny, kurczowy ból w nadbrzuszu, nudności, gwałtowne wymioty. W gastroskopii widoczne kraterowate owrzodzenie z tkwiącą larwą.</li>
+          <li><strong>Postać jelitowa:</strong> Rozwija się po 1–5 dniach w jelicie cienkim; tworzące się nacieki i ziarniniaki eozynofilowe prowadzą do objawów „ostrego brzucha” lub niedrożności jelit wymagającej niekiedy resekcji odcinka jelita.</li>
+          <li><strong>Alergia na Anisakis:</strong> Antygeny larwy (nawet <strong>martwej</strong>, po ugotowaniu lub zamrożeniu!) są silnymi alergenami termostabilnymi. Mogą wywołać pokrzywkę, obrzęk naczynioruchowy Quinckego, a nawet śmiertelny wstrząs anafilaktyczny po zjedzeniu przetworzonej ryby.</li>
+        </ul>
+
+        <!-- 4. Pułapka egzaminacyjna -->
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Diagnostyka i Profilaktyka</div>
+          <ul style="padding-left: 20px;">
+            <li><strong>Złotym standardem rozpoznania i jednoczesnego leczenia anizakiozy żołądkowej jest GASTROSKOPIA!</strong> Pozwala na bezpośrednie uwidocznienie larwy i jej natychmiastowe usunięcie kleszczykami endoskopowymi. Badanie kału jest bezużyteczne.</li>
+            <li><strong>Dlaczego śledzie z Bałtyku nie zarażają Anisakis?</strong> Śledzie bałtyckie lokalnych stad rozradzających się przy brzegach Szwecji są wolne od <em>Anisakis</em> ze względu na zbyt niskie zasolenie Bałtyku (brak skorupiaków <em>Euphausiacea</em>) oraz rzadkie występowanie ssaków morskich. Zagrożenie stanowią śledzie z Morza Północnego migrujące okresowo do Bałtyku na tarło.</li>
+            <li><strong>Zasada patroszenia:</strong> Ryby wypatroszone natychmiast po złowieniu i zamrożone (poniżej -20°C przez min. 24 h) są bezpieczne, ponieważ larwy nie zdążą przemigrować z otrzewnej do mięśni.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: Dlaczego ugotowanie ryby nie chroni w 100% każdego konsumenta przed powikłaniami związanymi z Anisakis simplex?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Gotowanie zabija żywe larwy (zapobiega inwazji tkankowej), ale <strong>nie niszczy termostabilnych alergenów białkowych</strong> pasożyta. U osób uprzednio uczulonych spożycie martwych nicieni w rybie może wywołać ciężką reakcję anafilaktyczną zależną od IgE.
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Pacjent po wieczornej kolacji w restauracji sushi budzi się w nocy z rozdzierającym bólem żołądka i wymiotami. Jaka jest procedura diagnostyczno-terapeutyczna z wyboru?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Pilna <strong>gastroskopia</strong> w celu zlokalizowania larwy L3 w błonie śluzowej żołądka i jej <strong>mechaniczne usunięcie kleszczykami endoskopowymi</strong>.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 5: TOXOCARA CANIS & TOXOCARA CATI -->
+      <!-- ========================================================================= -->
+      <section id="toxocara" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Glista psia & Glista kocia</h2>
+            <span class="latin-subtitle">Toxocara canis (Werner, 1782) & Toxocara cati (Schrank, 1788)</span>
+          </div>
+          <span class="badge badge-zoonosis">Zoonoza / Zespół Larwy Wędrującej</span>
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Zagubiony turysta niszczący miasto (Zespół Ślepej Uliczki)</div>
+          Wyobraź sobie, że w Twoim ciele znalazł się kierowca z obcego kraju, który zgubił mapę. W ciele psa larwa doskonale wie, jak dotrzeć z jelita przez płuca z powrotem do jelita, by stać się dorosłą glistą. Ale w ciele człowieka <strong>sygnały biochemiczne są zupełnie obce</strong>. Larwa nie potrafi dojrzeć, więc w panice błąka się po Twoich narządach wewnętrznych: wątrobie, płucach, oku i mózgu. Nie potrafi się zatrzymać, drąży mikro-tunele i ginie dopiero po latach, pozostawiając za sobą zwapniałe ziarniniaki eozynofilowe – jak zgliszcza po ślepym rajdzie.
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Mechanizm patogenezy Toksokarozy u człowieka:</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Geofagia / Piaskownica
+            <small>Połknięcie inwazyjnego jaja z larwą L2</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Wylęg w jelicie cienkim
+            <small>Larwa L2 przebija ścianę jelita do żyły wrotnej</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Wędrówka narządowa (VLM)
+            <small>Zatrzymanie w wątrobie, płucach, gałce ocznej, OUN</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Odczyn ziarniniakowy
+            <small>Ziarniniaki eozynofilowe niszczące miąższ narządów</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            5. Zespół kliniczny
+            <small>Hepatomegalia, leukokoria oka, napady astmy, drgawki</small>
+          </div>
+        </div>
+
+        <!-- Ryciny ze źródeł -->
+        <div class="figure-gallery">
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048319.jpg" alt="Toxocara canis dorosłe i jaja">
+            <figcaption><strong>Ryc. 6: <em>Toxocara canis</em>:</strong> (Góra lewa) Kłębowisko dorosłych glist psich w dłoni; (Góra prawa & Środek) Kuliste jajo o charakterystycznej grubej, dołkowanej powierzchni (przypominającej piłeczkę golfową); (Dół) Obraz w mikroskopie elektronowym (SEM) urzeźbienia skorupki.</figcaption>
+          </figure>
+          <figure class="med-figure">
+            <img src="/zdjecia/1000048318.jpg" alt="Toksokaroza epidemiologia i wylęg larwy">
+            <figcaption><strong>Ryc. 7: Zespół Larwy Wędrującej Trzewnej (VLM):</strong> Wylęgająca się z grubościennego jaja inwazyjna larwa L2 oraz dane epidemiologiczne wskazujące na masowe skażenie miejskich piaskownic i gleby jajami <em>Toxocara</em>.</figcaption>
+          </figure>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Różnice Międzygatunkowe, Cykl i Formy Kliniczne</h3>
+        
+        <div class="table-container">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Cecha</th>
+                <th><em>Toxocara canis</em> (Glista psia)</th>
+                <th><em>Toxocara cati</em> (Glista kocia)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Żywiciel ostateczny</strong></td>
+                <td>Pies i psowate (zwłaszcza <strong>szczenięta do 3. miesiąca życia</strong>).</td>
+                <td>Kot i kotowate (wszystkie grupy wiekowe, koty polujące).</td>
+              </tr>
+              <tr>
+                <td><strong>Morfologia dorosłych</strong></td>
+                <td>Dłuższe: samiec 9–13 cm, samica 12–20 cm. <strong>Skrzydełka oskórkowe przednie wąskie i długie</strong> (lancetowate).</td>
+                <td>Krótsze: samiec 3–7 cm, samica 4–10 cm. <strong>Skrzydełka oskórkowe szerokie, sercowate</strong> (odstające na kształt grotu strzały).</td>
+              </tr>
+              <tr>
+                <td><strong>Transmisja u żywiciela ostatecznego</strong></td>
+                <td>
+                  1. Zjedzenie jaj z larwą L2.<br>
+                  2. <strong>Transmisja transplacentalna (przezłożyskowa)</strong> – u ciężarnych suk larwy uśpione w nerkach reaktywują się i zarażają płody!<br>
+                  3. Transmisja laktogenna (z mlekiem/siarą).<br>
+                  4. Zjedzenie gryzonia (żywiciela paratenicznego).
+                </td>
+                <td>
+                  1. Zjedzenie jaj z gleby.<br>
+                  2. <strong>Zjedzenie żywicieli paratenicznych</strong> (gryzonie, ptaki, dżdżownice, chrząszcze – kluczowa rola przez instynkt łowiecki kota!).<br>
+                  3. Transmisja laktogenna.<br>
+                  <em>*Zarażenie przezłożyskowe występuje niezwykle rzadko lub wcale!</em>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Epidemiologia miejska</strong></td>
+                <td>Dominowała dawniej. Dziś dzięki sprzątaniu po psach odsetek spada.</td>
+                <td>Badania miejskie (m.in. w Krakowie, Holandii, Japonii) wykazują, że <strong>ponad 80% jaj w piaskownicach to <em>T. cati</em></strong> (koty swobodnie pokonują ogrodzenia i zanieczyszczają piasek).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Postacie kliniczne u człowieka (człowiek = żywiciel parateniczny / ślepy zaułek):</strong></p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>1. Zespół larwy wędrującej trzewnej (VLM – <em>visceral larva migrans</em>):</strong> Najczęściej małe dzieci (1–5 lat) z geofagią. Objawy: powiększenie wątroby (hepatomegalia), stany podgorączkowe, eozynofilia sięgająca 50–70%, hipergammaglobulinemia, kaszel, świsty, nacieki Löfflera w płucach.</li>
+          <li><strong>2. Toksokaroza oczna (OLM – <em>ocular larva migrans</em>):</strong> Zwykle u starszych dzieci i dorosłych. Pojedyncza larwa trafia do gałki ocznej, wywołując ziarniniakowe zapalenie siatkówki, zapalenie wnętrza gałki ocznej i odwarstwienie siatkówki. <strong>UWAGA:</strong> Powoduje białawy odblask ze źrenicy (<strong>leukokorię</strong>), który w badaniu okulistycznym do złudzenia imituje złośliwy nowotwór oka u dzieci – <strong>siatkówczaka (retinoblastoma)</strong>!</li>
+          <li><strong>3. Neurotoksokaroza (NLM – <em>neural larva migrans</em>):</strong> Bóle głowy, zaburzenia zachowania, zapalenie opon i mózgu, napady padaczkowe.</li>
+          <li><strong>4. Toksokaroza utajona / ukryta (Covert toxocariasis):</strong> Niespecyficzne osłabienie, bóle brzucha, przewlekłe zapalenie oskrzeli przy dodatnich testach serologicznych.</li>
+        </ul>
+
+        <!-- 4. Pułapka egzaminacyjna -->
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Badanie kału u ludzi vs Psów</div>
+          <ul style="padding-left: 20px;">
+            <li><strong>U CZŁOWIEKA NIGDY NIE WYKRYWA SIĘ JAJ ANI GLIST W KALE!</strong> W ciele człowieka larwy nigdy nie stają się dorosłymi osobnikami w jelicie – wędrują w tkankach. Rozpoznanie u ludzi opiera się <strong>WYŁĄCZNIE NA TESTACH SEROLOGICZNYCH (ELISA i Western Blot z antygenem wydalniczo-wydzielniczym larw – TES-Ag)</strong>.</li>
+            <li>Badanie koproskopowe (wykrywanie jaj o grubej, dołkowanej skorupce) wykonuje się <strong>wyłącznie u psów i kotów</strong>!</li>
+            <li>Świeży kał psa <strong>NIE jest od razu zakaźny</strong>! Jajo wydalone z kałem potrzebuje 2–3 tygodni w glebie w wilgoci i cieple, by rozwinęła się w nim inwazyjna larwa L2. Bezpośredni kontakt ze świeżymi odchodami nie grozi inwazją; groźny jest kał zleżały, sierść psa zabrudzona ziemią oraz piaskownice.</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: 4-letnie dziecko trafiło do okulisty z powodu jednostronnego pogorszenia wzroku i białego odblasku źrenicy (leukokorii). W USG gałki ocznej widoczny jest guzowaty ziarniniak w biegunie tylnym siatkówki. O czym bezwzględnie musi pomyśleć lekarz przed decyzją o enukleacji oka?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> O <strong>toksokarozie ocznej (OLM)</strong>! Ziarniniak wywołany przez larwę <em>Toxocara</em> jest najczęstszą nienowotworową przyczyną leukokorii imitującą <strong>siatkówczaka (retinoblastoma)</strong>. Wykonanie serologii ELISA w kierunku <em>Toxocara</em> (z surowicy lub płynu przedniej komory oka) zapobiega niepotrzebnemu chirurgicznemu usunięciu zdrowego onkologicznie oka.
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Dlaczego szczenię urodzone w sterylnym kojcu, którego matka była regularnie odrobaczana przed ciążą, może wydalać jaja Toxocara canis już w 3. tygodniu życia?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Ze względu na <strong>transmisję transplacentalną (przezłożyskową)</strong> uśpionych larw tkankowych. Leki przeciwrobacze działają na dorosłe osobniki w świetle jelita, ale nie niszczą larw uśpionych w mięśniach i nerkach suki. W czasie ciąży zmiany hormonalne „budzą” larwy, które przez łożysko wnikają do płuc i wątroby płodów.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 6: BAYLISASCARIS PROCYONIS -->
+      <!-- ========================================================================= -->
+      <section id="baylisascaris" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Glista szopa (Glista szopopraboczna)</h2>
+            <span class="latin-subtitle">Baylisascaris procyonis (Stefanski & Zarnowski, 1951)</span>
+          </div>
+          <span class="badge badge-zoonosis">Emerging Zoonosis / Neurotropowa</span>
+        </div>
+
+        <!-- Informacja o źródłach -->
+        <div style="background: #f1f5f9; border-left: 4px solid #64748b; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: #334155;">
+          ℹ️ <em>Adnotacja akademicka:</em> W załączonych skróconych skanach podręcznika gatunek ten jest wymieniany głównie w kontekście epidemiologicznym glizdowatych i zespołu wędrującej larwy. Poniższy opis zawiera pełne, aktualne kompendium kliniczne wymagane na państwowych egzaminach medycznych.
+        </div>
+
+        <!-- 1. Analogia Feynmana -->
+        <div class="callout-analogy">
+          <div class="callout-title">💡 Intuicyjna analogia: Toxocara na sterydach z zamiłowaniem do niszczenia mózgu</div>
+          Podczas gdy larwa <em>Toxocara</em> w mózgu człowieka jest mała i często zostaje szybko „zamknięta w areszcie” przez układ odpornościowy, larwa <em>Baylisascaris procyonis</em> jest prawdziwym pancernym spychaczem. Jest znacznie większa, <strong>nie przestaje rosnąć w tkankach</strong>, wykazuje potężny <strong>neurotropizm</strong> (ciągnie ją prosto do tkanki nerwowej mózgu) i wędruje bez opamiętania, rozrywając neurony i mielinę. W mózgu człowieka działa jak miniaturowy pocisk burzący, wywołując nieodwracalną martwicę i obrzęk mózgu.
+        </div>
+
+        <!-- 2. Mechanizm przyczynowo-skutkowy -->
+        <h4 style="margin-top: 20px; font-weight: 700;">Patomechanizm neuroinfekcji szopiej (Neural Larva Migrans - NLM):</h4>
+        <div class="process-flow">
+          <div class="flow-step">
+            1. Kontakt z „latryną szopów”
+            <small>Połknięcie grubościennych jaj z gleby/drewna</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            2. Wylęg larw w jelicie
+            <small>Agresywne larwy penetrują naczynia jelitowe</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            3. Neurotropizm & Wtargnięcie do mózgu
+            <small>Larwy przekraczają barierę krew-mózg</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            4. Piorunujące eozynofilowe ZOMR
+            <small>Mechaniczne cięcie tkanki + masywny odczyn zapalny</small>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            5. Ciężki deficyt / Zgon
+            <small>Śpiączka, porażenie mózgowe, ślepota (DUSN)</small>
+          </div>
+        </div>
+
+        <!-- 3. Ścisła wiedza akademicka -->
+        <h3 style="margin: 20px 0 10px 0; color: var(--primary);">Epidemiologia, Biologia i Znaczenie Kliniczne</h3>
+        <p><strong>Rezerwuar i transmisja:</strong> Żywicielem ostatecznym jest <strong>szop pracz (<em>Procyon lotor</em>)</strong>, który w Europie (w tym w zachodniej i centralnej Polsce) staje się gatunkiem inwazyjnym o gwałtownie rosnącej populacji. Szopy mają specyficzny nawyk defekacji w jednym, stałym miejscu – tworzą tzw. <strong>„latryny szopów”</strong> (na powalonych pniach, poddaszach, w stodołach, na placach zabaw). Latryny te zawierają miliony niezwykle odpornych na czynniki środowiskowe jaj.</p>
+
+        <p><strong>Cechy odróżniające od <em>Toxocara</em>:</strong></p>
+        <ul style="margin-left: 20px; margin-bottom: 16px;">
+          <li><strong>Wymiary larwy:</strong> Larwa <em>B. procyonis</em> jest znacznie większa (do 1,5–2,0 mm długości i 60–80 µm szerokości) niż larwa <em>Toxocara</em> (ok. 350–400 µm długości i zaledwie 15–20 µm szerokości). Wywołuje to bez porównania większe zniszczenia mechaniczne.</li>
+          <li><strong>Brak zahamowania migracji:</strong> Układ odpornościowy człowieka nie potrafi skutecznie otorbiać larw w mięśniach; duża część wnikających larw (nawet 5–7%) wędruje bezpośrednio do ośrodkowego układu nerwowego.</li>
+          <li><strong>Zróżnicowanie narządowe:</strong> Wywołuje skrajnie ciężką postać <strong>Neural Larva Migrans (NLM)</strong> – eozynofilowe zapalenie mózgu i opon mózgowo-rdzeniowych z gwałtowną degradacją neurologiczną, ataksją, otępieniem i śpiączką (śmiertelność u dzieci sięga niemal 100% przypadków objawowych lub pozostawia głębokie kalectwo). W oku wywołuje zespół <strong>DUSN</strong> (<em>diffuse unilateral subacute neuroretinitis</em>).</li>
+        </ul>
+
+        <!-- 4. Pułapka egzaminacyjna -->
+        <div class="callout-warning">
+          <div class="callout-title">⚠️ Złota reguła i pułapka egzaminacyjna: Jaja i oporność chemiczna</div>
+          <ul style="padding-left: 20px;">
+            <li>Jaja <em>Baylisascaris procyonis</em> są <strong>całkowicie niewrażliwe na niemal wszystkie powszechne środki dezynfekcyjne</strong> (w tym wybielacze, chlor, alkohol, kwasy!). Jedyne, co niszczy ich skorupki w środowisku, to <strong>ekstremalna temperatura</strong> (ogień z palnika, wrząca para wodna).</li>
+            <li>Jeśli w wywiadzie u dziecka z gwałtownym eozynofilowym zapaleniem mózgu pojawia się kontakt z drewnem z lasu, poddaszem lub szopami praczami – lekiem z wyboru musi być natychmiastowo podany <strong>albendazol w wysokich dawkach skojarzony z megadawkami kortykosteroidów</strong> (przed wystąpieniem nieodwracalnych martwic mózgowia).</li>
+          </ul>
+        </div>
+
+        <!-- 5. Quiz sprawdzający -->
+        <div class="quiz-section">
+          <div class="quiz-title">🧠 Sprawdź swoją wiedzę (pytania testowe):</div>
+          <details class="quiz-item">
+            <summary>Pytanie 1: Czym pod względem obrazu klinicznego i wielkości larwy różni się neuroinwazja Baylisascaris procyonis od neurotoksokarozy wywołanej przez Toxocara canis?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> Larwa <em>B. procyonis</em> jest <strong>wielokrotnie większa (ok. 1500–2000 µm vs 400 µm)</strong>, nie ulega łatwemu otorbieniu i wędruje niszcząc mechanicznie tkankę mózgową. Przebieg jest piorunujący, charakteryzuje się gwałtownym eozynofilowym zapaleniem mózgu o skrajnie wysokiej śmiertelności lub nieodwracalnych ubytkach neurologicznych. Neurotoksokaroza ma zazwyczaj przebieg łagodniejszy i wolniejszy.
+            </div>
+          </details>
+          <details class="quiz-item">
+            <summary>Pytanie 2: Gdzie w środowisku naturalnym i podmiejskim występuje największe zagęszczenie inwazyjnych jaj glisty szopa?</summary>
+            <div class="quiz-answer">
+              <strong>Odpowiedź:</strong> W tzw. <strong>„latrynach szopów”</strong> – specyficznych miejscach gromadzenia odchodów przez szopy pracze (stogi siana, rozwidlenia gałęzi powalonych drzew, pnie, dachy wiat i poddasza domów).
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- ROZDZIAŁ 7: ZBIORCZA TABELA RÓŻNICOWA (MASTER TABLE) -->
+      <!-- ========================================================================= -->
+      <section id="tabela-syntetyczna" class="card">
+        <div class="card-header">
+          <div>
+            <h2>Syntetyczne Zestawienie Egzaminacyjne Nicieni</h2>
+            <span class="latin-subtitle">Wszystko, co musisz wiedzieć na kolokwium w 1 tabeli</span>
+          </div>
+          <span class="badge badge-geo">High-Yield Review</span>
+        </div>
+
+        <div class="table-container">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Pasożyt (Nazwa łacińska & polska)</th>
+                <th>Wrota zakażenia & Postać inwazyjna dla człowieka</th>
+                <th>Postać diagnostyczna & Materiał do badań</th>
+                <th>Lokalizacja u człowieka</th>
+                <th>Kluczowy haczyk egzaminacyjny ⚠️</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><em>Ancylostoma duodenale</em></strong><br>(Tęgoryjec dwunastnicy)</td>
+                <td><strong>Skóra</strong> (lub jama ustna / łożysko!) ➔ Larwa filariopodobna <strong>L3</strong></td>
+                <td><strong>Jaja (2–8 blastomerów)</strong> w świeżym kale</td>
+                <td>Dwunastnica i jelito cienkie</td>
+                <td>Aparat gębowy z <strong>ząbkami</strong>; wysysa 5x więcej krwi niż Nekator; może zarażać per os!</td>
+              </tr>
+              <tr>
+                <td><strong><em>Necator americanus</em></strong><br>(Tęgoryjec amerykański)</td>
+                <td><strong>WYŁĄCZNIE skóra</strong> ➔ Larwa filariopodobna <strong>L3</strong></td>
+                <td><strong>Jaja (2–8 blastomerów)</strong> w świeżym kale</td>
+                <td>Jelito cienkie</td>
+                <td>Aparat gębowy z <strong>płytkami tnącymi</strong>; bezwzględna wędrówka przez płuca; mniejsza utrata krwi (0,03 ml/dobę).</td>
+              </tr>
+              <tr>
+                <td><strong><em>Strongyloides stercoralis</em></strong><br>(Węgorek jelitowy)</td>
+                <td><strong>Skóra</strong> (oraz autoinwazja jelitowa/okołoodbytowa) ➔ Larwa <strong>L3</strong></td>
+                <td><strong>ŻYWE LARWY RABDITOPODOBNE (L1)</strong> w świeżym kale (lub treści dwunastnicy)</td>
+                <td>Błona śluzowa dwunastnicy (tylko samice partenogenetyczne!)</td>
+                <td><strong>NIE szukaj jaj w kale!</strong> Metageneza; autoinwazja; śmiertelna hiperinfekcja po sterydach (GKS). Ogon L3 rozwidlony.</td>
+              </tr>
+              <tr>
+                <td><strong><em>Trichinella spiralis</em></strong><br>(Włosień kręty)</td>
+                <td><strong>Jama ustna (surowe mięso dzika/świni)</strong> ➔ Otorbiona larwa <strong>L1 w mięśniach</strong></td>
+                <td><strong>Biopsja mięśnia</strong> (trichinoskopia, wytrawianie) lub <strong>Serologia (ELISA)</strong></td>
+                <td>Jelito cienkie (dorosłe) ➔ Mięśnie poprzecznie prążkowane (larwy)</td>
+                <td><strong>NIGDY nie badaj kału!</strong> Ten sam osobnik jest żywicielem ostatecznym i pośrednim. <strong>NIE otorbia się w sercu</strong>! Komórka opiekuńcza (nurse cell).</td>
+              </tr>
+              <tr>
+                <td><strong><em>Anisakis simplex</em></strong><br>(Nicień śledziowy)</td>
+                <td><strong>Jama ustna (surowe ryby morskie, sushi)</strong> ➔ Larwa <strong>L3</strong></td>
+                <td><strong>Gastroskopia</strong> (bezpośrednie uwidocznienie i usunięcie kleszczykami)</td>
+                <td>Ściana żołądka lub jelita cienkiego (ślepy zaułek)</td>
+                <td>Śledzie bałtyckie lokalne są wolne od pasożyta; termostabilne alergeny wywołują anafilaksję nawet z martwej ryby!</td>
+              </tr>
+              <tr>
+                <td><strong><em>Toxocara canis</em> & <em>cati</em></strong><br>(Glista psia i kocia)</td>
+                <td><strong>Jama ustna (skażona gleba, piaskownica)</strong> ➔ Jajo inwazyjne z larwą <strong>L2</strong></td>
+                <td><strong>SEROLOGIA (ELISA - TES-Ag)</strong>. Badanie kału u ludzi daje zawsze wynik UJEMNY!</td>
+                <td>Narządy wewnętrzne: wątroba, płuca (VLM), oko (OLM), mózg (NLM)</td>
+                <td>Człowiek to żywiciel parateniczny (larwy nigdy nie dojrzewają w jelicie!). Ziarniniak w oku imituje <strong>siatkówczaka (retinoblastoma)</strong>!</td>
+              </tr>
+              <tr>
+                <td><strong><em>Baylisascaris procyonis</em></strong><br>(Glista szopa)</td>
+                <td><strong>Jama ustna (kontakt z latrynami szopów)</strong> ➔ Jajo inwazyjne z larwą</td>
+                <td><strong>Obraz kliniczny + Serologia / Rezonans magnetyczny mózgu</strong></td>
+                <td>Ośrodkowy Układ Nerwowy (NLM), gałka oczna (DUSN)</td>
+                <td>Larwa znacznie większa niż <em>Toxocara</em>; sieje spustoszenie w OUN; jaja odporne na chlor i odkażalniki chemiczne (zniszczy je tylko ogień/para).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>
