@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medyczne Kompendium Parazytologii: Nicienie Przewodu Pokarmowego</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --secondary: #0d9488;
+      --secondary-light: #f0fdfa;
+      --accent: #b45309;
+      --accent-light: #fffbeb;
+      --danger: #be123c;
+      --danger-light: #fff1f2;
+      --danger-border: #fecdd3;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-body: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.07);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0 0 60px 0;
+    }
+
+    /* WSKAŹNIK POSTĘPU I INTELIGENTNY PASEK NAWIGACJI */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #0d9488);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s ease;
+    }
+
+    .smart-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+    }
+
+    .smart-nav.hidden {
+      transform: translateY(-100%);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+    }
+
+    .nav-links a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    /* HEADER GŁÓWNY */
+    header.dashboard-header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      color: #ffffff;
+      padding: 36px 32px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    header h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
+    }
+
+    header .subtitle {
+      font-size: 1.05rem;
+      color: #93c5fd;
+      max-width: 850px;
+    }
+
+    /* INFORMACJA O REPOZYTORIUM GITHUB */
+    .github-info-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 5px solid #16a34a;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 0.88rem;
+      color: #166534;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .github-info-box strong {
+      font-size: 0.95rem;
+      color: #14532d;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .github-info-box code {
+      background: #dcfce7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    /* KARTY I SEKCJE */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fafbfc;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-header h2 {
+      font-size: 1.45rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header .latin-tag {
+      font-style: italic;
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 1.05rem;
+    }
+
+    .pill-green {
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .card-body {
+      padding: 28px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      color: #1e293b;
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3:first-of-type {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* CALLOUTY FEYNMANA */
+    .callout-analogy {
+      background-color: var(--accent-light);
+      border-left: 5px solid #d97706;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .callout-analogy-title {
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+
+    .callout-warning {
+      background-color: var(--danger-light);
+      border: 1px solid var(--danger-border);
+      border-left: 5px solid var(--danger);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .callout-warning-title {
+      font-weight: 700;
+      color: #9f1239;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+
+    .academic-definition {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 14px 18px;
+      border-left: 4px solid var(--primary);
+      margin: 16px 0;
+      font-size: 0.93rem;
+      color: #1e293b;
+    }
+
+    /* PROCESY PRZYCZYNOWO-SKUTKOWE */
+    .process-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .step-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 24px;
+      margin-bottom: 6px;
+    }
+
+    .step-box strong {
+      display: block;
+      color: #0f172a;
+      margin-bottom: 4px;
+      font-size: 0.92rem;
+    }
+
+    .step-box p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+      color: var(--text-muted);
+    }
+
+    .arrow-divider {
+      text-align: center;
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: 800;
+      user-select: none;
+    }
+
+    /* KONTENERY NA RYCINY I ZRZUTY EKRANU */
+    .figure-container {
+      margin: 24px 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .figure-header {
+      background: #f8fafc;
+      padding: 10px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1e293b;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .figure-display-area {
+      position: relative;
+      background-color: #0b1120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 200px;
+    }
+
+    .figure-display-area img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      transition: transform 0.25s ease;
+      cursor: zoom-in;
+    }
+
+    .figure-display-area img.zoomed {
+      transform: scale(1.35);
+      cursor: zoom-out;
+    }
+
+    .figure-placeholder {
+      padding: 36px 20px;
+      text-align: center;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .figure-placeholder strong {
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .figure-placeholder p {
+      color: #94a3b8;
+      font-size: 0.84rem;
+      max-width: 520px;
+    }
+
+    .btn-pick-single {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    .btn-pick-single input {
+      display: none;
+    }
+
+    .figure-caption {
+      padding: 14px 18px;
+      background-color: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.86rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .figure-caption strong {
+      color: #0f172a;
+    }
+
+    .figure-annotations {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #cbd5e1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .annot-item {
+      background: #ffffff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .annot-item span {
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    /* TABELE */
+    .table-container {
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .comparison-table th {
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 12px 14px;
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: #334155;
+    }
+
+    .comparison-table tbody tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* INTERAKTYWNY QUIZ */
+    details {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+    }
+
+    details[open] {
+      background: #ffffff;
+      border-color: var(--primary-border);
+    }
+
+    summary {
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::after {
+      content: "➕";
+      font-size: 0.85rem;
+    }
+
+    details[open] summary::after {
+      content: "➖";
+    }
+
+    .details-content {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-color);
+      font-size: 0.9rem;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- INTELIGENTNY PASEK NAWIGACJI -->
+<nav class="smart-nav" id="smartNav">
+  <div style="font-weight: 800; font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 6px;">
+    🔬 Parazytologia Medyczna
+  </div>
+  <div class="nav-links">
+    <a href="#ascaris">1. Glista ludzka</a>
+    <a href="#enterobius">2. Owsik ludzki</a>
+    <a href="#trichuris">3. Włosogłówka ludzka</a>
+    <a href="#summary-table">Tabela Zbiorcza</a>
+    <a href="#exam-traps">Pułapki Egzaminacyjne</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER GŁÓWNY -->
+  <header class="dashboard-header">
+    <h1>Kliniczna Parazytologia Medyczna: Nicienie</h1>
+    <div class="subtitle">Wyczerpujące kompendium akademickie oparte na metodzie Feynmana, zintegrowane z oryginalnymi preparatami mikroskopowymi ze slajdów wykładowych.</div>
+  </header>
+
+  <!-- INFORMACJA O INTEGRACJI Z GITHUBEM -->
+  <div class="github-info-box">
+    <strong>🐙 Gotowe do wdrożenia na GitHub & GitHub Pages!</strong>
+    <div>
+      Strona została skonfigurowana pod kątem repozytorium GitHub. Wystarczy, że w głównym katalogu repozytorium utworzysz folder o nazwie <code>zdjecia/</code> i wrzucisz do niego swoje 5 plików:
+      <code>1000048306.jpg</code>, <code>1000048307.jpg</code>, <code>1000048308.jpg</code>, <code>1000048309.jpg</code>, <code>1000048310.jpg</code>.
+      Strona natychmiast automatycznie zaciągnie je ze ścieżki <code>zdjecia/...</code> bez potrzeby ręcznego wczytywania!
+    </div>
+  </div>
+
+  <!-- 1. GLISTA LUDZKA -->
+  <section class="card" id="ascaris">
+    <div class="card-header">
+      <h2>1. Glista ludzka <span class="latin-tag">(Ascaris lumbricoides Linnaeus, 1758)</span></h2>
+      <span class="pill-green">Geohelmint | Jelito Cienkie</span>
+    </div>
+    <div class="card-body">
+
+      <div class="callout-analogy">
+        <div class="callout-analogy-title">💡 Intuicyjna analogia Feynmana: Pasażer na gapę w pętli naczyniowo-płucnej</div>
+        Wyobraź sobie robaka, który zamiast od razu zamieszkać w jelicie, musi odbyć wielką podróż po całym ciele. Wsiada w koryto rzeki wrotnej (żyła wrotna), przepływa przez centralną oczyszczalnię (wątroba), wpada do głównej pompy (prawe serce), ląduje w lesie wentylacyjnym (płuca), wdrapuje się po pęcherzykach i tchawicy do gardła, po czym zostaje przełknięty ze śliną i dopiero jako dojrzały gigant osiedla się w jelicie cienkim!
+      </div>
+
+      <!-- FIGURE 1.1: CYKL I JAJA GLISTY (1000048306.jpg) -->
+      <div class="figure-container" id="fig-ascaris-cycle">
+        <div class="figure-header">
+          <span>Rycina 1.1: Morfologia jaj, dymorfizm płciowy i cykl życiowy Ascaris lumbricoides</span>
+          <span style="font-size:0.75rem; color:#64748b;">Plik: <code>zdjecia/1000048306.jpg</code></span>
+        </div>
+        <div class="figure-display-area">
+          <img id="img-1000048306" 
+               src="zdjecia/1000048306.jpg" 
+               alt="Ascaris lumbricoides - cykl życiowy, postacie dorosłe i morfologia jaj" 
+               onload="handleImgSuccess('img-1000048306', 'ph-1000048306')"
+               onerror="handleImgFallback(this, 'img-1000048306', 'ph-1000048306', 'slot_ascaris_cycle')">
+          <div class="figure-placeholder" id="ph-1000048306" style="display:none;">
+            <div style="font-size: 2.2rem;">🔬</div>
+            <strong>Oczekiwanie na plik: zdjecia/1000048306.jpg</strong>
+            <p>Jeśli strona nie jest jeszcze na GitHubie, możesz wczytać ten zrzut ekranu lokalnie z dysku:</p>
+            <label class="btn-pick-single">
+              Wybierz plik z dysku
+              <input type="file" accept="image/*" onchange="manualUpload(this, 'img-1000048306', 'ph-1000048306', 'slot_ascaris_cycle')">
+            </label>
+          </div>
+        </div>
+        <div class="figure-caption">
+          <strong>Kluczowe elementy do zapamiętania ze slajdu:</strong>
+          <div class="figure-annotations">
+            <div class="annot-item"><span>Epidemiologia:</span> Askarioza dotyka około <strong>1 miliarda ludzi</strong> na świecie.</div>
+            <div class="annot-item"><span>Dojrzewanie jaja:</span> W glebie jaja osiągają inwazyjność (larwa L2) po ok. <strong>3 tygodniach</strong>.</div>
+            <div class="annot-item"><span>Geohelmint:</span> W glebie jaja zachowują żywotność przez <strong>kilka lat</strong>.</div>
+            <div class="annot-item"><span>Jajo zapłodnione:</span> Owalne, gruba pofałdowana osłonka albuminowa.</div>
+            <div class="annot-item"><span>Jajo niezapłodnione:</span> Wydłużone, bezkształtna masa ziarnista, nie rozwija się.</div>
+            <div class="annot-item"><span>Czas życia i rozwój:</span> Rozwój trwa <strong>2–3 miesiące</strong>; dorosłe glisty żyją <strong>1–1,5 roku</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIGURE 1.2: LECZENIE GLISTNICY (1000048307.jpg) -->
+      <div class="figure-container" id="fig-ascaris-tx">
+        <div class="figure-header">
+          <span>Rycina 1.2: Protokół farmakoterapii glistnicy (Askariozy)</span>
+          <span style="font-size:0.75rem; color:#64748b;">Plik: <code>zdjecia/1000048307.jpg</code></span>
+        </div>
+        <div class="figure-display-area">
+          <img id="img-1000048307" 
+               src="zdjecia/1000048307.jpg" 
+               alt="Tabela dawkowania leków w glistnicy" 
+               onload="handleImgSuccess('img-1000048307', 'ph-1000048307')"
+               onerror="handleImgFallback(this, 'img-1000048307', 'ph-1000048307', 'slot_ascaris_tx')">
+          <div class="figure-placeholder" id="ph-1000048307" style="display:none;">
+            <div style="font-size: 2.2rem;">💊</div>
+            <strong>Oczekiwanie na plik: zdjecia/1000048307.jpg</strong>
+            <p>Wczytaj plik lokalnie, jeśli nie wrzucono go jeszcze do folderu <code>zdjecia/</code>:</p>
+            <label class="btn-pick-single">
+              Wybierz plik z dysku
+              <input type="file" accept="image/*" onchange="manualUpload(this, 'img-1000048307', 'ph-1000048307', 'slot_ascaris_tx')">
+            </label>
+          </div>
+        </div>
+        <div class="figure-caption">
+          <strong>Ścisłe dawkowanie według zrzutu ekranu z wykładu:</strong>
+          <table class="comparison-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>LEK</th><th>DAWKA KLINICZNA</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Albendazol</strong></td><td><strong>400 mg</strong> doustnie raz</td></tr>
+              <tr><td><strong>Mebendazol</strong></td><td><strong>100 mg</strong> doustnie dwa razy na dobę przez 3 dni <em>LUB</em> <strong>500 mg</strong> doustnie raz</td></tr>
+              <tr><td><strong>Iwermektyna</strong></td><td><strong>150–200 &micro;g/kg</strong> doustnie, raz</td></tr>
+              <tr><td><strong>Pyrantel</strong></td><td><strong>10 mg/kg m.c.</strong> jednorazowa dawka</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>Morfologia i Dymorfizm Płciowy</h3>
+      <ul>
+        <li><strong>Samica:</strong> Długość <strong>20–40 cm</strong> (z podręcznika 20–35 cm), grubość 3–6 mm. Wulwa w 1/3 przedniej części ciała. Składa do <strong>200 000–250 000 jaj na dobę</strong>.</li>
+        <li><strong>Samiec:</strong> Długość <strong>10–32 cm</strong> (z podręcznika 15–30 cm), tylny koniec charakterystycznie zagięty brzusznie, zaopatrzony w 2 szczecinki kopulacyjne o długości ok. 2 mm oraz liczne brodawki płciowe.</li>
+      </ul>
+
+      <h3>Ciąg Przyczynowo-Skutkowy: Wędrówka Larw i Przełom Płucny</h3>
+      <div class="process-flow">
+        <div class="step-box">
+          <span class="step-number">1</span>
+          <strong>Spożycie inwazyjnego jaja z larwą L2</strong>
+          <p>Przez niemyte warzywa zanieczyszczone glebą nawożoną fekaliami lub skażoną wodę. <em>Pamiętaj: świeże jajo z kału NIE zaraża!</em></p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">2</span>
+          <strong>Wylęg w jelicie cienkim &rarr; Penetracja naczyń wrotnych</strong>
+          <p>Larwy uwalniają się w ciągu kilku godzin, przenikają przez ścianę jelita do żyły wrotnej i docierają do wątroby.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">3</span>
+          <strong>Droga do płuc &rarr; Zespół Loefflera</strong>
+          <p>Z wątroby przez prawe serce do naczyń włosowatych pęcherzyków płucnych. Larwy przebijają się do światła pęcherzyków, linieją dwukrotnie (do L3 i L4). Wywołują eozynofilowe zapalenie płuc, kaszel i nacieki w RTG.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">4</span>
+          <strong>Przełączenie metaboliczne i połykanie</strong>
+          <p>Podczas wędrówki w górę drzewa oskrzelowego i powtórnego połknięcia aktywność <strong>oksydazy cytochromowej spada 10-krotnie</strong> – przejście z metabolizmu tlenowego na beztlenowy w jelicie.</p>
+        </div>
+      </div>
+
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka egzaminacyjna: Faza płucna a badanie kału</div>
+        Gdy pacjent ma objawy płucne (zespół Loefflera, eozynofilia sięgająca 30%), <strong>badanie kału da wynik fałszywie ujemny</strong>! Okres prepatentny glisty wynosi <strong>2–3 miesiące</strong>. Larwy w płucach można wykryć w plwocinie lub popłuczynach żołądkowych, a nie w stolcu.
+      </div>
+
+      <!-- QUIZ GLISTA -->
+      <details>
+        <summary>Pytanie egzaminacyjne 1: Dlaczego świeży kał chorego na glistnicę nie jest źródłem zakażenia?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> Glista jest geohelmintem. Jaja wydalane z kałem są niezbiologizowane (w stadium wczesnego bruzdkowania). Do uzyskania inwazyjności larwa L2 potrzebuje tlenu, wilgoci i około 3 tygodni inkubacji w glebie w temperaturze 21–30&deg;C.
+        </div>
+      </details>
+      <details>
+        <summary>Pytanie egzaminacyjne 2: Jak odróżnić mikroskopowo jajo zapłodnione od niezapłodnionego?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> Jajo zapłodnione jest regularnie owalne (45–70 &times; 35–50 &micro;m), ma grubą trójwarstwową powłokę z wyraźną, żółtobrązową, silnie pofałdowaną warstwą albuminową i kulistą zygotą w środku. Jajo niezapłodnione jest znacznie dłuższe (do 90–94 &micro;m), ma cieńszą, nieregularną skorupkę i jest wypełnione bezkształtną masą ziarnistą.
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- 2. OWSIK LUDZKI -->
+  <section class="card" id="enterobius">
+    <div class="card-header">
+      <h2>2. Owsik ludzki <span class="latin-tag">(Enterobius vermicularis Linnaeus, 1758)</span></h2>
+      <span class="pill-green">Najczęstsza robaczyca w Polsce | Jelito Grube</span>
+    </div>
+    <div class="card-body">
+
+      <div class="callout-analogy">
+        <div class="callout-analogy-title">💡 Intuicyjna analogia Feynmana: Nocny sabotażysta ze skrzydełkami i klejem</div>
+        Wyobraź sobie nocnego zwiadowcę wyposażonego w skrzydełka na karku (alae), który czeka na moment, gdy gospodarz zaśnie pod ciepłą kołdrą. Wychodzi przez bramę (odbyt) i smaruje skórę silnie piekącym klejem. Śpiący człowiek odruchowo drapie się przez sen, ładując setki jaj pod paznokcie. Rano palce wędrują do ust – a jaja dojrzewają nie w tygodnie na polu, lecz w zaledwie 6 godzin na poduszce!
+      </div>
+
+      <!-- FIGURE 2.1: OWSIK LUDZKI (1000048308.jpg) -->
+      <div class="figure-container" id="fig-enterobius">
+        <div class="figure-header">
+          <span>Rycina 2.1: Morfologia anatomiczna, histopatologia i jajo Enterobius vermicularis</span>
+          <span style="font-size:0.75rem; color:#64748b;">Plik: <code>zdjecia/1000048308.jpg</code></span>
+        </div>
+        <div class="figure-display-area">
+          <img id="img-1000048308" 
+               src="zdjecia/1000048308.jpg" 
+               alt="Enterobius vermicularis - przód ze skrzydełkami, tył, jajo i wyrostek robaczkowy" 
+               onload="handleImgSuccess('img-1000048308', 'ph-1000048308')"
+               onerror="handleImgFallback(this, 'img-1000048308', 'ph-1000048308', 'slot_enterobius')">
+          <div class="figure-placeholder" id="ph-1000048308" style="display:none;">
+            <div style="font-size: 2.2rem;">🔬</div>
+            <strong>Oczekiwanie na plik: zdjecia/1000048308.jpg</strong>
+            <p>Wczytaj plik lokalnie, jeśli nie wrzucono go jeszcze do folderu <code>zdjecia/</code>:</p>
+            <label class="btn-pick-single">
+              Wybierz plik z dysku
+              <input type="file" accept="image/*" onchange="manualUpload(this, 'img-1000048308', 'ph-1000048308', 'slot_enterobius')">
+            </label>
+          </div>
+        </div>
+        <div class="figure-caption">
+          <strong>Kluczowe struktury anatomiczne ze slajdu:</strong>
+          <div class="figure-annotations">
+            <div class="annot-item"><span>PRZÓD (Główka):</span> Widoczne <strong>skrzydełka oskórkowe (alae)</strong> po bokach gardzieli.</div>
+            <div class="annot-item"><span>TYŁ:</span> Długi, ostry, prosty <strong>szydłowaty koniec</strong> ciała samicy.</div>
+            <div class="annot-item"><span>JAJO:</span> Asymetryczne, spłaszczone z jednej strony (<strong>kształt bochenka chleba / litery D</strong>).</div>
+            <div class="annot-item"><span>HISTOLOGIA:</span> Przekrój poprzeczny owsika w wyrostku robaczkowym – widoczne grzebienie boczne.</div>
+            <div class="annot-item"><span>Epidemiologia:</span> Na świecie <strong>400 mln</strong>; w Polsce ok. <strong>20% dzieci 7-letnich</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Mechanizm Świądu i Drogi Transmisji</h3>
+      <div class="process-flow">
+        <div class="step-box">
+          <span class="step-number">1</span>
+          <strong>Nocna wędrówka samicy</strong>
+          <p>Samica przemieszcza się z kątnicy do fałdów odbytu, składając 8 000–12 000 jaj w lepkiej, drażniącej wydzielinie.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">2</span>
+          <strong>Świąd nocny (Pruritus ani) &rarr; Drapanie</strong>
+          <p>Wydzielina wywołuje pieczenie i świąd. Drapanie prowadzi do zanieczyszczenia dłoni i przestrzeni podpaznokciowych.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">3</span>
+          <strong>Błyskawiczna inwazyjność (6 GODZIN!)</strong>
+          <p>W cieple ciała i w obecności tlenu jaja uzyskują inwazyjność w ciągu zaledwie 6 godzin.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">4</span>
+          <strong>Formy inwazji:</strong>
+          <p>• <strong>Autoegzoinwazja:</strong> z rąk do ust.<br>
+          • <strong>Inhalacyjna:</strong> unoszenie się lekkich jaj z kurzem pościeli.<br>
+          • <strong>Retroinwazja:</strong> wylęg larw na skórze krocza i ich powrót przez odbyt do jelita grubego.</p>
+        </div>
+      </div>
+
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Złoty standard diagnostyki: NIGDY NIE ZLECAJ KAŁU!</div>
+        W owsicy rutynowe badanie kału na pasożyty jest <strong>błędem w sztuce</strong> (wykrywa jaja zaledwie u poniżej 5% chorych!).<br>
+        <strong>Prawidłowe badanie:</strong> Wymaz z fałdów okołoodbytniczych metodą taśmy celofanowej (<strong>metoda Grahama</strong>) lub bagietki z celofanem (<strong>metoda Halla / NIH</strong>), pobierany <strong>rano, przed podmyciem i przed oddaniem stolca</strong>.
+      </div>
+
+      <h3>Leczenie i Złota Zasada 14 Dni</h3>
+      <p>Lekiem z wyboru jest <strong>Pyrantel (10 mg/kg m.c. jednorazowo)</strong> lub <strong>Mebendazol</strong> / <strong>Albendazol</strong>.</p>
+      <div class="academic-definition">
+        <strong>Dlaczego bezwzględnie powtarzamy dawkę po 14 dniach?</strong> Leki przeciwpasożytnicze porażają i zabijają dorosłe owsiki w jelicie, ale <strong>nie niszczą jaj</strong> złożonych w otoczeniu. Powtórzenie leczenia po 2 tygodniach eliminuje nowe pokolenie nicieni wylęgłe z ocalałych jaj, zanim osiągną one dojrzałość płciową i złożą kolejne jaja! Leczona musi być jednocześnie <strong>cała rodzina</strong>.
+      </div>
+
+      <!-- QUIZ OWSIK -->
+      <details>
+        <summary>Pytanie egzaminacyjne 1: Jakie powikłania ginekologiczne może wywołać owsik u dziewczynek?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> Wędrówka ektopowa samic przez szparę sromową może wywołać zapalenie sromu i pochwy (<em>vulvovaginitis</em>), zapalenie błony śluzowej macicy i jajowodów, a po przejściu do jamy otrzewnej – powstawanie ziarniniaków okołopasożytniczych.
+        </div>
+      </details>
+      <details>
+        <summary>Pytanie egzaminacyjne 2: Dlaczego jaja owsika unoszą się w powietrzu?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> Jaja owsika są mikroskopijne, spłaszczone asymetrycznie i bardzo lekkie. Po wyschnięciu wydzieliny krocza łatwo odklejają się od pościeli i bielizny, unosząc się wraz z kurzem domowym, co umożliwia zarażenie drogą inhalacyjną.
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- 3. WŁOSOGŁÓWKA LUDZKA -->
+  <section class="card" id="trichuris">
+    <div class="card-header">
+      <h2>3. Włosogłówka ludzka <span class="latin-tag">(Trichuris trichiura Linnaeus, 1771)</span></h2>
+      <span class="pill-green">Geohelmint | Jelito Ślepe i Kątnica</span>
+    </div>
+    <div class="card-body">
+
+      <div class="callout-analogy">
+        <div class="callout-analogy-title">💡 Intuicyjna analogia Feynmana: Igła tapicerska przeszywająca ścianę od środka</div>
+        Wyobraź sobie robaka, którego przednie 3/5 ciała jest cienkie jak pojedynczy włos, a tył gruby jak sznur. Włosogłówka nie pływa swobodnie w świetle jelita. Działa jak igła tapicerska: dosłownie przeszywa nabłonek błony śluzowej jelita ślepego i fastryguje się pod tkankami niczym korzeń dębu w skale. Właśnie dlatego tak trudno ją usunąć i zwykła pojedyncza tabletka na nią nie działa!
+      </div>
+
+      <!-- FIGURE 3.1: WŁOSOGŁÓWKA DOROSŁY, JAJO, HISTOLOGIA (1000048309.jpg) -->
+      <div class="figure-container" id="fig-trichuris-morph">
+        <div class="figure-header">
+          <span>Rycina 3.1: Trichuris trichiura – morfologia dorosłego, beczułkowate jajo i zagnieżdżenie w ścianie jelita</span>
+          <span style="font-size:0.75rem; color:#64748b;">Plik: <code>zdjecia/1000048309.jpg</code></span>
+        </div>
+        <div class="figure-display-area">
+          <img id="img-1000048309" 
+               src="zdjecia/1000048309.jpg" 
+               alt="Trichuris trichiura dorosły, beczułkowate jajo i przekrój histologiczny ściany jelita" 
+               onload="handleImgSuccess('img-1000048309', 'ph-1000048309')"
+               onerror="handleImgFallback(this, 'img-1000048309', 'ph-1000048309', 'slot_trichuris_morph')">
+          <div class="figure-placeholder" id="ph-1000048309" style="display:none;">
+            <div style="font-size: 2.2rem;">🔬</div>
+            <strong>Oczekiwanie na plik: zdjecia/1000048309.jpg</strong>
+            <p>Wczytaj plik lokalnie, jeśli nie wrzucono go jeszcze do folderu <code>zdjecia/</code>:</p>
+            <label class="btn-pick-single">
+              Wybierz plik z dysku
+              <input type="file" accept="image/*" onchange="manualUpload(this, 'img-1000048309', 'ph-1000048309', 'slot_trichuris_morph')">
+            </label>
+          </div>
+        </div>
+        <div class="figure-caption">
+          <strong>Kluczowe cechy diagnostyczne ze slajdu:</strong>
+          <div class="figure-annotations">
+            <div class="annot-item"><span>Epidemiologia:</span> Około <strong>600–800 milionów ludzi</strong> zarażonych; częściej tropiki i subtropiki.</div>
+            <div class="annot-item"><span>Lokalizacja:</span> Pasożytuje ściśle w <strong>jelicie grubym</strong> (kątnica, okrężnica, wyrostek).</div>
+            <div class="annot-item"><span>Budowa:</span> Przednie 3/5 nitkowate (stichosom), tylne 2/5 grubsze; samiec ma spiralny ogon.</div>
+            <div class="annot-item"><span>Jajo (Patognomoniczne!):</span> <strong>Kształt beczułki / cytryny z dwoma czopkami śluzowymi na biegunach</strong>.</div>
+            <div class="annot-item"><span>Histopatologia:</span> Głębokie wnikanie przedniej części ciała pod nabłonek śluzówki.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIGURE 3.2: LECZENIE WŁOSOGŁÓWCZYCY (1000048310.jpg) -->
+      <div class="figure-container" id="fig-trichuris-tx">
+        <div class="figure-header">
+          <span>Rycina 3.2: Protokół leczenia trudnej włosogłówczycy (Trichuriozy)</span>
+          <span style="font-size:0.75rem; color:#64748b;">Plik: <code>zdjecia/1000048310.jpg</code></span>
+        </div>
+        <div class="figure-display-area">
+          <img id="img-1000048310" 
+               src="zdjecia/1000048310.jpg" 
+               alt="Leczenie trichuriozy - schematy 3-dniowe" 
+               onload="handleImgSuccess('img-1000048310', 'ph-1000048310')"
+               onerror="handleImgFallback(this, 'img-1000048310', 'ph-1000048310', 'slot_trichuris_tx')">
+          <div class="figure-placeholder" id="ph-1000048310" style="display:none;">
+            <div style="font-size: 2.2rem;">💊</div>
+            <strong>Oczekiwanie na plik: zdjecia/1000048310.jpg</strong>
+            <p>Wczytaj plik lokalnie, jeśli nie wrzucono go jeszcze do folderu <code>zdjecia/</code>:</p>
+            <label class="btn-pick-single">
+              Wybierz plik z dysku
+              <input type="file" accept="image/*" onchange="manualUpload(this, 'img-1000048310', 'ph-1000048310', 'slot_trichuris_tx')">
+            </label>
+          </div>
+        </div>
+        <div class="figure-caption">
+          <strong>Dlaczego leczenie jest trudne? (Cytat dosłowny ze slajdu):</strong>
+          <p style="font-style: italic; color:#9f1239; margin-top:4px;">
+            „Leczenie włosogłówczycy jest stosunkowo trudne, ponieważ pasożyty bardzo głęboko wnikają w ścianę jelita oraz wykazują małą wrażliwość na przyjmowane preparaty.”
+          </p>
+          <table class="comparison-table" style="margin-top:8px;">
+            <thead>
+              <tr><th>LEK PRZECIWPASOŻYTNICZY</th><th>DAWKOWANIE (BEZWZGLĘDNIE PRZEZ 3 DNI!)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Iwermektyna</strong></td><td><strong>200 &micro;g/kg</strong> doustnie <strong>przez 3 dni</strong></td></tr>
+              <tr><td><strong>Albendazol</strong></td><td><strong>400 mg</strong> doustnie <strong>przez 3 dni</strong></td></tr>
+              <tr><td><strong>Mebendazol</strong></td><td><strong>100 mg</strong> doustnie, <strong>dwa razy dziennie przez 3 dni</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>Ciąg Przyczynowo-Skutkowy: Brak Wędrówki Płucnej i Objawy Kliniczne</h3>
+      <div class="process-flow">
+        <div class="step-box">
+          <span class="step-number">1</span>
+          <strong>Połknięcie inwazyjnego jaja z gleby</strong>
+          <p>Geohelmint. Larwa wyposażona w sztylecik wylęga się w jelicie cienkim.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">2</span>
+          <strong>BEZPOŚREDNIE przejście do jelita grubego (BRAK PŁUC!)</strong>
+          <p>Larwa nie przebija naczyń, nie płynie do serca ani płuc! Wędruje prosto z treścią jelitową do kątnicy i okrężnicy.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">3</span>
+          <strong>Tunelizacja ściany i odżywianie krwią</strong>
+          <p>Wnika głęboko pod błonę śluzową. Żyje do <strong>15 lat</strong>, drażniąc sploty nerwowe i wysysając mikronaczynia.</p>
+        </div>
+        <div class="arrow-divider">↓</div>
+        <div class="step-box">
+          <span class="step-number">4</span>
+          <strong>Triada kliniczna ciężkiej trichuriozy:</strong>
+          <p>1. Bolesne parcie na stolec (<em>tenesmus</em>) i krwawa biegunka.<br>
+          2. Niedokrwistość mikrocytarna z niedoboru żelaza.<br>
+          3. <strong>Wypadanie błony śluzowej odbytnicy (rectal prolapse)</strong> u wyniszczonych dzieci.</p>
+        </div>
+      </div>
+
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka terapeutyczna: Albendazol jednorazowy NIE DZIAŁA!</div>
+        Jednorazowa dawka 400 mg albendazolu skutecznie leczy glistnicę i owsicę, ale <strong>jest nieskuteczna w trichuriozie</strong>! Z uwagi na głębokie ukrycie pod śluzówką wymagana jest kuracja <strong>3-dniowa</strong> (400 mg/dobę przez 3 dni).
+      </div>
+
+      <!-- QUIZ WŁOSOGŁÓWKA -->
+      <details>
+        <summary>Pytanie egzaminacyjne 1: Czy larwa Trichuris trichiura odbywa wędrówkę przez płuca?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> <strong>NIE!</strong> W przeciwieństwie do glisty ludzkiej, larwa włosogłówki rozwija się wyłącznie w obrębie przewodu pokarmowego (wylęg w jelicie cienkim &rarr; spływ do kątnicy). Nie wywołuje nacieków w płucach ani zespołu Loefflera.
+        </div>
+      </details>
+      <details>
+        <summary>Pytanie egzaminacyjne 2: Jakie kryształy w rozmazie kału towarzyszą masywnej trichuriozie?</summary>
+        <div class="details-content">
+          <strong>Odpowiedź:</strong> W kale stwierdza się obecność <strong>kryształów Charcota-Leydena</strong>, które powstają z rozpadających się granulocytów kwasochłonnych (eozynofilów) naciekających uszkodzoną ścianę jelita grubego.
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- SEKCJA 4: WIELKA TABELA PORÓWNAWCZA -->
+  <section class="card" id="summary-table">
+    <div class="card-header">
+      <h2>4. Wielka Medyczna Tabela Różnicowa Trzech Nicieni</h2>
+      <span class="pill-green">Podsumowanie Egzaminacyjne</span>
+    </div>
+    <div class="card-body">
+      <div class="table-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Cecha</th>
+              <th>Glista ludzka (<em>Ascaris</em>)</th>
+              <th>Owsik ludzki (<em>Enterobius</em>)</th>
+              <th>Włosogłówka ludzka (<em>Trichuris</em>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Biotop</strong></td>
+              <td>Jelito cienkie</td>
+              <td>Jelito grube (kątnica, wyrostek)</td>
+              <td>Jelito grube (kątnica, ślepa kiszka)</td>
+            </tr>
+            <tr>
+              <td><strong>Sposób bytowania</strong></td>
+              <td>Pływa pod prąd perystaltyki</td>
+              <td>Przyczepia się torebką gębową, nocą wędruje do odbytu</td>
+              <td>Przeszywa śluzówkę (przednie 3/5 zakotwiczone w ścianie)</td>
+            </tr>
+            <tr>
+              <td><strong>Postać inwazyjna</strong></td>
+              <td>Jajo z larwą L2</td>
+              <td>Jajo z zarodkiem (asymetryczne)</td>
+              <td>Jajo z larwą (beczułka z czopkami)</td>
+            </tr>
+            <tr>
+              <td><strong>Czas dojrzewania jaja</strong></td>
+              <td>Ok. <strong>3 tygodnie w glebie</strong></td>
+              <td>Zaledwie <strong>6 godzin</strong> na skórze</td>
+              <td>Ok. <strong>3 tygodnie w glebie</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Wędrówka płucna</strong></td>
+              <td><strong style="color:red;">TAK</strong> (serce &rarr; płuca &rarr; gardło)</td>
+              <td><strong style="color:green;">NIE</strong></td>
+              <td><strong style="color:green;">NIE</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Złoty standard diagnostyki</strong></td>
+              <td>Badanie mikroskopowe kału</td>
+              <td><strong>Wymaz celofanowy Grahama rano</strong> (kał to błąd!)</td>
+              <td>Badanie mikroskopowe kału</td>
+            </tr>
+            <tr>
+              <td><strong>Długość życia</strong></td>
+              <td>1 – 1,5 roku</td>
+              <td>4 – 12 tygodni</td>
+              <td><strong>Nawet do 15 lat!</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Schemat terapii</strong></td>
+              <td>Albendazol 400 mg raz LUB Mebendazol 100 mg 2x/d przez 3 dni LUB Pyrantel 10 mg/kg</td>
+              <td>Pyrantel 10 mg/kg jednorazowo &rarr; <strong>POWTÓRKA PO 14 DNIACH!</strong></td>
+              <td><strong>Wyłącznie 3 DNI:</strong> Albendazol 400 mg/d przez 3 dni LUB Iwermektyna 200 &micro;g/kg/d przez 3 dni</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEKCJA 5: PUŁAPKI EGZAMINACYJNE -->
+  <section class="card" id="exam-traps">
+    <div class="card-header">
+      <h2>5. Top 5 Pułapek Egzaminacyjnych</h2>
+      <span class="pill-green">Wiedza na 5.0</span>
+    </div>
+    <div class="card-body">
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka 1: Świeży kał z glistą a zakaźność</div>
+        Nigdy nie odpowiadaj, że można zarazić się glistą przez kontakt ze świeżym stolcem! Jaja glisty wymagają inkubacji tlenowej w ziemi (ok. 3 tygodni), aby powstała inwazyjna larwa L2.
+      </div>
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka 2: Zlecenie badania kału na owsiki</div>
+        Jaja owsika są deponowane w fałdach odbytu, a nie w kale. Wykrywalność w kale to tylko poniżej 5%. Prawidłowa metoda to taśma Grahama rano przed podmyciem.
+      </div>
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka 3: Prolapsus recti u dziecka</div>
+        Wypadanie błony śluzowej odbytnicy w połączeniu z krwawą biegunką i niedokrwistością mikrocytarną to klasyczny objaw zakażenia <strong>włosogłówką (Trichuris trichiura)</strong>.
+      </div>
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka 4: Który nicień wędruje przez płuca?</div>
+        Spośród omawianej trójki <strong>wyłącznie Ascaris lumbricoides</strong> przechodzi fazę sercowo-płucną. Zarówno owsik, jak i włosogłówka rozwijają się w 100% wewnątrz przewodu pokarmowego.
+      </div>
+      <div class="callout-warning">
+        <div class="callout-warning-title">⚠️ Pułapka 5: Czas trwania leczenia włosogłówczycy</div>
+        Włosogłówka tkwi głęboko pod nabłonkiem jelita. Dlatego w przeciwieństwie do glisty czy owsika, podanie jednorazowej dawki leku jest nieskuteczne – leczenie <strong>musi trwać 3 pełne dni</strong>.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- SKRYPT OBSŁUGI ZDJĘĆ, FALLBACKÓW I PAMIĘCI INDEXEDDB -->
+<script>
+  // 1. ZARZĄDZANIE PASKIEM POSTĘPU I AUTO-HIDE MENU
+  let lastScrollY = window.scrollY;
+  const nav = document.getElementById('smartNav');
+  const progressBar = document.getElementById('progress-bar');
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+    progressBar.style.width = progress + '%';
+
+    if (window.scrollY > lastScrollY && window.scrollY > 120) {
+      nav.classList.add('hidden');
+    } else {
+      nav.classList.remove('hidden');
+    }
+    lastScrollY = window.scrollY;
+  });
+
+  // 2. ZOOM ZDJĘĆ NA KLIKNIĘCIE
+  document.querySelectorAll('.figure-display-area img').forEach(img => {
+    img.addEventListener('click', () => {
+      img.classList.toggle('zoomed');
+    });
+  });
+
+  // 3. PERSYSTENTNA OBSŁUGA PAMIĘCI INDEXEDDB
+  const DB_NAME = 'Parasitology_Images_Store';
+  const STORE_NAME = 'screenshots';
+
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onsuccess = (e) => resolve(e.target.result);
+      request.onerror = (e) => reject(e);
+    });
+  }
+
+  async function saveToDB(key, dataUrl) {
+    try {
+      const db = await openDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).put(dataUrl, key);
+    } catch (err) {
+      console.warn('Błąd IndexedDB:', err);
+    }
+  }
+
+  async function getFromDB(key) {
+    try {
+      const db = await openDB();
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      });
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // 4. KASKADOWY SYSTEM ŁADOWANIA ZDJĘĆ (GITHUB -> ROOT -> INDEXEDDB -> PLACEHOLDER)
+  function handleImgSuccess(imgId, phId) {
+    const img = document.getElementById(imgId);
+    const ph = document.getElementById(phId);
+    if (img && ph) {
+      img.style.display = 'block';
+      ph.style.display = 'none';
+    }
+  }
+
+  async function handleImgFallback(imgElement, imgId, phId, dbKey) {
+    const currentSrc = imgElement.getAttribute('src');
+
+    // Krok 1: jeśli nie załadowało ze "zdjecia/...", spróbuj z głównego folderu "./..."
+    if (currentSrc.startsWith('zdjecia/')) {
+      const filename = currentSrc.replace('zdjecia/', '');
+      imgElement.src = filename;
+      return;
+    }
+
+    // Krok 2: jeśli nadal nie ma, sprawdź czy użytkownik wcześniej zapisał zdjęcie w IndexedDB
+    const stored = await getFromDB(dbKey);
+    if (stored) {
+      imgElement.src = stored;
+      imgElement.style.display = 'block';
+      const ph = document.getElementById(phId);
+      if (ph) ph.style.display = 'none';
+      return;
+    }
+
+    // Krok 3: jeśli żaden plik nie istnieje, ukryj zepsutą ikonę i pokaż estetyczny placeholder
+    imgElement.style.display = 'none';
+    const ph = document.getElementById(phId);
+    if (ph) ph.style.display = 'flex';
+  }
+
+  // 5. RĘCZNY UPLOAD (JEŚLI PLIK JEST ODPALANY LOKALNIE BEZ GITHUBA)
+  function manualUpload(input, imgId, phId, storageKey) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        const img = document.getElementById(imgId);
+        const ph = document.getElementById(phId);
+        if (img && ph) {
+          img.src = dataUrl;
+          img.style.display = 'block';
+          ph.style.display = 'none';
+        }
+        saveToDB(storageKey, dataUrl);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+
+</body>
+</html>
