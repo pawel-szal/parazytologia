@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="pl" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test z Parazytologii - 67 Pytań</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbars & smooth transitions */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .custom-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 0.375rem;
+      outline: none;
+      transition: all 0.15s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .custom-checkbox:checked {
+      background-color: #059669;
+      border-color: #059669;
+    }
+    .custom-checkbox:checked::after {
+      content: '';
+      width: 0.35rem;
+      height: 0.65rem;
+      border: solid white;
+      border-width: 0 2.5px 2.5px 0;
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body class="h-full text-slate-800 antialiased flex flex-col font-sans">
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-4">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Parazytologia • Baza Pytań</h1>
+            <p class="text-xs text-slate-500 font-medium">Kolokwium I: Nicienie, Tasiemce, Przywry (67 pytań)</p>
+          </div>
+        </div>
+
+        <!-- Progress and Actions -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Score Summary Pill -->
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-semibold text-slate-700">
+            <span>Zrobione: <strong id="header-answered-count" class="text-slate-900 font-bold">0</strong>/67</span>
+            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+            <span class="text-emerald-700">Poprawne: <strong id="header-correct-count" class="font-bold">0</strong></span>
+          </div>
+
+          <!-- Mode Toggle -->
+          <div class="flex p-0.5 bg-slate-100 rounded-lg border border-slate-200 text-xs font-medium">
+            <button id="btn-mode-study" onclick="setMode('study')" class="px-2.5 py-1 rounded-md transition-all font-semibold shadow-sm bg-white text-emerald-800">Nauka</button>
+            <button id="btn-mode-exam" onclick="setMode('exam')" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900">Egzamin</button>
+          </div>
+
+          <!-- Grid map toggle for mobile/desktop -->
+          <button onclick="toggleMapModal()" class="p-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors relative" title="Siatka pytań">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            </svg>
+            <span id="badge-flagged" class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-amber-500 rounded-full ring-2 ring-white"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live progress track line -->
+    <div class="w-full bg-slate-100 h-1 overflow-hidden">
+      <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full w-0 transition-all duration-300"></div>
+    </div>
+  </header>
+
+  <!-- Controls Bar: Filter, Search, View Mode -->
+  <div class="bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- Section Filter -->
+        <div class="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 text-xs">
+          <button onclick="setCategoryFilter('all')" data-cat="all" class="cat-pill active-cat px-3 py-1.5 rounded-full font-medium bg-emerald-100 text-emerald-800 border border-emerald-300">Wszystkie (67)</button>
+          <button onclick="setCategoryFilter('CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE')" data-cat="CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE" class="cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">I: Farmakoterapia (10)</button>
+          <button onclick="setCategoryFilter('CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA')" data-cat="CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA" class="cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">II: Diagnostyka (10)</button>
+          <button onclick="setCategoryFilter('CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE')" data-cat="CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE" class="cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">III: Cykle i Żywiciele (19)</button>
+          <button onclick="setCategoryFilter('CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA')" data-cat="CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA" class="cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">IV: Patogeneza (13)</button>
+          <button onclick="setCategoryFilter('CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE')" data-cat="CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE" class="cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">V: Morfologia i Kazusy (15)</button>
+        </div>
+
+        <!-- Search & Secondary Filter -->
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1 sm:w-60">
+            <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Szukaj pasożyta, leku..." 
+              class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition-all">
+            <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+
+          <!-- Status Dropdown filter -->
+          <select id="status-filter" onchange="setStatusFilter(this.value)" class="text-xs py-1.5 px-2 bg-slate-50 border border-slate-300 rounded-lg font-medium text-slate-700 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="all">Wszystkie pytania</option>
+            <option value="unanswered">Tylko nierozwiązane</option>
+            <option value="incorrect">Tylko błędne</option>
+            <option value="starred">Oznaczone ⭐</option>
+          </select>
+
+          <!-- Reset Button -->
+          <button onclick="confirmReset()" class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg border border-slate-200 transition-colors" title="Wyczyść wszystkie odpowiedzi">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
+
+    <!-- Questions Feed / Container -->
+    <main class="flex-1 min-w-0">
+      <!-- Exam submit banner (Exam mode only) -->
+      <div id="exam-banner" class="hidden mb-6 p-4 rounded-xl bg-gradient-to-r from-slate-900 to-indigo-950 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-bold text-sm sm:text-base flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Tryb Egzaminu w toku
+          </h2>
+          <p class="text-xs text-slate-300 mt-0.5">Odpowiedzi i uzasadnienia pojawią się po zakończeniu testu.</p>
+        </div>
+        <button onclick="finishExam()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+          <span>Zakończ i sprawdź wynik</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Questions List Container -->
+      <div id="questions-list" class="space-y-6">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Empty state when search/filter returns zero -->
+      <div id="empty-state" class="hidden py-16 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-slate-700 font-bold text-base">Brak pasujących pytań</h3>
+        <p class="text-xs text-slate-500 mt-1">Zmień frazę wyszukiwania lub zresetuj aktywne filtry.</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700">Pokaż wszystkie pytania</button>
+      </div>
+    </main>
+
+    <!-- Right Sidebar Desktop: Quick Nav & Stats -->
+    <aside class="hidden lg:block w-80 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <!-- Mini Stats Card -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center justify-between">
+            <span>Twój wynik</span>
+            <span id="side-percent" class="text-sm font-extrabold text-emerald-600">0%</span>
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-center text-xs">
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+              <span class="block text-slate-400 font-medium text-[11px]">Odpowiedziane</span>
+              <span id="side-answered" class="text-base font-bold text-slate-800">0 / 67</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-100">
+              <span class="block text-emerald-600 font-medium text-[11px]">Bezbłędne</span>
+              <span id="side-correct" class="text-base font-bold text-emerald-700">0</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-rose-50 border border-rose-100">
+              <span class="block text-rose-600 font-medium text-[11px]">Z błędami</span>
+              <span id="side-wrong" class="text-base font-bold text-rose-700">0</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-100">
+              <span class="block text-amber-600 font-medium text-[11px]">Z gwiazdką</span>
+              <span id="side-starred" class="text-base font-bold text-amber-700">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 67 Questions Quick Grid -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Nawigacja (67 pytań)</h3>
+            <span class="text-[11px] text-slate-400">Kliknij, aby przejść</span>
+          </div>
+          <div id="quick-grid" class="grid grid-cols-7 gap-1.5 max-h-80 overflow-y-auto p-1">
+            <!-- 67 buttons rendered here -->
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 grid grid-cols-2 gap-y-1 text-[11px] text-slate-500">
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> Poprawne</div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span> Błędne</div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-indigo-500"></span> W trakcie</div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-slate-200"></span> Nierozpoczęte</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Modal: Exam Result Summary -->
+  <div id="modal-result" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all p-6 text-center">
+      <div id="modal-icon-wrap" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 bg-emerald-100 text-emerald-600">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+
+      <h3 class="text-xl font-bold text-slate-900" id="modal-title">Podsumowanie Egzaminu</h3>
+      <p class="text-xs text-slate-500 mt-1" id="modal-subtitle">Baza 67 pytań - Parazytologia Kolokwium I</p>
+
+      <div class="my-6 p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3">
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-600 font-medium">Uzyskany wynik:</span>
+          <span id="modal-score" class="font-bold text-slate-900 text-lg">0 / 67 (0%)</span>
+        </div>
+        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+          <div id="modal-bar" class="bg-emerald-500 h-full w-0 transition-all duration-700"></div>
+        </div>
+        <div class="flex justify-between items-center text-xs text-slate-500 pt-1">
+          <span>Próg zaliczenia: <strong>60%</strong></span>
+          <span id="modal-status-badge" class="font-bold px-2 py-0.5 rounded text-white bg-slate-400">Ocena</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="closeModalAndReviewErrors()" class="flex-1 py-2.5 px-4 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors">
+          Przeglądaj tylko błędy
+        </button>
+        <button onclick="closeModal()" class="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition-colors">
+          Zobacz cały arkusz
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Mobile Question Selector / Grid -->
+  <div id="modal-map" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full max-h-[85vh] shadow-2xl flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-slate-800">Skocz do pytania (1-67)</h3>
+        <button onclick="toggleMapModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto">
+        <div id="quick-grid-mobile" class="grid grid-cols-6 sm:grid-cols-8 gap-2">
+          <!-- mobile buttons -->
+        </div>
+      </div>
+      <div class="p-3 bg-slate-50 border-t border-slate-200 text-right">
+        <button onclick="toggleMapModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg">Zamknij</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Custom Alert Dialog (Replaces native confirm/alert) -->
+  <div id="custom-confirm-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-sm w-full p-5 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+      <h4 class="font-bold text-slate-900 text-sm mb-1" id="confirm-title">Zresetować odpowiedzi?</h4>
+      <p class="text-xs text-slate-500 mb-5" id="confirm-desc">Wszystkie zaznaczone opcje zostaną usunięte. Tej operacji nie można cofnąć.</p>
+      <div class="flex gap-2">
+        <button onclick="closeConfirmModal(false)" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg">Anuluj</button>
+        <button onclick="closeConfirmModal(true)" class="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-lg">Tak, zresetuj</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -------------------------------------------------------------------------
+    // COMPLETE 67 QUESTIONS DATABASE - VERBATIM 1:1 REPRODUCTION FROM SOURCE
+    // -------------------------------------------------------------------------
+    const QUESTIONS_DATA = [
+      // CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE (1 - 10)
+      {
+        id: 1,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Czym należy leczyć trichuriozę (*Trichuris trichiura*)?",
+        options: {
+          a: "Prazykwantel",
+          b: "Iwermektyna",
+          c: "Albendazol",
+          d: "Mebendazol"
+        },
+        correct: ["b", "c", "d"],
+        ansLabel: "b, c, d",
+        explanation: "Lekami z wyboru w inwazji włosogłówki ludzkiej są pochodne benzimidazolu: mebendazol oraz albendazol. Prazykwantel działa na płazińce (tasiemce i przywry), a nie na nicienie."
+      },
+      {
+        id: 2,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Leczenie chirurgiczne należy rozważyć przede wszystkim w przypadku:",
+        options: {
+          a: "Bąblowicy",
+          b: "Klonorchozy",
+          c: "Toksokarozy ocznej",
+          d: "Włośnicy"
+        },
+        correct: ["a"],
+        ansLabel: "a",
+        explanation: "W bąblowicy jednojamowej (*E. granulosus*) i wielojamowej (*E. multilocularis*) postępowaniem z wyboru lub ratującym życie jest radykalna resekcja chirurgiczna torbieli bądź zabieg metodą PAIR."
+      },
+      {
+        id: 3,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Jakich leków używamy do leczenia schistosomatozy (*Schistosoma sp.*)?",
+        options: {
+          a: "Mebendazol",
+          b: "Albendazol",
+          c: "Prazykwantel",
+          d: "Pyrantel"
+        },
+        correct: ["c"],
+        ansLabel: "c",
+        explanation: "Prazykwantel jest złotym standardem i lekiem z wyboru we wszystkich postaciach schistosomatozy (*S. mansoni*, *S. haematobium*, *S. japonicum*)."
+      },
+      {
+        id: 4,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Jakie leki stosuje się w farmakoterapii inwazji *Hymenolepis nana*?",
+        options: {
+          a: "Prazykwantel",
+          b: "Niklozamid",
+          c: "Nitazoksanid",
+          d: "Pyrantel"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Lekiem pierwszego rzutu jest prazykwantel (w wyższych dawkach niż przy innych tasiemczycach z uwagi na larwy w kosmkach). Lekami alternatywnymi są niklozamid oraz nitazoksanid. Pyrantel nie działa na tasiemce."
+      },
+      {
+        id: 5,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "W leczeniu inwazji tęgoryjca dwunastnicy (*Ancylostoma duodenale*) stosuje się:",
+        options: {
+          a: "Albendazol",
+          b: "Prazykwantel",
+          c: "Mebendazol",
+          d: "Niklozamid"
+        },
+        correct: ["a", "c"],
+        ansLabel: "a, c",
+        explanation: "Tęgoryjczycę leczy się benzimidazolami (albendazol, mebendazol) lub pyrantelem."
+      },
+      {
+        id: 6,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Jakim lekiem leczy się większość inwazji przywr u człowieka?",
+        options: {
+          a: "Albendazol",
+          b: "Pyrantel",
+          c: "Prazykwantel",
+          d: "Mebendazol"
+        },
+        correct: ["c"],
+        ansLabel: "c",
+        explanation: "Prazykwantel wykazuje wysoką skuteczność wobec niemal wszystkich przywr pasożytujących u człowieka (wyjątkiem jest motylica wątrobowa *Fasciola hepatica*, na którą lekiem z wyboru jest triklabendazol)."
+      },
+      {
+        id: 7,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Czym leczymy owsicę (*Enterobius vermicularis*)?",
+        options: {
+          a: "Albendazol",
+          b: "Mebendazol",
+          c: "Pyrantel",
+          d: "Prazykwantel"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "W owsicy skuteczne są pyrantel, albendazol oraz mebendazol. Kurację należy bezwzględnie powtórzyć po 2 tygodniach ze względu na ryzyko autoinwazji."
+      },
+      {
+        id: 8,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Jakie leki stosuje się w terapii glistnicy (*Ascaris lumbricoides*)?",
+        options: {
+          a: "Albendazol",
+          b: "Mebendazol",
+          c: "Pyrantel",
+          d: "Prazykwantel"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Standardowe schematy eradykacji glistnicy jelitowej opierają się na albendazolu, mebendazolu lub embonianie pyrantelu."
+      },
+      {
+        id: 9,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "W jaki sposób leczy się tkankową postać wągrzycy (cysticerkozę) wywołaną przez *Taenia solium*?",
+        options: {
+          a: "Iwermektyna",
+          b: "Prazykwantel",
+          c: "Albendazol",
+          d: "Pyrantel"
+        },
+        correct: ["b", "c"],
+        ansLabel: "b, c",
+        explanation: "Leczenie cysticerkozy (w tym neurocysticerkozy) obejmuje podawanie albendazolu lub prazykwantelu, zazwyczaj w osłonie glikokortykosteroidów w celu stłumienia odczynu zapalnego po rozpadzie larw."
+      },
+      {
+        id: 10,
+        part: "CZĘŚĆ I: FARMAKOTERAPIA I LECZENIE",
+        question: "Które leki stosuje się w leczeniu tasiemczyc przewodu pokarmowego (*T. saginata*, *T. solium*)?",
+        options: {
+          a: "Albendazol",
+          b: "Prazykwantel",
+          c: "Niklozamid",
+          d: "Pyrantel"
+        },
+        correct: ["b", "c"],
+        ansLabel: "b, c",
+        explanation: "W niepowikłanych tasiemczycach jelitowych lekami z wyboru są prazykwantel (pojedyncza dawka) oraz niklozamid."
+      },
+
+      // CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA (11 - 20)
+      {
+        id: 11,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Jakie pasożyty możemy bezpośrednio uwidocznić podczas badania gastroskopowego?",
+        options: {
+          a: "*Enterobius vermicularis*",
+          b: "*Anisakis simplex*",
+          c: "*Ancylostoma duodenale*",
+          d: "*Ascaris lumbricoides*"
+        },
+        correct: ["b", "c", "d"],
+        ansLabel: "b, c, d",
+        explanation: "*Anisakis simplex* wgryza się w błonę śluzową żołądka i jest usuwany kleszczykami endoskopowymi. Dorosłe osobniki *Ascaris lumbricoides* mogą sporadycznie przemieszczać się z jelita cienkiego do żołądka lub opuszki dwunastnicy."
+      },
+      {
+        id: 12,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "W przypadku badania świeżego kału formami bezpośrednio inwazyjnymi dla człowieka są:",
+        options: {
+          a: "Larwy rabditopodobne *Strongyloides stercoralis*",
+          b: "Jaja *Paragonimus westermani*",
+          c: "Larwy rabditopodobne *Ancylostoma duodenale*",
+          d: "Jaja *Hymenolepis nana*"
+        },
+        correct: ["d"],
+        ansLabel: "d",
+        explanation: "Jaja *H. nana* opuszczają ustrój w pełni uformowane i inwazyjne (z kompletną onkosferą w środku). Larwy rabditopodobne węgorka i tęgoryjców wymagają czasu i przeobrażenia w larwy filariopodobne."
+      },
+      {
+        id: 13,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Na podstawie dokładnego wywiadu klinicznego i charakterystycznego zespołu objawów można z dużym prawdopodobieństwem stwierdzić:",
+        options: {
+          a: "Włosogłówczycę",
+          b: "Teniozę",
+          c: "Włośnicę",
+          d: "Cysticerkozę"
+        },
+        correct: ["c"],
+        ansLabel: "c",
+        explanation: "Włośnica charakteryzuje się bardzo typową triadą objawów: wysoka gorączka, obustronny obrzęk powiek i twarzy oraz silne bóle mięśniowe po spożyciu dziczyzny lub niebadanego mięsa wieprzowego."
+      },
+      {
+        id: 14,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Pasożyty, których jaja są zakaźne w momencie złożenia lub w ciągu kilku godzin po opuszczeniu ustroju to:",
+        options: {
+          a: "*Trichuris trichiura*",
+          b: "*Taenia solium*",
+          c: "*Ascaris lumbricoides*",
+          d: "*Hymenolepis nana*"
+        },
+        correct: ["b", "d"],
+        ansLabel: "b, d (w testach rozszerzonych również Enterobius vermicularis)",
+        explanation: "Jaja *T. solium* i *H. nana* są od razu inwazyjne. Jaja glisty (*Ascaris*) i włosogłówki (*Trichuris*) wymagają kilkutygodniowego dojrzewania tlenowego w glebie."
+      },
+      {
+        id: 15,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Do diagnozy jakich pasożytów materiałem biologicznym może być żółć lub aspirat dwunastniczy?",
+        options: {
+          a: "*Clonorchis sinensis*",
+          b: "*Opisthorchis felineus*",
+          c: "*Dicrocoelium dendriticum*",
+          d: "*Schistosoma mansoni*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Przywry wątrobowe bytują w przewodach żółciowych, skąd składają jaja wypłukiwane z żółcią. *S. mansoni* bytuje w żyłach krezkowych jelita grubego."
+      },
+      {
+        id: 16,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Wskaż prawidłowy opis cech morfologicznych jaj pasożytów:",
+        options: {
+          a: "Jaja *Ascaris lumbricoides* posiadają grubą, pofałdowaną zewnętrzną otoczkę białkową",
+          b: "Jaja *Trichuris trichiura* są beczułkowate z dwoma przezroczystymi czopami biegunowymi",
+          c: "Jaja *Taenia sp.* posiadają grubą, promieniście prążkowaną otoczkę embrioforu",
+          d: "Jaja *Enterobius vermicularis* są asymetryczne (jednostronnie spłaszczone) i przezroczyste"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie wymienione cechy mikroskopowe są klasycznymi kryteriami diagnostycznymi w parazytologii."
+      },
+      {
+        id: 17,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Serodiagnostyka (ELISA, Western blot) stanowi podstawową metodę diagnostyczną potwierdzającą podejrzenie:",
+        options: {
+          a: "Trichuriozy",
+          b: "Bąblowicy (*Echinococcus*)",
+          c: "Tęgoryjczycy",
+          d: "Trychinellozy (*Trichinella*)"
+        },
+        correct: ["b", "d"],
+        ansLabel: "b, d",
+        explanation: "W inwazjach tkankowych (wągry, torbiele bąblowcowe, larwy włośnia w mięśniach) metody koproskopowe są bezużyteczne, a podstawą jest wykrywanie swoistych przeciwciał."
+      },
+      {
+        id: 18,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Wskaż właściwe metody diagnostyczne stosowane przy podejrzeniu bąblowicy jednojamowej (*Echinococcus granulosus*):",
+        options: {
+          a: "Badanie mikroskopowe kału na obecność jaj",
+          b: "Badania obrazowe (USG, tomografia komputerowa, rezonans magnetyczny)",
+          c: "Testy serologiczne potwierdzające obecność przeciwciał IgG",
+          d: "Rutynowa biopsja aspiracyjna cienkoigłowa (BAC) bez osłony farmakologicznej"
+        },
+        correct: ["b", "c"],
+        ansLabel: "b, c",
+        explanation: "Jaja bąblowca nie występują w kale człowieka. Biopsja igłowa jest przeciwwskazana z powodu śmiertelnego ryzyka wstrząsu anafilaktycznego i rozsiewu pasożyta."
+      },
+      {
+        id: 19,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "W kale ludzkim wykorzystywanym do rutynowej diagnostyki mikroskopowej możemy wykryć:",
+        options: {
+          a: "Larwy *Strongyloides stercoralis*",
+          b: "Jaja *Taenia solium* oraz *Fasciolopsis buski*",
+          c: "Jaja *Trichinella spiralis*",
+          d: "Larwy *Anisakis simplex*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "W kale węgorka wykrywa się larwy rabditopodobne (nie jaja). Jaja *T. solium* i przywry *F. buski* trafiają do światła jelita. *Trichinella* jest jajożyworodna (brak jaj w kale)."
+      },
+      {
+        id: 20,
+        part: "CZĘŚĆ II: DIAGNOSTYKA LABORATORYJNA I OBRAZOWA",
+        question: "Na jakiej podstawie można mikroskopowo odróżnić od siebie *Taenia solium* i *Taenia saginata*?",
+        options: {
+          a: "Na podstawie morfologii jaj i onkosfer",
+          b: "Na podstawie liczby odgałęzień bocznych macicy w dojrzałych członach macicznych",
+          c: "Na podstawie liczby płatów jajnika w proglotydzie hermafrodytycznym",
+          d: "Na podstawie obecności haczyków na skoleksie"
+        },
+        correct: ["b", "c", "d"],
+        ansLabel: "b, c, d",
+        explanation: "Jaja obu gatunków są nie do odróżnienia. Rozróżnia się je po liczbie odgałęzień macicy (solium: 7–12, saginata: 15–30), płatach jajnika (solium ma 3 płaty, saginata 2) oraz skoleksie (solium posiada wieniec haków)."
+      },
+
+      // CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE (21 - 39)
+      {
+        id: 21,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Stadium cysticerkoidu występuje w cyklu życiowym:",
+        options: {
+          a: "*Hymenolepis nana*",
+          b: "*Dipylidium caninum*",
+          c: "*Hymenolepis diminuta*",
+          d: "*Taenia solium*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Cysticerkoid to forma larwalna tasiemców z rzędów Cyclophyllidea o małych rozmiarach. U *Taenia solium* larwą jest wągier (*cysticercus*)."
+      },
+      {
+        id: 22,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Stadium procerkoidu występuje w cyklu rozwojowym:",
+        options: {
+          a: "*Diphyllobothrium latum*",
+          b: "*Spirometra erinaceieuropaei*",
+          c: "*Dipylidium caninum*",
+          d: "*Taenia saginata*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "Procerkoid to pierwsze stadium larwalne tasiemców z rzędu Diphyllobothriidea rozwijające się w jamie ciała oczlików (skorupiaków)."
+      },
+      {
+        id: 23,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Wskaż prawidłowo zestawioną parę: pasożyt – jego żywiciel pośredni:",
+        options: {
+          a: "Ślimak wodny – *Schistosoma mansoni*, *Paragonimus westermani*",
+          b: "Mały skorupiak (widłonóg) – *Spirometra*, *Diphyllobothrium latum*",
+          c: "Pchła – *Dipylidium caninum*",
+          d: "Mrówka z rodzaju *Formica* – *Dicrocoelium dendriticum*"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie powyższe zestawienia reprezentują rzeczywiste cykle heterokseniczne wymienionych pasożytów."
+      },
+      {
+        id: 24,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Dla których z wymienionych pasożytów człowiek może pełnić rolę żywiciela pośredniego?",
+        options: {
+          a: "*Echinococcus granulosus*",
+          b: "*Taenia solium*",
+          c: "*Echinococcus multilocularis*",
+          d: "*Taenia saginata*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "W bąblowicach oraz w wągrzycy (*T. solium*) w ciele człowieka rozwijają się stadia larwalne. Człowiek nigdy nie jest żywicielem pośrednim *Taenia saginata* (jest nim wyłącznie bydło)."
+      },
+      {
+        id: 25,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Człowiek może być zarówno żywicielem ostatecznym, jak i pośrednim dla:",
+        options: {
+          a: "*Taenia saginata*",
+          b: "*Taenia solium*",
+          c: "*Hymenolepis nana*",
+          d: "*Dipylidium caninum*"
+        },
+        correct: ["b", "c"],
+        ansLabel: "b, c",
+        explanation: "W przypadku *T. solium* człowiek może mieć postać dorosłą w jelicie (ostateczny) lub wągry w tkankach (pośredni). W inwazji *H. nana* pełny cykl larwa–postać dorosła może zamknąć się w jednym człowieku."
+      },
+      {
+        id: 26,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Człowiek jest WYŁĄCZNIE żywicielem ostatecznym (nigdy pośrednim) dla:",
+        options: {
+          a: "*Taenia saginata*",
+          b: "*Trichuris trichiura*",
+          c: "*Enterobius vermicularis*",
+          d: "*Dipylidium caninum*"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "U człowieka w przypadku tych pasożytów dochodzi wyłącznie do rozwoju lub bytowania postaci dojrzałych płciowo."
+      },
+      {
+        id: 27,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Wniknięcie przez nieuszkodzoną skórę (czynna penetracja larw) to mechanizm zakażenia w przypadku:",
+        options: {
+          a: "*Schistosoma haematobium*",
+          b: "*Strongyloides stercoralis*",
+          c: "*Necator americanus*",
+          d: "*Ancylostoma duodenale*"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Furkocerkarie *Schistosoma* oraz larwy filariopodobne węgorka i tęgoryjców czynnie przewiercają naskórek człowieka z wody lub wilgotnej gleby."
+      },
+      {
+        id: 28,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Do zakażenia człowieka poprzez spożycie surowego mięsa ryb lub skorupiaków (krabów/raków) może dojść w przypadku:",
+        options: {
+          a: "*Paragonimus westermani* (surowe kraby i raki)",
+          b: "*Clonorchis sinensis* (surowe ryby słodkowodne)",
+          c: "*Anisakis simplex* (surowe ryby morskie)",
+          d: "*Fasciola hepatica* (surowe kraby)"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Metacerkarie *Paragonimus* bytują w skorupiakach, *Clonorchis* w rybach słodkowodnych, a larwy *Anisakis* w rybach morskich. *Fasciola hepatica* występuje na roślinach wodnych."
+      },
+      {
+        id: 29,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Dopasuj pasożyta do głównego źródła inwazji pokarmowej:",
+        options: {
+          a: "Spożycie roślin wodnych (np. rukiew wodna) – *Fasciola hepatica*",
+          b: "Spożycie surowej wołowiny – *Taenia saginata*",
+          c: "Spożycie surowej wieprzowiny – *Taenia solium* i *Trichinella spiralis*",
+          d: "Przypadkowe połknięcie mrówki – *Dicrocoelium dendriticum*"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie zestawienia prawidłowo definiują pokarmowe wrota zakażenia poszczególnymi robaczycami."
+      },
+      {
+        id: 30,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Cykl życiowy których pasożytów jest ściśle i bezwzględnie powiązany ze środowiskiem wodnym?",
+        options: {
+          a: "*Schistosoma mansoni*",
+          b: "*Fasciola hepatica*",
+          c: "*Diphyllobothrium latum*",
+          d: "*Enterobius vermicularis*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Wymienione przywry oraz bruzdogłowiec wymagają wody do wyklucia urzęsionych larw (miracidium/koracidium) oraz rozwoju wodnych żywicieli pośrednich. Owsik jest pasożytem lądowym."
+      },
+      {
+        id: 31,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "U których pasożytów istnieje udowodniona możliwość wystąpienia autoinwazji?",
+        options: {
+          a: "*Enterobius vermicularis*",
+          b: "*Hymenolepis nana*",
+          c: "*Strongyloides stercoralis*",
+          d: "*Taenia saginata*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "U owsika zachodzi autoegzoinwazja (odbyt–usta), u tasiemca karłowatego autoendoinwazja w świetle jelita, a u węgorka wylęg larw filariopodobnych bezpośrednio w jelicie grubym."
+      },
+      {
+        id: 32,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Wskaż zdania prawdziwe dotyczące biologii stadiów rozwojowych przywr:",
+        options: {
+          a: "U *Fasciola hepatica* występuje stadium redii",
+          b: "U *Dicrocoelium dendriticum* nie występuje stadium redii",
+          c: "Furkocerkaria to stadium larwalne przywr z rodzaju *Schistosoma*",
+          d: "Adoleskaria to otorbiona forma metacerkarii występująca u motylicy na roślinach"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "W cyklu motyliczki (*Dicrocoelium*) ze sporocysty macierzystej powstają bezpośrednio sporocysty potomne rodzące cerkarie (brak redii). Pozostałe fakty są zgodne z parazytologią ogólną."
+      },
+      {
+        id: 33,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Wskaż prawdziwe zdania dotyczące biologii nicienia *Anisakis simplex*:",
+        options: {
+          a: "Ssaki morskie (np. walenie, foki) są jego żywicielami ostatecznymi",
+          b: "W organizmie człowieka rozwija się do dojrzałej płciowo postaci dorosłej",
+          c: "Człowiek zaraża się poprzez spożycie żywych larw obecnych w surowych rybach morskich",
+          d: "Człowiek stanowi dla pasożyta przypadkowego żywiciela i ślepy zaułek"
+        },
+        correct: ["a", "c", "d"],
+        ansLabel: "a, c, d",
+        explanation: "U człowieka larwy *Anisakis* nie osiągają dojrzałości płciowej, lecz wnikają w ścianę żołądka lub jelita, obumierając po pewnym czasie."
+      },
+      {
+        id: 34,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Cerkomer (wyrostek ogonowy zaopatrzony w haki onkosfery) występuje w budowie:",
+        options: {
+          a: "Cysticerkoidu *Hymenolepis nana*",
+          b: "Cysticerkoidu *Hymenolepis diminuta*",
+          c: "Wągra (*cysticercus*) *Taenia solium*",
+          d: "Formy dorosłej *Dipylidium caninum*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "Cerkomer jest charakterystyczną częścią składową larw typu cysticerkoid u tasiemców z rodziny Hymenolepididae."
+      },
+      {
+        id: 35,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Osuszanie zbiorników wodnych może przyczynić się do wyeliminowania na danym obszarze:",
+        options: {
+          a: "*Schistosoma mansoni*",
+          b: "*Anisakis simplex*",
+          c: "*Dicrocoelium dendriticum*",
+          d: "*Fasciola hepatica*"
+        },
+        correct: ["a", "d"],
+        ansLabel: "a, d",
+        explanation: "Cykl *S. mansoni* i *F. hepatica* wymaga słodkowodnych ślimaków. Anizakioza to inwazja morska, a motyliczka (*Dicrocoelium*) ma cykl całkowicie lądowy (ślimak lądowy i mrówka)."
+      },
+      {
+        id: 36,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Które pasożyty nie wymagają żadnego żywiciela pośredniego do zamknięcia cyklu rozwojowego?",
+        options: {
+          a: "*Hymenolepis nana*",
+          b: "*Ascaris lumbricoides*",
+          c: "*Trichuris trichiura*",
+          d: "*Taenia solium*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "*H. nana* może zamknąć pełny rozwój monoksenicznie w jelicie człowieka. Glista i włosogłówka to geohelminty monokseniczne."
+      },
+      {
+        id: 37,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Jaja których pasożytów wymagają kilkutygodniowego pobytu w glebie, aby uzyskać inwazyjność?",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Trichuris trichiura*",
+          c: "*Enterobius vermicularis*",
+          d: "*Hymenolepis nana*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "Glista i włosogłówka składają jaja zbruzdkowane/nieinwazyjne, w których larwa formuje się dopiero w środowisku zewnętrznym przy dostępie tlenu i wilgoci."
+      },
+      {
+        id: 38,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Wskaż prawdziwe informacje dotyczące biologii i diagnostyki przywr z rodzaju *Schistosoma*:",
+        options: {
+          a: "Postacie dorosłe wykazują wyraźny dymorfizm płciowy",
+          b: "Jaja *Schistosoma haematobium* wydalane są głównie z moczem",
+          c: "Jaja *Schistosoma mansoni* wydalane są głównie z kałem",
+          d: "W diagnostyce schistosomatozy przydatna bywa biopsja błony śluzowej odbytnicy"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Schistosomy są rozdzielnopłciowe (samiec ma rynienkę ginekoforyczną). *S. haematobium* zasiedla sploty pęcherzowe, *S. mansoni* naczynia krezkowe, a jaja obu gatunków mogą deponować się w śluzówce odbytnicy."
+      },
+      {
+        id: 39,
+        part: "CZĘŚĆ III: CYKLE ROZWOJOWE, ŻYWICIELE I STADIA INWAZYJNE",
+        question: "Zaznacz zdania prawdziwe o *Strongyloides stercoralis* (węgorku jelitowym):",
+        options: {
+          a: "W organizmie człowieka pasożytnicze samice rozmnażają się partenogenetycznie",
+          b: "Formą inwazyjną wnikającą przez skórę jest larwa filariopodobna",
+          c: "Podstawową formą diagnostyczną w świeżym kale są larwy rabditopodobne",
+          d: "W przebiegu hiperinwazji larwy mogą docierać do wątroby, płuc i OUN"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie punkty precyzyjnie charakteryzują złożony i unikalny cykl węgorka jelitowego u człowieka."
+      },
+
+      // CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA (40 - 52)
+      {
+        id: 40,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Które pasożyty bytują w postaci dojrzałej w jelicie CIENKIM człowieka?",
+        options: {
+          a: "*Taenia saginata*",
+          b: "*Trichinella spiralis* (dorosłe w fazie jelitowej)",
+          c: "*Ascaris lumbricoides*",
+          d: "*Trichuris trichiura*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Tasiemce, dorosłe włosnie oraz glisty zasiedlają jelito cienkie. Włosogłówka (*Trichuris*) bytuje w jelicie grubym (kątnica)."
+      },
+      {
+        id: 41,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Które z wymienionych pasożytów bytują w postaci dojrzałej w jelicie GRUBYM człowieka?",
+        options: {
+          a: "*Enterobius vermicularis*",
+          b: "*Trichuris trichiura*",
+          c: "*Ancylostoma duodenale*",
+          d: "*Taenia solium*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "Kątnica i początkowy odcinek okrężnicy stanowią docelowe nisze dla owsika ludzkiego oraz włosogłówki."
+      },
+      {
+        id: 42,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Jaja których pasożytów mogą być transportowane z prądem krwi i deponowane w innych narządach?",
+        options: {
+          a: "*Schistosoma mansoni*",
+          b: "*Paragonimus westermani*",
+          c: "*Ancylostoma duodenale*",
+          d: "*Trichuris trichiura*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "Jaja *Schistosoma* ulegają embolizacji w wątrobie (indukując ziarniniaki i zwłóknienie Symmersa), a jaja *Paragonimus* mogą drogą naczyń trafiać do mózgu."
+      },
+      {
+        id: 43,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Przejściowe eozynofilowe zapalenie płuc (zespół Löfflera) może wystąpić w przebiegu inwazji:",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Strongyloides stercoralis*",
+          c: "*Ancylostoma duodenale*",
+          d: "*Trichuris trichiura*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Larwy glisty, węgorka i tęgoryjców odbywają obowiązkową wędrówkę przez układ krążenia i pęcherzyki płucne. Włosogłówka nie ma fazy płucnej."
+      },
+      {
+        id: 44,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Które pasożyty wywołują zmiany tkankowe u ludzi, występując u człowieka WYŁĄCZNIE w stadium larwalnym?",
+        options: {
+          a: "*Toxocara canis*",
+          b: "*Anisakis simplex*",
+          c: "*Ascaris lumbricoides*",
+          d: "*Necator americanus*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "*Toxocara* (larwa wędrująca trzewna/oczna) oraz *Anisakis* nie osiągają u człowieka postaci dorosłej. Glista i tęgoryjec rozwijają się do postaci dojrzałych w jelicie."
+      },
+      {
+        id: 45,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Wspólną cechą biologiczną łączącą *Echinococcus granulosus*, *Taenia solium* i *Ascaris lumbricoides* jest:",
+        options: {
+          a: "Bytowanie postaci dorosłych w jelicie człowieka",
+          b: "Możliwość lokalizacji form larwalnych w narządach lub tkankach człowieka",
+          c: "Wykrywanie jaj w kale w każdej fazie choroby",
+          d: "Zakażenie człowieka wyłącznie poprzez spożycie mięsa wołowego"
+        },
+        correct: ["b"],
+        ansLabel: "b",
+        explanation: "U człowieka larwy bąblowca tworzą torbiele w narządach, larwy *T. solium* tworzą wągry w mózgu/oku/mięśniach, a larwy glisty migrują przez miąższ wątroby i płuc."
+      },
+      {
+        id: 46,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Które pasożyty zostały sklasyfikowane przez IARC jako biologiczne czynniki rakotwórcze (grupa 1)?",
+        options: {
+          a: "*Schistosoma haematobium*",
+          b: "*Clonorchis sinensis*",
+          c: "*Opisthorchis felineus*",
+          d: "*Fasciolopsis buski*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "*S. haematobium* wywołuje raka płaskonabłonkowego pęcherza moczowego, a przywry chińska i kocia wywołują raka dróg żółciowych (*cholangiocarcinoma*)."
+      },
+      {
+        id: 47,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Inwazje którymi pasożytami mogą mieć bezpośrednio przebieg śmiertelny u człowieka?",
+        options: {
+          a: "*Echinococcus multilocularis*",
+          b: "*Trichinella spiralis*",
+          c: "*Taenia solium* (neurocysticerkoza)",
+          d: "*Strongyloides stercoralis* (zespół hiperinwazji)"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie powyższe parazytozy w przypadku braku leczenia niosą wysokie ryzyko zgonu w wyniku zniszczenia narządów, powikłań neurologicznych, sercowych lub sepsy."
+      },
+      {
+        id: 48,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Pasożyty mogące powodować mechaniczną obturację dróg żółciowych lub przewodu trzustkowego to:",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Clonorchis sinensis*",
+          c: "*Fasciola hepatica*",
+          d: "*Enterobius vermicularis*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Dorosłe glisty aktywnie wpełzają do dróg żółciowych, a przywry wątrobowe bytują w nich stale, doprowadzając do zaciśnięcia ich światła i kamicy."
+      },
+      {
+        id: 49,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Do ostrych powikłań chirurgicznych związanych z obecnością dorosłych osobników *Ascaris lumbricoides* w jelicie zalicza się:",
+        options: {
+          a: "Mechaniczną niedrożność jelita cienkiego",
+          b: "Perforację ściany jelita i zapalenie otrzewnej",
+          c: "Ostre zapalenie wyrostka robaczkowego",
+          d: "Niedokrwistość megaloblastyczną z niedoboru B12"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Kłęby glist mogą zablokować światło jelita, spenetrować ścianę lub zaczopować wyrostek. Niedokrwistość z braku witaminy B12 jest cechą inwazji bruzdogłowca szerokiego."
+      },
+      {
+        id: 50,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Inwazja *Baylisascaris procyonis* (glisty szopa) stanowi szczególne zagrożenie dla ludzi, ponieważ:",
+        options: {
+          a: "Wywołuje ciężki zespół larwy wędrującej mózgowej (NML)",
+          b: "Może prowadzić do gwałtownej destrukcji OUN i zgonu",
+          c: "Człowiek zaraża się poprzez spożycie inwazyjnych jaj ze środowiska",
+          d: "Dorosłe robaki powszechnie zasiedlają jelito dorosłego człowieka"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Larwy *B. procyonis* nie zatrzymują wzrostu w tkankach człowieka, niszczą tkankę nerwową i wywołują encefalopatię. W ciele człowieka nie osiągają postaci dorosłej."
+      },
+      {
+        id: 51,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Zwierzęta domowe oraz dziko żyjące mogą być dla człowieka źródłem zarażenia:",
+        options: {
+          a: "Włosogłówczycy",
+          b: "Askariozy (*Ascaris lumbricoides*)",
+          c: "Trychinellozy (*Trichinella spiralis*)",
+          d: "Schistosomatozy"
+        },
+        correct: ["c"],
+        ansLabel: "c",
+        explanation: "Włośnica jest klasyczną zoonozą (rezerwuarem są dziki, świnie, lisy, gryzonie). Glistnica i włosogłówczyca człowieka to antroponozy szerzące się przez glebę."
+      },
+      {
+        id: 52,
+        part: "CZĘŚĆ IV: LOKALIZACJA, PATOGENEZA I EPIDEMIOLOGIA",
+        question: "Na terenie Polski pacjent może zarazić się rodzimymi pasożytami, do których należą:",
+        options: {
+          a: "*Anisakis simplex*",
+          b: "*Fasciola hepatica*",
+          c: "*Toxocara cati*",
+          d: "*Necator americanus*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "*Necator americanus* to tęgoryjec strefy tropikalnej/subtropikalnej (brak rodzimych zakażeń w Polsce). Pozostałe pasożyty występują w Polsce endemicznie."
+      },
+
+      // CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE (53 - 67)
+      {
+        id: 53,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Które pasożyty cechuje rozdzielnopłciowość z wyraźnym dymorfizmem płciowym?",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Enterobius vermicularis*",
+          c: "*Schistosoma haematobium*",
+          d: "*Fasciola hepatica*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Wszystkie nicienie są rozdzielnopłciowe. Wśród przywr wyjątkiem są schistosomy (rozdzielnopłciowe z dymorfizmem). Pozostałe przywry oraz tasiemce to obojnaki."
+      },
+      {
+        id: 54,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Zdolność do aktywnego ruchu (wypadanie przez zwieracz odbytu lub pełzanie po bieliźnie) wykazują:",
+        options: {
+          a: "Proglotydy maciczne *Taenia saginata*",
+          b: "Proglotydy maciczne *Dipylidium caninum*",
+          c: "Samice *Enterobius vermicularis*",
+          d: "Proglotydy maciczne *Taenia solium*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Człony *T. saginata* aktywnie forsują odbyt pojedynczo. Proglotydy *D. caninum* wypełzają ruchem ślimakowatym. Samice owsika wędrują nocą na skórę krocza. Człony *T. solium* odrywają się pasywnie w pasmach i nie wykazują tak aktywnego ruchu."
+      },
+      {
+        id: 55,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Zakażenia którymi pasożytami mogą prowadzić do bezpośredniego uszkodzenia gałki ocznej lub zaburzeń widzenia?",
+        options: {
+          a: "*Toxocara canis / cati* (toksokaroza oczna – OLM)",
+          b: "*Taenia solium* (wągrzyca podsiatkówkowa lub ciała szklistego)",
+          c: "*Echinococcus granulosus* (torbiel w oczodole)",
+          d: "*Trichuris trichiura*"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Larwy *Toxocara* tworzą ziarniniaki w siatkówce imitujące siatkówczaka (*retinoblastoma*). Wągry i torbiele bąblowcowe mogą lokalizować się w aparacie oka. Włosogłówka bytuje wyłącznie w jelicie grubym."
+      },
+      {
+        id: 56,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Świąd skóry jako istotny objaw kliniczny występuje w przebiegu:",
+        options: {
+          a: "Owsicy (*Enterobius vermicularis* – świąd okolicy odbytu)",
+          b: "Serkariozy (*Schistosoma* – świąd pływaków w miejscu penetracji skóry)",
+          c: "Węgorzycy (*Strongyloides stercoralis* – zespół larwy wędrującej skórnej)",
+          d: "Inwazji tęgoryjców (świąd ziemny w miejscu wniknięcia)"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie wymienione inwazje mogą manifestować się silnym świądem skóry o różnej lokalizacji i patomechanizmie."
+      },
+      {
+        id: 57,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Ból w prawym dole biodrowym imitujący ostre zapalenie wyrostka robaczkowego bywa najczęściej wywoływany przez:",
+        options: {
+          a: "*Enterobius vermicularis*",
+          b: "*Taenia saginata*",
+          c: "*Hymenolepis diminuta*",
+          d: "*Fasciolopsis buski*"
+        },
+        correct: ["a"],
+        ansLabel: "a",
+        explanation: "Owsiki gromadzące się w kątnicy mogą wnikać do światła wyrostka robaczkowego, zamykając jego światło i wywołując zapalenie wyrostka (*appendicitis enterobiosa*)."
+      },
+      {
+        id: 58,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Dla zespołu larwy wędrującej trzewnej (VLM) w przebiegu toksokarozy charakterystyczne są:",
+        options: {
+          a: "Wybitnie wysoka leukocytoza z hipereozynofilią",
+          b: "Hepatomegalia",
+          c: "Wielomiesięczne lub wieloletnie przeżywanie larw w tkankach w stanie anabiozy",
+          d: "Obecność postaci dojrzałych w świetle przewodu pokarmowego człowieka"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "W toksokarozie u ludzi nie ma postaci dorosłych w jelicie. Larwy błądzą po narządach, indukując silną eozynofilię i powiększenie wątroby."
+      },
+      {
+        id: 59,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Kazus: Pacjent z przewlekłymi krwisto-śluzowatymi biegunkami, bólami brzucha, anemią i wypadaniem błony śluzowej odbytnicy. W kale wykryto beczułkowate jaja z czopami na biegunach. Czynnikiem etiologicznym jest:",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Trichuris trichiura*",
+          c: "*Ancylostoma duodenale*",
+          d: "*Taenia solium*"
+        },
+        correct: ["b"],
+        ansLabel: "b",
+        explanation: "Wypadanie odbytnicy (*rectal prolapse*) oraz krwiste stolce u dzieci i młodzieży to sztandarowy objaw masywnej trichuriozy wywołanej przez włosogłówkę."
+      },
+      {
+        id: 60,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Kazus: Matka zauważyła w pieluszce 1,5-rocznego dziecka drobne, białe, poruszające się obiekty przypominające nasiona ogórka. Podejrzenie lekarza powinno dotyczyć:",
+        options: {
+          a: "*Enterobius vermicularis*",
+          b: "*Dipylidium caninum*",
+          c: "*Ascaris lumbricoides*",
+          d: "*Taenia saginata*"
+        },
+        correct: ["a", "b"],
+        ansLabel: "a, b",
+        explanation: "W kale/bieliźnie małego dziecka poruszać się mogą samice owsika ludzkiego lub dojrzałe, naszpikowane jajami człony tasiemca psiego (*Dipylidium caninum*)."
+      },
+      {
+        id: 61,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Kazus: U pacjenta z głęboką niedokrwistością z niedoboru żelaza wykryto nicienie o długości ok. 10 mm, których torebka gębowa wyposażona jest w dwie pary ostrych ząbków. Jest to inwazja:",
+        options: {
+          a: "*Ascaris lumbricoides*",
+          b: "*Ancylostoma duodenale*",
+          c: "*Necator americanus*",
+          d: "*Enterobius vermicularis*"
+        },
+        correct: ["b"],
+        ansLabel: "b",
+        explanation: "Ząbki w torebce gębowej posiada tęgoryjec dwunastnicy (*Ancylostoma duodenale*). *Necator americanus* posiada w torebce gębowej półksiężycowate płytki tnące."
+      },
+      {
+        id: 62,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Kazus: Mężczyzna pracujący w barze sushi, który regularnie spożywał surowe kraby słodkowodne, zgłasza przewlekły kaszel, duszność, nawracające krwioplucie i gorączkę. Na zdjęciu RTG płuc widoczne nacieki imitujące gruźlicę, w morfologii wysoka eozynofilia. Rozpoznaniem jest:",
+        options: {
+          a: "Askarioza",
+          b: "Paragonimoza (*Paragonimus westermani*)",
+          c: "Fascioloza",
+          d: "Anizakioza"
+        },
+        correct: ["b"],
+        ansLabel: "b",
+        explanation: "Obraz kliniczny odpowiada paragonimozie (przywrzycy płucnej) nabytej po zjedzeniu surowych krabów zawierających metacerkarie."
+      },
+      {
+        id: 63,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Wskaż narządy prawidłowo zaznaczone na schemacie anatomicznym motylicy wątrobowej (*Fasciola hepatica*):",
+        options: {
+          a: "Przyssawka brzuszna położona w przedniej części ciała za przyssawką gębową",
+          b: "Ślepo zakończone, silnie rozgałęzione pnie jelita",
+          c: "Dwa mocno rozgałęzione jądra zlokalizowane centralnie i w tylnej połowie ciała",
+          d: "Pojedynczy, rozgałęziony jajnik i silnie rozwinięte żółtniki w polach bocznych"
+        },
+        correct: ["a", "b", "c", "d"],
+        ansLabel: "a, b, c, d",
+        explanation: "Wszystkie wymienione struktury anatomiczne odpowiadają prawidłowemu opisowi anatomicznemu dorosłej motylicy wątrobowej."
+      },
+      {
+        id: 64,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Na schemacie dojrzałego (hermafrodytycznego) proglotydu tasiemca nieuzbrojonego (*Taenia saginata*) znajdują się:",
+        options: {
+          a: "Pojedynczy, boczny przedsionek płciowy",
+          b: "Dwupłatowy (dwudzielny) jajnik",
+          c: "Liczne, drobne pęcherzykowate jądra rozsiane w miąższu",
+          d: "Drożny odbyt i rurkowate jelito"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Tasiemce nie posiadają układu pokarmowego (wchłaniają substancje całą powierzchnią tegumentu) – opcja z jelitem lub odbytem jest zawsze fałszywa. Narządy rozrodcze *T. saginata* cechuje dwudzielny jajnik i naprzemienne gonopory."
+      },
+      {
+        id: 65,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Cechami anatomicznymi proglotydu tasiemca psiego (*Dipylidium caninum*) widocznymi na rycinie są:",
+        options: {
+          a: "Dwa symetryczne przedsionki płciowe na obu bocznych brzegach członu",
+          b: "Podwójny komplet narządów rozrodczych męskich i żeńskich",
+          c: "Macica rozpadająca się na torebki (kokony) zawierające pakiety jaj",
+          d: "Trójdzielny jajnik"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Człony *Dipylidium caninum* mają kształt pestki ogórka i posiadają zdublowany aparat płciowy z dwoma symetrycznymi otworami płciowymi po bokach."
+      },
+      {
+        id: 66,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "Na schemacie proglotydu hermafrodytycznego *Taenia solium* elementem różnicującym go od *Taenia saginata* jest:",
+        options: {
+          a: "Obecność dodatkowego, trzeciego płata jajnika (jajnik trójdzielny)",
+          b: "Brak żółtnika",
+          c: "Brak torebki prącia",
+          d: "Dwa przedsionki płciowe"
+        },
+        correct: ["a"],
+        ansLabel: "a",
+        explanation: "Jajnik u *Taenia solium* ma trzy płaty (dwie główne części i mały płat dodatkowy), podczas gdy u *Taenia saginata* jest symetrycznie dwupłatowy."
+      },
+      {
+        id: 67,
+        part: "CZĘŚĆ V: MORFOLOGIA, KAZUSY KLINICZNE I STRUKTURY GRAFICZNE",
+        question: "*Taenia saginata* i *Taenia solium* to tasiemce, których:",
+        options: {
+          a: "Formy dorosłe bytują w świetle jelita cienkiego człowieka",
+          b: "Formą inwazyjną dla człowieka przy zarażeniu postacią dorosłą jest larwa w mięsie",
+          c: "Formy dyspersyjne u człowieka (jaja) można wykryć w badaniu kału",
+          d: "Formy larwalne obu gatunków mogą rozwijać się w tkankach człowieka, wywołując wągrzycę"
+        },
+        correct: ["a", "b", "c"],
+        ansLabel: "a, b, c",
+        explanation: "Formy larwalne (*Cysticercus*) w tkankach człowieka tworzy wyłącznie *Taenia solium* (wągrzyca). Larwy *Taenia saginata* rozwijają się wyłącznie u bydła; człowiek nie choruje na wągrzycę wołową."
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // APPLICATION STATE
+    // -------------------------------------------------------------------------
+    const state = {
+      mode: 'study', // 'study' or 'exam'
+      selectedAnswers: {}, // { [qId]: Set of keys }
+      checkedStatus: {},  // { [qId]: boolean } in study mode
+      starred: new Set(),
+      activeCategory: 'all',
+      activeStatusFilter: 'all',
+      searchQuery: '',
+      examSubmitted: false
+    };
+
+    // Helper: Markdown italic renderer (*text* -> <em>text</em>)
+    function formatMarkdown(str) {
+      if (!str) return '';
+      return str.replace(/\*(.*?)\*/g, '<em class="italic text-emerald-950 font-medium">$1</em>');
+    }
+
+    // Initialize application from LocalStorage if available
+    function initApp() {
+      try {
+        const savedStarred = localStorage.getItem('parazytologia_starred');
+        if (savedStarred) state.starred = new Set(JSON.parse(savedStarred));
+        
+        const savedAnswers = localStorage.getItem('parazytologia_answers');
+        if (savedAnswers) {
+          const parsed = JSON.parse(savedAnswers);
+          Object.keys(parsed).forEach(k => {
+            state.selectedAnswers[k] = new Set(parsed[k]);
+          });
+        }
+
+        const savedChecked = localStorage.getItem('parazytologia_checked');
+        if (savedChecked) state.checkedStatus = JSON.parse(savedChecked);
+      } catch (e) {
+        console.warn('Storage read error:', e);
+      }
+
+      renderAll();
+      updateNavigationGrids();
+      updateStats();
+    }
+
+    function saveState() {
+      try {
+        const answersObj = {};
+        Object.keys(state.selectedAnswers).forEach(k => {
+          answersObj[k] = Array.from(state.selectedAnswers[k]);
+        });
+        localStorage.setItem('parazytologia_answers', JSON.stringify(answersObj));
+        localStorage.setItem('parazytologia_starred', JSON.stringify(Array.from(state.starred)));
+        localStorage.setItem('parazytologia_checked', JSON.stringify(state.checkedStatus));
+      } catch (e) {
+        console.warn('Storage write error:', e);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // CORE LOGIC & EVALUATION
+    // -------------------------------------------------------------------------
+    function isQuestionAnswered(qId) {
+      return state.selectedAnswers[qId] && state.selectedAnswers[qId].size > 0;
+    }
+
+    function getQuestionEvaluation(q) {
+      const selected = state.selectedAnswers[q.id] || new Set();
+      if (selected.size === 0) return { answered: false, correct: false, partiallyCorrect: false };
+
+      const correctSet = new Set(q.correct);
+      let match = true;
+
+      // Check if exact match
+      if (selected.size !== correctSet.size) {
+        match = false;
+      } else {
+        for (let ans of selected) {
+          if (!correctSet.has(ans)) {
+            match = false;
+            break;
+          }
+        }
+      }
+
+      // Check for partial score
+      let hits = 0;
+      for (let ans of selected) {
+        if (correctSet.has(ans)) hits++;
+      }
+      const partiallyCorrect = !match && hits > 0;
+
+      return { answered: true, correct: match, partiallyCorrect };
+    }
+
+    // -------------------------------------------------------------------------
+    // RENDER QUESTIONS
+    // -------------------------------------------------------------------------
+    function renderAll() {
+      const container = document.getElementById('questions-list');
+      const emptyState = document.getElementById('empty-state');
+      
+      const filtered = QUESTIONS_DATA.filter(q => {
+        // Category filter
+        if (state.activeCategory !== 'all' && q.part !== state.activeCategory) return false;
+
+        // Search filter
+        if (state.searchQuery.trim() !== '') {
+          const qText = (q.question + ' ' + Object.values(q.options).join(' ') + ' ' + q.explanation).toLowerCase();
+          if (!qText.includes(state.searchQuery.toLowerCase())) return false;
+        }
+
+        // Status filter
+        const evalResult = getQuestionEvaluation(q);
+        if (state.activeStatusFilter === 'unanswered' && evalResult.answered) return false;
+        if (state.activeStatusFilter === 'incorrect' && (!evalResult.answered || evalResult.correct)) return false;
+        if (state.activeStatusFilter === 'starred' && !state.starred.has(q.id)) return false;
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      container.innerHTML = filtered.map(q => renderQuestionCard(q)).join('');
+    }
+
+    function renderQuestionCard(q) {
+      const isStarred = state.starred.has(q.id);
+      const isChecked = state.mode === 'study' ? !!state.checkedStatus[q.id] : state.examSubmitted;
+      const userSelected = state.selectedAnswers[q.id] || new Set();
+      const evalRes = getQuestionEvaluation(q);
+
+      // Status indicator border & badge
+      let borderClass = 'border-slate-200';
+      let statusBadge = '';
+
+      if (isChecked && evalRes.answered) {
+        if (evalRes.correct) {
+          borderClass = 'border-emerald-400 ring-1 ring-emerald-300';
+          statusBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Poprawna odpowiedź</span>';
+        } else {
+          borderClass = 'border-rose-400 ring-1 ring-rose-300';
+          statusBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg> Błędna lub niepełna</span>';
+        }
+      }
+
+      // Render 4 options (a, b, c, d)
+      const optionsHtml = ['a', 'b', 'c', 'd'].map(key => {
+        const optionText = q.options[key];
+        const isSelected = userSelected.has(key);
+        const isKeyCorrect = q.correct.includes(key);
+
+        let optCardClass = 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50';
+        let badgeIcon = '';
+
+        if (isChecked) {
+          if (isKeyCorrect && isSelected) {
+            // Selected & correct -> Emerald
+            optCardClass = 'bg-emerald-50/90 border-emerald-500 text-emerald-950 font-medium';
+            badgeIcon = '<span class="ml-auto text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded">Poprawna ✓</span>';
+          } else if (!isKeyCorrect && isSelected) {
+            // Selected & WRONG -> Rose
+            optCardClass = 'bg-rose-50/90 border-rose-400 text-rose-950 font-medium';
+            badgeIcon = '<span class="ml-auto text-xs font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded">Błędna ✕</span>';
+          } else if (isKeyCorrect && !isSelected) {
+            // Not selected, but was correct -> Highlighted hint
+            optCardClass = 'bg-amber-50/50 border-dashed border-emerald-400 text-slate-800';
+            badgeIcon = '<span class="ml-auto text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Należało zaznaczyć</span>';
+          } else {
+            optCardClass = 'bg-slate-50/40 border-slate-200 opacity-60';
+          }
+        } else if (isSelected) {
+          optCardClass = 'bg-emerald-50/60 border-emerald-500 ring-1 ring-emerald-400';
+        }
+
+        return `
+          <label class="relative flex items-center p-3.5 rounded-xl border transition-all cursor-pointer ${optCardClass} gap-3 select-none">
+            <input 
+              type="checkbox" 
+              name="q_${q.id}" 
+              value="${key}" 
+              ${isSelected ? 'checked' : ''} 
+              ${isChecked && state.mode === 'exam' ? 'disabled' : ''} 
+              onchange="handleOptionToggle(${q.id}, '${key}')" 
+              class="custom-checkbox">
+            <div class="flex items-center gap-2 flex-1 text-sm text-slate-800">
+              <span class="w-6 h-6 rounded-lg bg-slate-100 border border-slate-300 font-mono text-xs font-bold flex items-center justify-center shrink-0 uppercase text-slate-700">${key}</span>
+              <span class="leading-relaxed">${formatMarkdown(optionText)}</span>
+            </div>
+            ${badgeIcon}
+          </label>
+        `;
+      }).join('');
+
+      // Explanation block
+      let explanationHtml = '';
+      if (isChecked) {
+        explanationHtml = `
+          <div class="mt-4 pt-4 border-t border-slate-100 bg-slate-50/70 -mx-5 -mb-5 p-5 rounded-b-2xl">
+            <div class="flex items-start gap-2.5">
+              <div class="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 shrink-0 mt-0.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="text-xs space-y-1.5">
+                <p class="font-bold text-slate-900">
+                  Poprawna odpowiedź: <span class="font-mono text-emerald-700 uppercase bg-emerald-100 px-2 py-0.5 rounded">${q.ansLabel}</span>
+                </p>
+                <p class="text-slate-600 leading-relaxed font-normal">
+                  <strong class="text-slate-700">Uzasadnienie:</strong> ${formatMarkdown(q.explanation)}
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Actions row (Study mode check / reset)
+      let actionButtons = '';
+      if (state.mode === 'study') {
+        actionButtons = `
+          <div class="flex items-center gap-2 pt-2">
+            ${!isChecked ? `
+              <button onclick="checkSingleQuestion(${q.id})" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all active:scale-95 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Sprawdź odpowiedź
+              </button>
+            ` : `
+              <button onclick="resetSingleQuestion(${q.id})" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold transition-all flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                Spróbuj ponownie
+              </button>
+            `}
+          </div>
+        `;
+      }
+
+      return `
+        <article id="question-${q.id}" class="bg-white rounded-2xl border ${borderClass} p-5 sm:p-6 shadow-sm transition-all duration-200 scroll-mt-24">
+          <!-- Header of Question -->
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center justify-center px-2.5 py-1 rounded-md text-xs font-extrabold bg-slate-800 text-white">
+                Pytanie ${q.id}
+              </span>
+              <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
+                ${q.part.split(':')[0]}
+              </span>
+              ${statusBadge}
+            </div>
+
+            <!-- Star / Bookmark Button -->
+            <button onclick="toggleStar(${q.id})" class="p-1.5 rounded-lg transition-colors ${isStarred ? 'text-amber-500 bg-amber-50' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}" title="Oznacz do powtórki">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Question Content -->
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-4">
+            ${formatMarkdown(q.question)}
+          </h3>
+
+          <!-- Options Grid -->
+          <div class="space-y-2.5 mb-2">
+            ${optionsHtml}
+          </div>
+
+          <!-- Bottom controls -->
+          ${actionButtons}
+
+          <!-- Explanation box -->
+          ${explanationHtml}
+        </article>
+      `;
+    }
+
+    // -------------------------------------------------------------------------
+    // USER INTERACTIONS
+    // -------------------------------------------------------------------------
+    function handleOptionToggle(qId, key) {
+      if (!state.selectedAnswers[qId]) {
+        state.selectedAnswers[qId] = new Set();
+      }
+
+      if (state.selectedAnswers[qId].has(key)) {
+        state.selectedAnswers[qId].delete(key);
+      } else {
+        state.selectedAnswers[qId].add(key);
+      }
+
+      // If user toggles in study mode after checking, clear checked state to re-evaluate
+      if (state.mode === 'study' && state.checkedStatus[qId]) {
+        delete state.checkedStatus[qId];
+      }
+
+      saveState();
+      updateNavigationGrids();
+      updateStats();
+
+      // Quick re-render of this single card for ultra-smooth UI
+      updateSingleCard(qId);
+    }
+
+    function checkSingleQuestion(qId) {
+      state.checkedStatus[qId] = true;
+      saveState();
+      updateNavigationGrids();
+      updateStats();
+      updateSingleCard(qId);
+    }
+
+    function resetSingleQuestion(qId) {
+      delete state.checkedStatus[qId];
+      if (state.selectedAnswers[qId]) {
+        state.selectedAnswers[qId].clear();
+      }
+      saveState();
+      updateNavigationGrids();
+      updateStats();
+      updateSingleCard(qId);
+    }
+
+    function toggleStar(qId) {
+      if (state.starred.has(qId)) {
+        state.starred.delete(qId);
+      } else {
+        state.starred.add(qId);
+      }
+      saveState();
+      updateSingleCard(qId);
+      updateStats();
+      updateNavigationGrids();
+    }
+
+    function updateSingleCard(qId) {
+      const el = document.getElementById(`question-${qId}`);
+      if (!el) return;
+      const q = QUESTIONS_DATA.find(item => item.id === qId);
+      if (!q) return;
+
+      const tempWrapper = document.createElement('div');
+      tempWrapper.innerHTML = renderQuestionCard(q);
+      const newCard = tempWrapper.firstElementChild;
+      el.replaceWith(newCard);
+    }
+
+    // -------------------------------------------------------------------------
+    // MODES (STUDY vs EXAM)
+    // -------------------------------------------------------------------------
+    function setMode(newMode) {
+      state.mode = newMode;
+      const btnStudy = document.getElementById('btn-mode-study');
+      const btnExam = document.getElementById('btn-mode-exam');
+      const banner = document.getElementById('exam-banner');
+
+      if (newMode === 'study') {
+        btnStudy.className = 'px-2.5 py-1 rounded-md transition-all font-semibold shadow-sm bg-white text-emerald-800';
+        btnExam.className = 'px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900';
+        banner.classList.add('hidden');
+        state.examSubmitted = false;
+      } else {
+        btnExam.className = 'px-2.5 py-1 rounded-md transition-all font-semibold shadow-sm bg-white text-indigo-900';
+        btnStudy.className = 'px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900';
+        banner.classList.remove('hidden');
+      }
+
+      renderAll();
+      updateNavigationGrids();
+    }
+
+    function finishExam() {
+      state.examSubmitted = true;
+      
+      // Calculate overall exam score
+      let correctCount = 0;
+      QUESTIONS_DATA.forEach(q => {
+        const res = getQuestionEvaluation(q);
+        if (res.correct) correctCount++;
+      });
+
+      const percentage = Math.round((correctCount / QUESTIONS_DATA.length) * 100);
+
+      // Populate exam modal
+      document.getElementById('modal-score').textContent = `${correctCount} / 67 (${percentage}%)`;
+      document.getElementById('modal-bar').style.width = `${percentage}%`;
+
+      const badge = document.getElementById('modal-status-badge');
+      const iconWrap = document.getElementById('modal-icon-wrap');
+
+      if (percentage >= 60) {
+        badge.textContent = 'ZALICZONE';
+        badge.className = 'font-bold px-2 py-0.5 rounded text-white bg-emerald-600';
+        iconWrap.className = 'w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 bg-emerald-100 text-emerald-600';
+      } else {
+        badge.textContent = 'NIEZALICZONE (<60%)';
+        badge.className = 'font-bold px-2 py-0.5 rounded text-white bg-rose-600';
+        iconWrap.className = 'w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 bg-rose-100 text-rose-600';
+      }
+
+      document.getElementById('modal-result').classList.remove('hidden');
+
+      renderAll();
+      updateNavigationGrids();
+      updateStats();
+    }
+
+    function closeModal() {
+      document.getElementById('modal-result').classList.add('hidden');
+    }
+
+    function closeModalAndReviewErrors() {
+      closeModal();
+      setStatusFilter('incorrect');
+      document.getElementById('status-filter').value = 'incorrect';
+    }
+
+    // -------------------------------------------------------------------------
+    // FILTERS, SEARCH & NAVIGATION
+    // -------------------------------------------------------------------------
+    function setCategoryFilter(category) {
+      state.activeCategory = category;
+      
+      // Update pills UI
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === category) {
+          btn.className = 'cat-pill active-cat px-3 py-1.5 rounded-full font-medium bg-emerald-100 text-emerald-800 border border-emerald-300';
+        } else {
+          btn.className = 'cat-pill px-3 py-1.5 rounded-full font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200';
+        }
+      });
+
+      renderAll();
+    }
+
+    function setStatusFilter(status) {
+      state.activeStatusFilter = status;
+      renderAll();
+    }
+
+    function handleSearch(val) {
+      state.searchQuery = val;
+      renderAll();
+    }
+
+    function resetFilters() {
+      state.activeCategory = 'all';
+      state.activeStatusFilter = 'all';
+      state.searchQuery = '';
+      document.getElementById('search-input').value = '';
+      document.getElementById('status-filter').value = 'all';
+      setCategoryFilter('all');
+    }
+
+    function scrollToQuestion(qId) {
+      // If current filter excludes question, reset filter
+      const q = QUESTIONS_DATA.find(item => item.id === qId);
+      if (state.activeCategory !== 'all' && q.part !== state.activeCategory) {
+        setCategoryFilter('all');
+      }
+      if (state.activeStatusFilter !== 'all') {
+        setStatusFilter('all');
+        document.getElementById('status-filter').value = 'all';
+      }
+      if (state.searchQuery !== '') {
+        state.searchQuery = '';
+        document.getElementById('search-input').value = '';
+        renderAll();
+      }
+
+      // Close modal if open
+      document.getElementById('modal-map').classList.add('hidden');
+
+      setTimeout(() => {
+        const el = document.getElementById(`question-${qId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.classList.add('ring-2', 'ring-emerald-500');
+          setTimeout(() => el.classList.remove('ring-2', 'ring-emerald-500'), 1500);
+        }
+      }, 50);
+    }
+
+    function toggleMapModal() {
+      const modal = document.getElementById('modal-map');
+      modal.classList.toggle('hidden');
+    }
+
+    // -------------------------------------------------------------------------
+    // STATS & PROGRESS CALCULATION
+    // -------------------------------------------------------------------------
+    function updateStats() {
+      let answeredCount = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+
+      QUESTIONS_DATA.forEach(q => {
+        const res = getQuestionEvaluation(q);
+        if (res.answered) {
+          answeredCount++;
+          if (res.correct) correctCount++;
+          else wrongCount++;
+        }
+      });
+
+      const total = QUESTIONS_DATA.length;
+      const answeredPercentage = Math.round((answeredCount / total) * 100);
+      const scorePercentage = answeredCount > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+      // Update headers
+      document.getElementById('header-answered-count').textContent = answeredCount;
+      document.getElementById('header-correct-count').textContent = correctCount;
+      document.getElementById('progress-bar').style.width = `${answeredPercentage}%`;
+
+      // Update sidebar
+      document.getElementById('side-answered').textContent = `${answeredCount} / ${total}`;
+      document.getElementById('side-correct').textContent = correctCount;
+      document.getElementById('side-wrong').textContent = wrongCount;
+      document.getElementById('side-starred').textContent = state.starred.size;
+      document.getElementById('side-percent').textContent = `${scorePercentage}%`;
+
+      // Flag indicator on top button
+      const flagBadge = document.getElementById('badge-flagged');
+      if (state.starred.size > 0) flagBadge.classList.remove('hidden');
+      else flagBadge.classList.add('hidden');
+    }
+
+    function updateNavigationGrids() {
+      const renderGridItem = (q) => {
+        const evalRes = getQuestionEvaluation(q);
+        const isChecked = state.mode === 'study' ? !!state.checkedStatus[q.id] : state.examSubmitted;
+        const isStarred = state.starred.has(q.id);
+
+        let color = 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200';
+
+        if (isChecked && evalRes.answered) {
+          if (evalRes.correct) color = 'bg-emerald-500 text-white font-bold hover:bg-emerald-600 border-emerald-600';
+          else color = 'bg-rose-500 text-white font-bold hover:bg-rose-600 border-rose-600';
+        } else if (evalRes.answered) {
+          color = 'bg-indigo-600 text-white font-bold hover:bg-indigo-700 border-indigo-700';
+        }
+
+        return `
+          <button 
+            onclick="scrollToQuestion(${q.id})" 
+            class="relative h-8 rounded-lg border text-xs font-semibold transition-all flex items-center justify-center ${color}">
+            ${q.id}
+            ${isStarred ? '<span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400"></span>' : ''}
+          </button>
+        `;
+      };
+
+      const html = QUESTIONS_DATA.map(renderGridItem).join('');
+      document.getElementById('quick-grid').innerHTML = html;
+      document.getElementById('quick-grid-mobile').innerHTML = html;
+    }
+
+    // -------------------------------------------------------------------------
+    // CONFIRM RESET MODAL LOGIC (No alert() or confirm())
+    // -------------------------------------------------------------------------
+    function confirmReset() {
+      document.getElementById('custom-confirm-modal').classList.remove('hidden');
+    }
+
+    function closeConfirmModal(didConfirm) {
+      document.getElementById('custom-confirm-modal').classList.add('hidden');
+      if (didConfirm) {
+        state.selectedAnswers = {};
+        state.checkedStatus = {};
+        state.starred.clear();
+        state.examSubmitted = false;
+        try {
+          localStorage.removeItem('parazytologia_answers');
+          localStorage.removeItem('parazytologia_checked');
+          localStorage.removeItem('parazytologia_starred');
+        } catch (e) {}
+        renderAll();
+        updateNavigationGrids();
+        updateStats();
+      }
+    }
+
+    // Start on DOM ready
+    window.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+</body>
+</html>
