@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parazytologia – Baza Wiedzy</title>
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-hover: #334155;
+      --border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --header-h: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Pasek nawigacji */
+    header {
+      position: sticky;
+      top: 0;
+      height: var(--header-h);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent-blue);
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.25rem 0;
+    }
+
+    nav button {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    nav button:hover {
+      background: var(--bg-card);
+      color: var(--text-main);
+    }
+
+    nav button.active {
+      background: #1e293b;
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    /* Widok Pulpitu (Dashboard) */
+    main#hub-view {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      width: 100%;
+    }
+
+    .hero {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(135deg, #f8fafc 30%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #475569;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+    }
+
+    .tag-blue { color: var(--accent-blue); }
+    .tag-green { color: var(--accent-green); }
+    .tag-amber { color: var(--accent-amber); }
+    .tag-rose { color: var(--accent-rose); }
+
+    .card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      color: var(--text-main);
+      border-color: #475569;
+    }
+
+    /* Widok Ramki (Iframe View) */
+    #viewer-view {
+      display: none;
+      flex-direction: column;
+      height: calc(100vh - var(--header-h));
+      width: 100%;
+    }
+
+    .viewer-toolbar {
+      background: #131d31;
+      padding: 0.4rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .viewer-toolbar a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand" onclick="showHub()">
+      <span>🪱 Parazytologia</span>
+      <span class="brand-badge">Notatki</span>
+    </div>
+
+    <nav>
+      <button id="nav-hub" class="active" onclick="showHub()">Menu główne</button>
+      <button id="nav-nicienie11" onclick="openPage('nicienie11.html', 'Nicienie cz. 1', 'nav-nicienie11')">Nicienie I</button>
+      <button id="nav-nicienie21" onclick="openPage('nicienie21.html', 'Nicienie cz. 2', 'nav-nicienie21')">Nicienie II</button>
+      <button id="nav-przywry" onclick="openPage('przywry.html', 'Przywry', 'nav-przywry')">Przywry</button>
+      <button id="nav-tasiemce" onclick="openPage('tasiemce.html', 'Tasiemce', 'nav-tasiemce')">Tasiemce</button>
+    </nav>
+  </header>
+
+  <!-- Widok kafelkowy -->
+  <main id="hub-view">
+    <div class="hero">
+      <h1>Parazytologia Lekarska</h1>
+      <p>Wybierz dział, aby otworzyć materiały do nauki.</p>
+    </div>
+
+    <div class="grid">
+      <!-- Nicienie 1 -->
+      <article class="card">
+        <div>
+          <span class="tag tag-blue">Nematoda • Część 1</span>
+          <h2>Nicienie I</h2>
+          <p>Podstawowe gatunki nicieni jelitowych i tkankowych, biologia i cykle rozwojowe.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openPage('nicienie11.html', 'Nicienie cz. 1', 'nav-nicienie11')">Otwórz tutaj</button>
+          <a class="btn btn-secondary" href="nicienie11.html" target="_blank" title="Otwórz w nowej karcie">Pełny ekran ↗</a>
+        </div>
+      </article>
+
+      <!-- Nicienie 2 -->
+      <article class="card">
+        <div>
+          <span class="tag tag-green">Nematoda • Część 2</span>
+          <h2>Nicienie II</h2>
+          <p>Pozostałe gatunki nicieni, diagnostyka różnicowa, obraz kliniczny i leczenie.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openPage('nicienie21.html', 'Nicienie cz. 2', 'nav-nicienie21')">Otwórz tutaj</button>
+          <a class="btn btn-secondary" href="nicienie21.html" target="_blank" title="Otwórz w nowej karcie">Pełny ekran ↗</a>
+        </div>
+      </article>
+
+      <!-- Przywry -->
+      <article class="card">
+        <div>
+          <span class="tag tag-amber">Trematoda</span>
+          <h2>Przywry</h2>
+          <p>Przywry krwi i wątrobowe: Schistosoma, Fasciola hepatica, cykle z żywicielem pośrednim.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openPage('przywry.html', 'Przywry', 'nav-przywry')">Otwórz tutaj</button>
+          <a class="btn btn-secondary" href="przywry.html" target="_blank" title="Otwórz w nowej karcie">Pełny ekran ↗</a>
+        </div>
+      </article>
+
+      <!-- Tasiemce -->
+      <article class="card">
+        <div>
+          <span class="tag tag-rose">Cestoda</span>
+          <h2>Tasiemce</h2>
+          <p>Taenia saginata, solium, Echinococcus, Diphyllobothrium latum – budowa i objawy.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="openPage('tasiemce.html', 'Tasiemce', 'nav-tasiemce')">Otwórz tutaj</button>
+          <a class="btn btn-secondary" href="tasiemce.html" target="_blank" title="Otwórz w nowej karcie">Pełny ekran ↗</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Widok czytnika (iframe) -->
+  <section id="viewer-view">
+    <div class="viewer-toolbar">
+      <span id="viewer-title" style="color: var(--text-muted);">Aktywny dokument</span>
+      <a id="viewer-direct-link" href="#" target="_blank">Otwórz w pełnym oknie ↗</a>
+    </div>
+    <iframe id="content-frame" src="" title="Podgląd notatki"></iframe>
+  </section>
+
+  <script>
+    const hubView = document.getElementById('hub-view');
+    const viewerView = document.getElementById('viewer-view');
+    const frame = document.getElementById('content-frame');
+    const viewerTitle = document.getElementById('viewer-title');
+    const directLink = document.getElementById('viewer-direct-link');
+    const navButtons = document.querySelectorAll('nav button');
+
+    function setActiveBtn(btnId) {
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      if (btnId) {
+        const active = document.getElementById(btnId);
+        if (active) active.classList.add('active');
+      }
+    }
+
+    function showHub() {
+      hubView.style.display = 'block';
+      viewerView.style.display = 'none';
+      frame.src = '';
+      window.location.hash = '';
+      setActiveBtn('nav-hub');
+    }
+
+    function openPage(url, title, btnId) {
+      hubView.style.display = 'none';
+      viewerView.style.display = 'flex';
+      frame.src = url;
+      viewerTitle.textContent = title;
+      directLink.href = url;
+      window.location.hash = url.replace('.html', '');
+      setActiveBtn(btnId);
+    }
+
+    // Obsługa bezpośrednich linków z hashem (np. index.html#tasiemce)
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '');
+      const pages = {
+        'nicienie11': { file: 'nicienie11.html', title: 'Nicienie cz. 1', id: 'nav-nicienie11' },
+        'nicienie21': { file: 'nicienie21.html', title: 'Nicienie cz. 2', id: 'nav-nicienie21' },
+        'przywry': { file: 'przywry.html', title: 'Przywry', id: 'nav-przywry' },
+        'tasiemce': { file: 'tasiemce.html', title: 'Tasiemce', id: 'nav-tasiemce' }
+      };
+
+      if (pages[hash]) {
+        openPage(pages[hash].file, pages[hash].title, pages[hash].id);
+      }
+    });
+  </script>
+</body>
+</html>
